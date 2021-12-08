@@ -1,0 +1,82 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="policy">
+      <h2 data-cy="policyDetailsHeading"><span jhiTranslate="policyManagementApp.policy.detail.title">Policy</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ policy.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.policyAmount">Policy Amount</span></dt>
+        <dd>
+          <span>{{ policy.policyAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.instalmentAmount">Instalment Amount</span></dt>
+        <dd>
+          <span>{{ policy.instalmentAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.term">Term</span></dt>
+        <dd>
+          <span>{{ policy.term }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.instalmentPeriod">Instalment Period</span></dt>
+        <dd>
+          <span>{{ policy.instalmentPeriod }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.instalmentDate">Instalment Date</span></dt>
+        <dd>
+          <span>{{ policy.instalmentDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.status">Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'policyManagementApp.PolicyStatus.' + policy.status }}">{{ policy.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.dateStart">Date Start</span></dt>
+        <dd>
+          <span>{{ policy.dateStart | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.dateEnd">Date End</span></dt>
+        <dd>
+          <span>{{ policy.dateEnd | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.maturityDate">Maturity Date</span></dt>
+        <dd>
+          <span>{{ policy.maturityDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.uinNo">Uin No</span></dt>
+        <dd>
+          <span>{{ policy.uinNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.lastModified">Last Modified</span></dt>
+        <dd>
+          <span>{{ policy.lastModified | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+          <span>{{ policy.lastModifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.policy.users">Users</span></dt>
+        <dd>
+          <div *ngIf="policy.users">
+            <a [routerLink]="['/users', policy.users?.id, 'view']">{{ policy.users?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/policy', policy.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

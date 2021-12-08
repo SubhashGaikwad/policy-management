@@ -48,6 +48,31 @@ public class CacheConfiguration {
             createCache(cm, com.etho.pm.domain.User.class.getName());
             createCache(cm, com.etho.pm.domain.Authority.class.getName());
             createCache(cm, com.etho.pm.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.etho.pm.domain.Policy.class.getName());
+            createCache(cm, com.etho.pm.domain.Policy.class.getName() + ".nominees");
+            createCache(cm, com.etho.pm.domain.Nominee.class.getName());
+            createCache(cm, com.etho.pm.domain.Product.class.getName());
+            createCache(cm, com.etho.pm.domain.ProductDetails.class.getName());
+            createCache(cm, com.etho.pm.domain.ProductType.class.getName());
+            createCache(cm, com.etho.pm.domain.Company.class.getName());
+            createCache(cm, com.etho.pm.domain.Company.class.getName() + ".products");
+            createCache(cm, com.etho.pm.domain.Company.class.getName() + ".addresses");
+            createCache(cm, com.etho.pm.domain.CompanyType.class.getName());
+            createCache(cm, com.etho.pm.domain.Users.class.getName());
+            createCache(cm, com.etho.pm.domain.Users.class.getName() + ".policies");
+            createCache(cm, com.etho.pm.domain.Users.class.getName() + ".addresses");
+            createCache(cm, com.etho.pm.domain.Address.class.getName());
+            createCache(cm, com.etho.pm.domain.UsersType.class.getName());
+            createCache(cm, com.etho.pm.domain.SecurityUser.class.getName());
+            createCache(cm, com.etho.pm.domain.SecurityUser.class.getName() + ".securityPermissions");
+            createCache(cm, com.etho.pm.domain.SecurityUser.class.getName() + ".securityRoles");
+            createCache(cm, com.etho.pm.domain.UserAccess.class.getName());
+            createCache(cm, com.etho.pm.domain.SecurityRole.class.getName());
+            createCache(cm, com.etho.pm.domain.SecurityRole.class.getName() + ".securityPermissions");
+            createCache(cm, com.etho.pm.domain.SecurityRole.class.getName() + ".securityUsers");
+            createCache(cm, com.etho.pm.domain.SecurityPermission.class.getName());
+            createCache(cm, com.etho.pm.domain.SecurityPermission.class.getName() + ".securityRoles");
+            createCache(cm, com.etho.pm.domain.SecurityPermission.class.getName() + ".securityUsers");
             // jhipster-needle-ehcache-add-entry
         };
     }
