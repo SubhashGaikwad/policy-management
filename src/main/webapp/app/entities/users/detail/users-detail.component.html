@@ -1,0 +1,94 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="users">
+      <h2 data-cy="usersDetailsHeading"><span jhiTranslate="policyManagementApp.users.detail.title">Users</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ users.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.firstName">First Name</span></dt>
+        <dd>
+          <span>{{ users.firstName }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.lastName">Last Name</span></dt>
+        <dd>
+          <span>{{ users.lastName }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.birthDate">Birth Date</span></dt>
+        <dd>
+          <span>{{ users.birthDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.userTypeId">User Type Id</span></dt>
+        <dd>
+          <span>{{ users.userTypeId }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.username">Username</span></dt>
+        <dd>
+          <span>{{ users.username }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.password">Password</span></dt>
+        <dd>
+          <span>{{ users.password }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.email">Email</span></dt>
+        <dd>
+          <span>{{ users.email }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.imageUrl">Image Url</span></dt>
+        <dd>
+          <span>{{ users.imageUrl }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.status">Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'policyManagementApp.StatusInd.' + users.status }}">{{ users.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.activated">Activated</span></dt>
+        <dd>
+          <span>{{ users.activated }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.mobileNo">Mobile No</span></dt>
+        <dd>
+          <span>{{ users.mobileNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.oneTimePassword">One Time Password</span></dt>
+        <dd>
+          <span>{{ users.oneTimePassword }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.otpExpiryTime">Otp Expiry Time</span></dt>
+        <dd>
+          <span>{{ users.otpExpiryTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.lastModified">Last Modified</span></dt>
+        <dd>
+          <span>{{ users.lastModified | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.lastModifiedBy">Last Modified By</span></dt>
+        <dd>
+          <span>{{ users.lastModifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.usersType">Users Type</span></dt>
+        <dd>
+          <div *ngIf="users.usersType">
+            <a [routerLink]="['/users-type', users.usersType?.id, 'view']">{{ users.usersType?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/users', users.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,199 @@
+entity Policy {
+    policyAmount Long
+    instalmentAmount Long
+    term Long
+    instalmentPeriod Long
+    instalmentDate Long
+    status PolicyStatus
+    dateStart Instant required
+    dateEnd Instant required
+    maturityDate Instant required
+    uinNo String
+	lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity Nominee {
+    name Long
+    relation String
+    nomineePercentage Long
+    contactNo Long
+	lastModified Instant required
+	lastModifiedBy String required
+}
+
+enum PolicyStatus {
+    OPEN(Open),
+    INFORCE(inforce),
+    CANCELLED(Cancelled),
+    CLOSED(Closed)
+    MATURED(Matured)
+    SUSPENDED(Suspended)
+}
+
+entity Product {
+    name String
+    planNo Long
+    uinNo String
+	lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity ProductDetails {
+    details String
+    featurs String
+    activationDate Instant required
+	lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity ProductType {
+    name String
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity Company {
+    name String
+    address String
+    branch String
+    brnachCode String
+    email String unique
+    companyTypeId Long
+    imageUrl String
+   	contactNo String
+	lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity CompanyType {
+    name String
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity Users {
+    firstName String
+    lastName String
+    birthDate Instant required
+    userTypeId Long
+    username String required unique
+    password String required
+	email String unique
+    imageUrl String
+    status StatusInd
+    activated Boolean required
+   	mobileNo String
+	oneTimePassword String
+	otpExpiryTime Instant
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity Address {
+    area String
+    landmark String
+    taluka String
+    district String
+    state String
+    pincode Long
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity UsersType {
+    name String
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity SecurityUser {
+    firstName String
+    lastName String
+    designation String
+    login String required unique
+    passwordHash String required
+	email String unique
+    imageUrl String
+    activated Boolean required
+    langKey String
+    activationKey String
+    resetKey String
+    resetDate Instant
+	mobileNo String
+	oneTimePassword String
+	otpExpiryTime Instant
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity UserAccess {
+    level AccessLevel
+    accessId Long
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+enum AccessLevel {
+    ADMIN(Admin)
+	AGENT (Agent)
+    CUSTOMER(Customer) 
+}
+
+enum StatusInd {
+    A(Active),
+    I(Inactive),
+    D(Deleted)
+}
+entity SecurityRole {
+	name String required unique
+	description String
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+entity SecurityPermission {
+	name String required unique
+	description String
+    lastModified Instant required
+	lastModifiedBy String required
+}
+
+relationship ManyToOne {     
+    UserAccess{securityUser(login)} to SecurityUser   
+}
+relationship OneToMany {
+	Policy to Nominee
+    Company to Product
+    Users to Policy
+    Users to Address
+    Company to Address
+}
+
+relationship ManyToMany {
+  SecurityRole{securityPermission(name)} to SecurityPermission{securityRole(name)},
+  SecurityUser{securityPermission(name)} to SecurityPermission{securityUser(login)},
+  SecurityUser{securityRole(name)} to SecurityRole{securityUser(login)}
+ 
+}
+
+relationship OneToOne {
+    Product to ProductDetails
+    Users to UsersType
+    Company to CompanyType
+    ProductDetails to ProductType
+}
+
+// Set pagination options
+paginate * with infinite-scroll
+paginate * with pagination
+
+// Use Data Transfert Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service * with serviceClass
+
+filter *
+// Set an angular suffix
+// angularSuffix * with pm

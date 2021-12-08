@@ -1,0 +1,152 @@
+<div>
+  <h2 id="page-heading" data-cy="UsersHeading">
+    <span jhiTranslate="policyManagementApp.users.home.title">Users</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="policyManagementApp.users.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-users"
+        [routerLink]="['/users/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="policyManagementApp.users.home.createLabel"> Create a new Users </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="users?.length === 0">
+    <span jhiTranslate="policyManagementApp.users.home.notFound">No users found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="users && users.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="firstName">
+            <span jhiTranslate="policyManagementApp.users.firstName">First Name</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastName">
+            <span jhiTranslate="policyManagementApp.users.lastName">Last Name</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="birthDate">
+            <span jhiTranslate="policyManagementApp.users.birthDate">Birth Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="userTypeId">
+            <span jhiTranslate="policyManagementApp.users.userTypeId">User Type Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="username">
+            <span jhiTranslate="policyManagementApp.users.username">Username</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="password">
+            <span jhiTranslate="policyManagementApp.users.password">Password</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="email">
+            <span jhiTranslate="policyManagementApp.users.email">Email</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="imageUrl">
+            <span jhiTranslate="policyManagementApp.users.imageUrl">Image Url</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <span jhiTranslate="policyManagementApp.users.status">Status</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="activated">
+            <span jhiTranslate="policyManagementApp.users.activated">Activated</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="mobileNo">
+            <span jhiTranslate="policyManagementApp.users.mobileNo">Mobile No</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="oneTimePassword">
+            <span jhiTranslate="policyManagementApp.users.oneTimePassword">One Time Password</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="otpExpiryTime">
+            <span jhiTranslate="policyManagementApp.users.otpExpiryTime">Otp Expiry Time</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModified">
+            <span jhiTranslate="policyManagementApp.users.lastModified">Last Modified</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedBy">
+            <span jhiTranslate="policyManagementApp.users.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="usersType.id">
+            <span jhiTranslate="policyManagementApp.users.usersType">Users Type</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let users of users; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/users', users.id, 'view']">{{ users.id }}</a>
+          </td>
+          <td>{{ users.firstName }}</td>
+          <td>{{ users.lastName }}</td>
+          <td>{{ users.birthDate | formatMediumDatetime }}</td>
+          <td>{{ users.userTypeId }}</td>
+          <td>{{ users.username }}</td>
+          <td>{{ users.password }}</td>
+          <td>{{ users.email }}</td>
+          <td>{{ users.imageUrl }}</td>
+          <td jhiTranslate="{{ 'policyManagementApp.StatusInd.' + users.status }}">{{ users.status }}</td>
+          <td>{{ users.activated }}</td>
+          <td>{{ users.mobileNo }}</td>
+          <td>{{ users.oneTimePassword }}</td>
+          <td>{{ users.otpExpiryTime | formatMediumDatetime }}</td>
+          <td>{{ users.lastModified | formatMediumDatetime }}</td>
+          <td>{{ users.lastModifiedBy }}</td>
+          <td>
+            <div *ngIf="users.usersType">
+              <a [routerLink]="['/users-type', users.usersType?.id, 'view']">{{ users.usersType?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/users', users.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/users', users.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(users)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="users && users.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

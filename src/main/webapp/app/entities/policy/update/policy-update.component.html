@@ -1,0 +1,282 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-policy-heading" data-cy="PolicyCreateUpdateHeading" jhiTranslate="policyManagementApp.policy.home.createOrEditLabel">
+        Create or edit a Policy
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.policyAmount" for="field_policyAmount"
+            >Policy Amount</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="policyAmount"
+            id="field_policyAmount"
+            data-cy="policyAmount"
+            formControlName="policyAmount"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.instalmentAmount" for="field_instalmentAmount"
+            >Instalment Amount</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="instalmentAmount"
+            id="field_instalmentAmount"
+            data-cy="instalmentAmount"
+            formControlName="instalmentAmount"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.term" for="field_term">Term</label>
+          <input type="number" class="form-control" name="term" id="field_term" data-cy="term" formControlName="term" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.instalmentPeriod" for="field_instalmentPeriod"
+            >Instalment Period</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="instalmentPeriod"
+            id="field_instalmentPeriod"
+            data-cy="instalmentPeriod"
+            formControlName="instalmentPeriod"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.instalmentDate" for="field_instalmentDate"
+            >Instalment Date</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="instalmentDate"
+            id="field_instalmentDate"
+            data-cy="instalmentDate"
+            formControlName="instalmentDate"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.status" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null">{{ 'policyManagementApp.PolicyStatus.null' | translate }}</option>
+            <option *ngFor="let policyStatus of policyStatusValues" [value]="policyStatus">
+              {{ 'policyManagementApp.PolicyStatus.' + policyStatus | translate }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.dateStart" for="field_dateStart">Date Start</label>
+          <div class="d-flex">
+            <input
+              id="field_dateStart"
+              data-cy="dateStart"
+              type="datetime-local"
+              class="form-control"
+              name="dateStart"
+              formControlName="dateStart"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('dateStart')!.invalid && (editForm.get('dateStart')!.dirty || editForm.get('dateStart')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dateStart')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('dateStart')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.dateEnd" for="field_dateEnd">Date End</label>
+          <div class="d-flex">
+            <input
+              id="field_dateEnd"
+              data-cy="dateEnd"
+              type="datetime-local"
+              class="form-control"
+              name="dateEnd"
+              formControlName="dateEnd"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('dateEnd')!.invalid && (editForm.get('dateEnd')!.dirty || editForm.get('dateEnd')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dateEnd')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('dateEnd')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.maturityDate" for="field_maturityDate"
+            >Maturity Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_maturityDate"
+              data-cy="maturityDate"
+              type="datetime-local"
+              class="form-control"
+              name="maturityDate"
+              formControlName="maturityDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div
+            *ngIf="editForm.get('maturityDate')!.invalid && (editForm.get('maturityDate')!.dirty || editForm.get('maturityDate')!.touched)"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('maturityDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('maturityDate')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.uinNo" for="field_uinNo">Uin No</label>
+          <input type="text" class="form-control" name="uinNo" id="field_uinNo" data-cy="uinNo" formControlName="uinNo" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.lastModified" for="field_lastModified"
+            >Last Modified</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_lastModified"
+              data-cy="lastModified"
+              type="datetime-local"
+              class="form-control"
+              name="lastModified"
+              formControlName="lastModified"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div
+            *ngIf="editForm.get('lastModified')!.invalid && (editForm.get('lastModified')!.dirty || editForm.get('lastModified')!.touched)"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lastModified')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('lastModified')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.lastModifiedBy" for="field_lastModifiedBy"
+            >Last Modified By</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="lastModifiedBy"
+            id="field_lastModifiedBy"
+            data-cy="lastModifiedBy"
+            formControlName="lastModifiedBy"
+          />
+          <div
+            *ngIf="
+              editForm.get('lastModifiedBy')!.invalid && (editForm.get('lastModifiedBy')!.dirty || editForm.get('lastModifiedBy')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lastModifiedBy')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.policy.users" for="field_users">Users</label>
+          <select class="form-control" id="field_users" data-cy="users" name="users" formControlName="users">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="usersOption.id === editForm.get('users')!.value?.id ? editForm.get('users')!.value : usersOption"
+              *ngFor="let usersOption of usersSharedCollection; trackBy: trackUsersById"
+            >
+              {{ usersOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

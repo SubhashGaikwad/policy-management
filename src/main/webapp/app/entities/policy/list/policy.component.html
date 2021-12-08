@@ -1,0 +1,140 @@
+<div>
+  <h2 id="page-heading" data-cy="PolicyHeading">
+    <span jhiTranslate="policyManagementApp.policy.home.title">Policies</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="policyManagementApp.policy.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-policy"
+        [routerLink]="['/policy/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="policyManagementApp.policy.home.createLabel"> Create a new Policy </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="policies?.length === 0">
+    <span jhiTranslate="policyManagementApp.policy.home.notFound">No policies found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="policies && policies.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="policyAmount">
+            <span jhiTranslate="policyManagementApp.policy.policyAmount">Policy Amount</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="instalmentAmount">
+            <span jhiTranslate="policyManagementApp.policy.instalmentAmount">Instalment Amount</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="term">
+            <span jhiTranslate="policyManagementApp.policy.term">Term</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="instalmentPeriod">
+            <span jhiTranslate="policyManagementApp.policy.instalmentPeriod">Instalment Period</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="instalmentDate">
+            <span jhiTranslate="policyManagementApp.policy.instalmentDate">Instalment Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <span jhiTranslate="policyManagementApp.policy.status">Status</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="dateStart">
+            <span jhiTranslate="policyManagementApp.policy.dateStart">Date Start</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="dateEnd">
+            <span jhiTranslate="policyManagementApp.policy.dateEnd">Date End</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="maturityDate">
+            <span jhiTranslate="policyManagementApp.policy.maturityDate">Maturity Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="uinNo">
+            <span jhiTranslate="policyManagementApp.policy.uinNo">Uin No</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModified">
+            <span jhiTranslate="policyManagementApp.policy.lastModified">Last Modified</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModifiedBy">
+            <span jhiTranslate="policyManagementApp.policy.lastModifiedBy">Last Modified By</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="users.id">
+            <span jhiTranslate="policyManagementApp.policy.users">Users</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let policy of policies; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/policy', policy.id, 'view']">{{ policy.id }}</a>
+          </td>
+          <td>{{ policy.policyAmount }}</td>
+          <td>{{ policy.instalmentAmount }}</td>
+          <td>{{ policy.term }}</td>
+          <td>{{ policy.instalmentPeriod }}</td>
+          <td>{{ policy.instalmentDate }}</td>
+          <td jhiTranslate="{{ 'policyManagementApp.PolicyStatus.' + policy.status }}">{{ policy.status }}</td>
+          <td>{{ policy.dateStart | formatMediumDatetime }}</td>
+          <td>{{ policy.dateEnd | formatMediumDatetime }}</td>
+          <td>{{ policy.maturityDate | formatMediumDatetime }}</td>
+          <td>{{ policy.uinNo }}</td>
+          <td>{{ policy.lastModified | formatMediumDatetime }}</td>
+          <td>{{ policy.lastModifiedBy }}</td>
+          <td>
+            <div *ngIf="policy.users">
+              <a [routerLink]="['/users', policy.users?.id, 'view']">{{ policy.users?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/policy', policy.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/policy', policy.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(policy)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="policies && policies.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

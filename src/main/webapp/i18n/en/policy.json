@@ -1,0 +1,37 @@
+{
+  "policyManagementApp": {
+    "policy": {
+      "home": {
+        "title": "Policies",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Policy",
+        "createOrEditLabel": "Create or edit a Policy",
+        "notFound": "No Policies found"
+      },
+      "created": "A new Policy is created with identifier {{ param }}",
+      "updated": "A Policy is updated with identifier {{ param }}",
+      "deleted": "A Policy is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Policy {{ id }}?"
+      },
+      "detail": {
+        "title": "Policy"
+      },
+      "id": "ID",
+      "policyAmount": "Policy Amount",
+      "instalmentAmount": "Instalment Amount",
+      "term": "Term",
+      "instalmentPeriod": "Instalment Period",
+      "instalmentDate": "Instalment Date",
+      "status": "Status",
+      "dateStart": "Date Start",
+      "dateEnd": "Date End",
+      "maturityDate": "Maturity Date",
+      "uinNo": "Uin No",
+      "lastModified": "Last Modified",
+      "lastModifiedBy": "Last Modified By",
+      "nominee": "Nominee",
+      "users": "Users"
+    }
+  }
+}
