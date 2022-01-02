@@ -54,7 +54,7 @@ public class Address implements Serializable {
     private Users users;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "companyType", "products", "addresses" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "companyType", "products", "addresses", "policy" }, allowSetters = true)
     private Company company;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

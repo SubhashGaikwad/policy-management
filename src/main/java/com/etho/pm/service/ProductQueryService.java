@@ -114,6 +114,12 @@ public class ProductQueryService extends QueryService<Product> {
                         )
                     );
             }
+            if (criteria.getPolicyId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getPolicyId(), root -> root.join(Product_.policy, JoinType.LEFT).get(Policy_.id))
+                    );
+            }
             if (criteria.getCompanyId() != null) {
                 specification =
                     specification.and(

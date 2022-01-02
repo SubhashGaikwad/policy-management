@@ -141,6 +141,12 @@ public class CompanyQueryService extends QueryService<Company> {
                         buildSpecification(criteria.getAddressId(), root -> root.join(Company_.addresses, JoinType.LEFT).get(Address_.id))
                     );
             }
+            if (criteria.getPolicyId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getPolicyId(), root -> root.join(Company_.policy, JoinType.LEFT).get(Policy_.id))
+                    );
+            }
         }
         return specification;
     }

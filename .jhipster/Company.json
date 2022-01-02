@@ -64,6 +64,13 @@
       "otherEntityName": "address",
       "otherEntityRelationshipName": "company",
       "relationshipName": "address"
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "policy",
+      "otherEntityRelationshipName": "company",
+      "relationshipName": "policy",
+      "ownerSide": false
     }
   ],
   "entityTableName": "company",

@@ -57,9 +57,17 @@
       "SecurityUser",
       "UserAccess",
       "SecurityRole",
-      "SecurityPermission"
+      "SecurityPermission",
+      "PremiunDetails",
+      "Member",
+      "VehicleClass",
+      "VehicleDetails",
+      "ParameterLookup",
+      "BankDetails",
+      "Agency",
+      "Rider"
     ],
-    "lastLiquibaseTimestamp": 1638975496000
+    "lastLiquibaseTimestamp": 1641115555000
   },
   "git-provider": "GitHub",
   "git-company": "SubhashGaikwad",

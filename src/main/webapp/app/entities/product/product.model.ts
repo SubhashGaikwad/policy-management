@@ -1,5 +1,6 @@
 import * as dayjs from 'dayjs';
 import { IProductDetails } from 'app/entities/product-details/product-details.model';
+import { IPolicy } from 'app/entities/policy/policy.model';
 import { ICompany } from 'app/entities/company/company.model';
 
 export interface IProduct {
@@ -10,6 +11,7 @@ export interface IProduct {
   lastModified?: dayjs.Dayjs;
   lastModifiedBy?: string;
   productDetails?: IProductDetails | null;
+  policy?: IPolicy | null;
   company?: ICompany | null;
 }
 
@@ -22,6 +24,7 @@ export class Product implements IProduct {
     public lastModified?: dayjs.Dayjs,
     public lastModifiedBy?: string,
     public productDetails?: IProductDetails | null,
+    public policy?: IPolicy | null,
     public company?: ICompany | null
   ) {}
 }

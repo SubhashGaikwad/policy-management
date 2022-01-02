@@ -2,6 +2,7 @@ import * as dayjs from 'dayjs';
 import { ICompanyType } from 'app/entities/company-type/company-type.model';
 import { IProduct } from 'app/entities/product/product.model';
 import { IAddress } from 'app/entities/address/address.model';
+import { IPolicy } from 'app/entities/policy/policy.model';
 
 export interface ICompany {
   id?: number;
@@ -18,6 +19,7 @@ export interface ICompany {
   companyType?: ICompanyType | null;
   products?: IProduct[] | null;
   addresses?: IAddress[] | null;
+  policy?: IPolicy | null;
 }
 
 export class Company implements ICompany {
@@ -35,7 +37,8 @@ export class Company implements ICompany {
     public lastModifiedBy?: string,
     public companyType?: ICompanyType | null,
     public products?: IProduct[] | null,
-    public addresses?: IAddress[] | null
+    public addresses?: IAddress[] | null,
+    public policy?: IPolicy | null
   ) {}
 }
 
