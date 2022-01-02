@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { ISecurityPermission } from 'app/entities/security-permission/security-permission.model';
 import { ISecurityUser } from 'app/entities/security-user/security-user.model';
 

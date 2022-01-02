@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.etho.pm.IntegrationTest;
 import com.etho.pm.domain.Company;
+import com.etho.pm.domain.Policy;
 import com.etho.pm.domain.Product;
 import com.etho.pm.domain.ProductDetails;
 import com.etho.pm.repository.ProductRepository;
@@ -655,6 +656,33 @@ class ProductResourceIT {
 
         // Get all the productList where productDetails equals to (productDetailsId + 1)
         defaultProductShouldNotBeFound("productDetailsId.equals=" + (productDetailsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllProductsByPolicyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+        Policy policy;
+        if (TestUtil.findAll(em, Policy.class).isEmpty()) {
+            policy = PolicyResourceIT.createEntity(em);
+            em.persist(policy);
+            em.flush();
+        } else {
+            policy = TestUtil.findAll(em, Policy.class).get(0);
+        }
+        em.persist(policy);
+        em.flush();
+        product.setPolicy(policy);
+        policy.setProduct(product);
+        productRepository.saveAndFlush(product);
+        Long policyId = policy.getId();
+
+        // Get all the productList where policy equals to policyId
+        defaultProductShouldBeFound("policyId.equals=" + policyId);
+
+        // Get all the productList where policy equals to (policyId + 1)
+        defaultProductShouldNotBeFound("policyId.equals=" + (policyId + 1));
     }
 
     @Test

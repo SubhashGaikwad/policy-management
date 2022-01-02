@@ -1,0 +1,74 @@
+{
+  "name": "VehicleDetails",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "invoiceValue",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "idv",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "enginNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "chassisNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "registrationNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "seatingCapacity",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "zone",
+      "fieldType": "Zone",
+      "fieldValues": "A (A),B (B),C (C)"
+    },
+    {
+      "fieldName": "yearOfManufacturing",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "registrationDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModified",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "parameterLookup",
+      "otherEntityRelationshipName": "vehicleDetails",
+      "relationshipName": "parameterLookup"
+    }
+  ],
+  "entityTableName": "vehicle_details",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20220102170017"
+}

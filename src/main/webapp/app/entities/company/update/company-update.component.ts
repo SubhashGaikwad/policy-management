@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
 import { ICompany, Company } from '../company.model';
@@ -29,7 +29,6 @@ export class CompanyUpdateComponent implements OnInit {
     branch: [],
     brnachCode: [],
     email: [null, []],
-    companyTypeId: [],
     imageUrl: [],
     contactNo: [],
     lastModified: [null, [Validators.required]],
@@ -76,10 +75,10 @@ export class CompanyUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ICompany>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
   }
 
   protected onSaveSuccess(): void {
@@ -102,7 +101,6 @@ export class CompanyUpdateComponent implements OnInit {
       branch: company.branch,
       brnachCode: company.brnachCode,
       email: company.email,
-      companyTypeId: company.companyTypeId,
       imageUrl: company.imageUrl,
       contactNo: company.contactNo,
       lastModified: company.lastModified ? company.lastModified.format(DATE_TIME_FORMAT) : null,
@@ -137,7 +135,6 @@ export class CompanyUpdateComponent implements OnInit {
       branch: this.editForm.get(['branch'])!.value,
       brnachCode: this.editForm.get(['brnachCode'])!.value,
       email: this.editForm.get(['email'])!.value,
-      companyTypeId: this.editForm.get(['companyTypeId'])!.value,
       imageUrl: this.editForm.get(['imageUrl'])!.value,
       contactNo: this.editForm.get(['contactNo'])!.value,
       lastModified: this.editForm.get(['lastModified'])!.value

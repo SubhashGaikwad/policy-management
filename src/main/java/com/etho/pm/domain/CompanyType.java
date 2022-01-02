@@ -34,7 +34,7 @@ public class CompanyType implements Serializable {
     @Column(name = "last_modified_by", nullable = false)
     private String lastModifiedBy;
 
-    @JsonIgnoreProperties(value = { "companyType", "products", "addresses" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "companyType", "products", "addresses", "policy" }, allowSetters = true)
     @OneToOne(mappedBy = "companyType")
     private Company company;
 

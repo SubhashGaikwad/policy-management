@@ -74,6 +74,46 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'policyManagementApp.securityPermission.home.title' },
         loadChildren: () => import('./security-permission/security-permission.module').then(m => m.SecurityPermissionModule),
       },
+      {
+        path: 'premiun-details',
+        data: { pageTitle: 'policyManagementApp.premiunDetails.home.title' },
+        loadChildren: () => import('./premiun-details/premiun-details.module').then(m => m.PremiunDetailsModule),
+      },
+      {
+        path: 'member',
+        data: { pageTitle: 'policyManagementApp.member.home.title' },
+        loadChildren: () => import('./member/member.module').then(m => m.MemberModule),
+      },
+      {
+        path: 'vehicle-class',
+        data: { pageTitle: 'policyManagementApp.vehicleClass.home.title' },
+        loadChildren: () => import('./vehicle-class/vehicle-class.module').then(m => m.VehicleClassModule),
+      },
+      {
+        path: 'vehicle-details',
+        data: { pageTitle: 'policyManagementApp.vehicleDetails.home.title' },
+        loadChildren: () => import('./vehicle-details/vehicle-details.module').then(m => m.VehicleDetailsModule),
+      },
+      {
+        path: 'parameter-lookup',
+        data: { pageTitle: 'policyManagementApp.parameterLookup.home.title' },
+        loadChildren: () => import('./parameter-lookup/parameter-lookup.module').then(m => m.ParameterLookupModule),
+      },
+      {
+        path: 'bank-details',
+        data: { pageTitle: 'policyManagementApp.bankDetails.home.title' },
+        loadChildren: () => import('./bank-details/bank-details.module').then(m => m.BankDetailsModule),
+      },
+      {
+        path: 'agency',
+        data: { pageTitle: 'policyManagementApp.agency.home.title' },
+        loadChildren: () => import('./agency/agency.module').then(m => m.AgencyModule),
+      },
+      {
+        path: 'rider',
+        data: { pageTitle: 'policyManagementApp.rider.home.title' },
+        loadChildren: () => import('./rider/rider.module').then(m => m.RiderModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -76,6 +76,8 @@ export class UsersService {
   protected convertDateFromClient(users: IUsers): IUsers {
     return Object.assign({}, users, {
       birthDate: users.birthDate?.isValid() ? users.birthDate.toJSON() : undefined,
+      marriageDate: users.marriageDate?.isValid() ? users.marriageDate.toJSON() : undefined,
+      licenceExpiryDate: users.licenceExpiryDate?.isValid() ? users.licenceExpiryDate.toJSON() : undefined,
       otpExpiryTime: users.otpExpiryTime?.isValid() ? users.otpExpiryTime.toJSON() : undefined,
       lastModified: users.lastModified?.isValid() ? users.lastModified.toJSON() : undefined,
     });
@@ -84,6 +86,8 @@ export class UsersService {
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.birthDate = res.body.birthDate ? dayjs(res.body.birthDate) : undefined;
+      res.body.marriageDate = res.body.marriageDate ? dayjs(res.body.marriageDate) : undefined;
+      res.body.licenceExpiryDate = res.body.licenceExpiryDate ? dayjs(res.body.licenceExpiryDate) : undefined;
       res.body.otpExpiryTime = res.body.otpExpiryTime ? dayjs(res.body.otpExpiryTime) : undefined;
       res.body.lastModified = res.body.lastModified ? dayjs(res.body.lastModified) : undefined;
     }
@@ -94,6 +98,8 @@ export class UsersService {
     if (res.body) {
       res.body.forEach((users: IUsers) => {
         users.birthDate = users.birthDate ? dayjs(users.birthDate) : undefined;
+        users.marriageDate = users.marriageDate ? dayjs(users.marriageDate) : undefined;
+        users.licenceExpiryDate = users.licenceExpiryDate ? dayjs(users.licenceExpiryDate) : undefined;
         users.otpExpiryTime = users.otpExpiryTime ? dayjs(users.otpExpiryTime) : undefined;
         users.lastModified = users.lastModified ? dayjs(users.lastModified) : undefined;
       });

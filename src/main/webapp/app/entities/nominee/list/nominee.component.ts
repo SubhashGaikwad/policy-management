@@ -41,16 +41,16 @@ export class NomineeComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sort(),
       })
-      .subscribe(
-        (res: HttpResponse<INominee[]>) => {
+      .subscribe({
+        next: (res: HttpResponse<INominee[]>) => {
           this.isLoading = false;
           this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
         },
-        () => {
+        error: () => {
           this.isLoading = false;
           this.onError();
-        }
-      );
+        },
+      });
   }
 
   ngOnInit(): void {

@@ -1,7 +1,8 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { ICompanyType } from 'app/entities/company-type/company-type.model';
 import { IProduct } from 'app/entities/product/product.model';
 import { IAddress } from 'app/entities/address/address.model';
+import { IPolicy } from 'app/entities/policy/policy.model';
 
 export interface ICompany {
   id?: number;
@@ -10,7 +11,6 @@ export interface ICompany {
   branch?: string | null;
   brnachCode?: string | null;
   email?: string | null;
-  companyTypeId?: number | null;
   imageUrl?: string | null;
   contactNo?: string | null;
   lastModified?: dayjs.Dayjs;
@@ -18,6 +18,7 @@ export interface ICompany {
   companyType?: ICompanyType | null;
   products?: IProduct[] | null;
   addresses?: IAddress[] | null;
+  policy?: IPolicy | null;
 }
 
 export class Company implements ICompany {
@@ -28,14 +29,14 @@ export class Company implements ICompany {
     public branch?: string | null,
     public brnachCode?: string | null,
     public email?: string | null,
-    public companyTypeId?: number | null,
     public imageUrl?: string | null,
     public contactNo?: string | null,
     public lastModified?: dayjs.Dayjs,
     public lastModifiedBy?: string,
     public companyType?: ICompanyType | null,
     public products?: IProduct[] | null,
-    public addresses?: IAddress[] | null
+    public addresses?: IAddress[] | null,
+    public policy?: IPolicy | null
   ) {}
 }
 

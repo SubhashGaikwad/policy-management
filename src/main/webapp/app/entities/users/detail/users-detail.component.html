@@ -14,6 +14,14 @@
         <dd>
           <span>{{ users.id }}</span>
         </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.groupCode">Group Code</span></dt>
+        <dd>
+          <span>{{ users.groupCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.groupHeadName">Group Head Name</span></dt>
+        <dd>
+          <span>{{ users.groupHeadName }}</span>
+        </dd>
         <dt><span jhiTranslate="policyManagementApp.users.firstName">First Name</span></dt>
         <dd>
           <span>{{ users.firstName }}</span>
@@ -25,6 +33,10 @@
         <dt><span jhiTranslate="policyManagementApp.users.birthDate">Birth Date</span></dt>
         <dd>
           <span>{{ users.birthDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.marriageDate">Marriage Date</span></dt>
+        <dd>
+          <span>{{ users.marriageDate | formatMediumDatetime }}</span>
         </dd>
         <dt><span jhiTranslate="policyManagementApp.users.userTypeId">User Type Id</span></dt>
         <dd>
@@ -54,9 +66,21 @@
         <dd>
           <span>{{ users.activated }}</span>
         </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.licenceExpiryDate">Licence Expiry Date</span></dt>
+        <dd>
+          <span>{{ users.licenceExpiryDate | formatMediumDatetime }}</span>
+        </dd>
         <dt><span jhiTranslate="policyManagementApp.users.mobileNo">Mobile No</span></dt>
         <dd>
           <span>{{ users.mobileNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.aadharCardNuber">Aadhar Card Nuber</span></dt>
+        <dd>
+          <span>{{ users.aadharCardNuber }}</span>
+        </dd>
+        <dt><span jhiTranslate="policyManagementApp.users.pancardNumber">Pancard Number</span></dt>
+        <dd>
+          <span>{{ users.pancardNumber }}</span>
         </dd>
         <dt><span jhiTranslate="policyManagementApp.users.oneTimePassword">One Time Password</span></dt>
         <dd>

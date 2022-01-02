@@ -33,6 +33,13 @@
       "ownerSide": true
     },
     {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "policy",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "policy",
+      "ownerSide": false
+    },
+    {
       "relationshipType": "many-to-one",
       "otherEntityName": "company",
       "otherEntityRelationshipName": "product",

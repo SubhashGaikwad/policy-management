@@ -44,7 +44,10 @@ public class Nominee implements Serializable {
     private String lastModifiedBy;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "nominees", "users" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "agency", "company", "product", "premiunDetails", "vehicleClass", "bankDetails", "nominees", "members", "users" },
+        allowSetters = true
+    )
     private Policy policy;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

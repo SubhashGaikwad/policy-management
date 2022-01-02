@@ -39,6 +39,8 @@ public class ProductCriteria implements Serializable, Criteria {
 
     private LongFilter productDetailsId;
 
+    private LongFilter policyId;
+
     private LongFilter companyId;
 
     private Boolean distinct;
@@ -53,6 +55,7 @@ public class ProductCriteria implements Serializable, Criteria {
         this.lastModified = other.lastModified == null ? null : other.lastModified.copy();
         this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
         this.productDetailsId = other.productDetailsId == null ? null : other.productDetailsId.copy();
+        this.policyId = other.policyId == null ? null : other.policyId.copy();
         this.companyId = other.companyId == null ? null : other.companyId.copy();
         this.distinct = other.distinct;
     }
@@ -167,6 +170,21 @@ public class ProductCriteria implements Serializable, Criteria {
         this.productDetailsId = productDetailsId;
     }
 
+    public LongFilter getPolicyId() {
+        return policyId;
+    }
+
+    public LongFilter policyId() {
+        if (policyId == null) {
+            policyId = new LongFilter();
+        }
+        return policyId;
+    }
+
+    public void setPolicyId(LongFilter policyId) {
+        this.policyId = policyId;
+    }
+
     public LongFilter getCompanyId() {
         return companyId;
     }
@@ -207,6 +225,7 @@ public class ProductCriteria implements Serializable, Criteria {
             Objects.equals(lastModified, that.lastModified) &&
             Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
             Objects.equals(productDetailsId, that.productDetailsId) &&
+            Objects.equals(policyId, that.policyId) &&
             Objects.equals(companyId, that.companyId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -214,7 +233,7 @@ public class ProductCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, planNo, uinNo, lastModified, lastModifiedBy, productDetailsId, companyId, distinct);
+        return Objects.hash(id, name, planNo, uinNo, lastModified, lastModifiedBy, productDetailsId, policyId, companyId, distinct);
     }
 
     // prettier-ignore
@@ -228,6 +247,7 @@ public class ProductCriteria implements Serializable, Criteria {
             (lastModified != null ? "lastModified=" + lastModified + ", " : "") +
             (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
             (productDetailsId != null ? "productDetailsId=" + productDetailsId + ", " : "") +
+            (policyId != null ? "policyId=" + policyId + ", " : "") +
             (companyId != null ? "companyId=" + companyId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
