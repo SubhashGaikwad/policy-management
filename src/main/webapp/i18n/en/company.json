@@ -30,7 +30,8 @@
       "lastModifiedBy": "Last Modified By",
       "companyType": "Company Type",
       "product": "Product",
-      "address": "Address"
+      "address": "Address",
+      "policy": "Policy"
     }
   }
 }

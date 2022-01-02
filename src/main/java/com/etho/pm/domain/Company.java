@@ -64,13 +64,20 @@ public class Company implements Serializable {
 
     @OneToMany(mappedBy = "company")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "productDetails", "company" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "productDetails", "policy", "company" }, allowSetters = true)
     private Set<Product> products = new HashSet<>();
 
     @OneToMany(mappedBy = "company")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "users", "company" }, allowSetters = true)
     private Set<Address> addresses = new HashSet<>();
+
+    @JsonIgnoreProperties(
+        value = { "agency", "company", "product", "premiunDetails", "vehicleClass", "bankDetails", "nominees", "members", "users" },
+        allowSetters = true
+    )
+    @OneToOne(mappedBy = "company")
+    private Policy policy;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -289,6 +296,25 @@ public class Company implements Serializable {
     public Company removeAddress(Address address) {
         this.addresses.remove(address);
         address.setCompany(null);
+        return this;
+    }
+
+    public Policy getPolicy() {
+        return this.policy;
+    }
+
+    public void setPolicy(Policy policy) {
+        if (this.policy != null) {
+            this.policy.setCompany(null);
+        }
+        if (policy != null) {
+            policy.setCompany(this);
+        }
+        this.policy = policy;
+    }
+
+    public Company policy(Policy policy) {
+        this.setPolicy(policy);
         return this;
     }
 

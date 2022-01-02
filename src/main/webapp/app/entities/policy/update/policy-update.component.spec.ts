@@ -9,6 +9,18 @@ import { of, Subject } from 'rxjs';
 
 import { PolicyService } from '../service/policy.service';
 import { IPolicy, Policy } from '../policy.model';
+import { IAgency } from 'app/entities/agency/agency.model';
+import { AgencyService } from 'app/entities/agency/service/agency.service';
+import { ICompany } from 'app/entities/company/company.model';
+import { CompanyService } from 'app/entities/company/service/company.service';
+import { IProduct } from 'app/entities/product/product.model';
+import { ProductService } from 'app/entities/product/service/product.service';
+import { IPremiunDetails } from 'app/entities/premiun-details/premiun-details.model';
+import { PremiunDetailsService } from 'app/entities/premiun-details/service/premiun-details.service';
+import { IVehicleClass } from 'app/entities/vehicle-class/vehicle-class.model';
+import { VehicleClassService } from 'app/entities/vehicle-class/service/vehicle-class.service';
+import { IBankDetails } from 'app/entities/bank-details/bank-details.model';
+import { BankDetailsService } from 'app/entities/bank-details/service/bank-details.service';
 import { IUsers } from 'app/entities/users/users.model';
 import { UsersService } from 'app/entities/users/service/users.service';
 
@@ -19,6 +31,12 @@ describe('Policy Management Update Component', () => {
   let fixture: ComponentFixture<PolicyUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let policyService: PolicyService;
+  let agencyService: AgencyService;
+  let companyService: CompanyService;
+  let productService: ProductService;
+  let premiunDetailsService: PremiunDetailsService;
+  let vehicleClassService: VehicleClassService;
+  let bankDetailsService: BankDetailsService;
   let usersService: UsersService;
 
   beforeEach(() => {
@@ -33,12 +51,126 @@ describe('Policy Management Update Component', () => {
     fixture = TestBed.createComponent(PolicyUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     policyService = TestBed.inject(PolicyService);
+    agencyService = TestBed.inject(AgencyService);
+    companyService = TestBed.inject(CompanyService);
+    productService = TestBed.inject(ProductService);
+    premiunDetailsService = TestBed.inject(PremiunDetailsService);
+    vehicleClassService = TestBed.inject(VehicleClassService);
+    bankDetailsService = TestBed.inject(BankDetailsService);
     usersService = TestBed.inject(UsersService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
+    it('Should call agency query and add missing value', () => {
+      const policy: IPolicy = { id: 456 };
+      const agency: IAgency = { id: 28639 };
+      policy.agency = agency;
+
+      const agencyCollection: IAgency[] = [{ id: 31683 }];
+      jest.spyOn(agencyService, 'query').mockReturnValue(of(new HttpResponse({ body: agencyCollection })));
+      const expectedCollection: IAgency[] = [agency, ...agencyCollection];
+      jest.spyOn(agencyService, 'addAgencyToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ policy });
+      comp.ngOnInit();
+
+      expect(agencyService.query).toHaveBeenCalled();
+      expect(agencyService.addAgencyToCollectionIfMissing).toHaveBeenCalledWith(agencyCollection, agency);
+      expect(comp.agenciesCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call company query and add missing value', () => {
+      const policy: IPolicy = { id: 456 };
+      const company: ICompany = { id: 68426 };
+      policy.company = company;
+
+      const companyCollection: ICompany[] = [{ id: 47881 }];
+      jest.spyOn(companyService, 'query').mockReturnValue(of(new HttpResponse({ body: companyCollection })));
+      const expectedCollection: ICompany[] = [company, ...companyCollection];
+      jest.spyOn(companyService, 'addCompanyToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ policy });
+      comp.ngOnInit();
+
+      expect(companyService.query).toHaveBeenCalled();
+      expect(companyService.addCompanyToCollectionIfMissing).toHaveBeenCalledWith(companyCollection, company);
+      expect(comp.companiesCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call product query and add missing value', () => {
+      const policy: IPolicy = { id: 456 };
+      const product: IProduct = { id: 40565 };
+      policy.product = product;
+
+      const productCollection: IProduct[] = [{ id: 19791 }];
+      jest.spyOn(productService, 'query').mockReturnValue(of(new HttpResponse({ body: productCollection })));
+      const expectedCollection: IProduct[] = [product, ...productCollection];
+      jest.spyOn(productService, 'addProductToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ policy });
+      comp.ngOnInit();
+
+      expect(productService.query).toHaveBeenCalled();
+      expect(productService.addProductToCollectionIfMissing).toHaveBeenCalledWith(productCollection, product);
+      expect(comp.productsCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call premiunDetails query and add missing value', () => {
+      const policy: IPolicy = { id: 456 };
+      const premiunDetails: IPremiunDetails = { id: 7582 };
+      policy.premiunDetails = premiunDetails;
+
+      const premiunDetailsCollection: IPremiunDetails[] = [{ id: 88824 }];
+      jest.spyOn(premiunDetailsService, 'query').mockReturnValue(of(new HttpResponse({ body: premiunDetailsCollection })));
+      const expectedCollection: IPremiunDetails[] = [premiunDetails, ...premiunDetailsCollection];
+      jest.spyOn(premiunDetailsService, 'addPremiunDetailsToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ policy });
+      comp.ngOnInit();
+
+      expect(premiunDetailsService.query).toHaveBeenCalled();
+      expect(premiunDetailsService.addPremiunDetailsToCollectionIfMissing).toHaveBeenCalledWith(premiunDetailsCollection, premiunDetails);
+      expect(comp.premiunDetailsCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call vehicleClass query and add missing value', () => {
+      const policy: IPolicy = { id: 456 };
+      const vehicleClass: IVehicleClass = { id: 64633 };
+      policy.vehicleClass = vehicleClass;
+
+      const vehicleClassCollection: IVehicleClass[] = [{ id: 61436 }];
+      jest.spyOn(vehicleClassService, 'query').mockReturnValue(of(new HttpResponse({ body: vehicleClassCollection })));
+      const expectedCollection: IVehicleClass[] = [vehicleClass, ...vehicleClassCollection];
+      jest.spyOn(vehicleClassService, 'addVehicleClassToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ policy });
+      comp.ngOnInit();
+
+      expect(vehicleClassService.query).toHaveBeenCalled();
+      expect(vehicleClassService.addVehicleClassToCollectionIfMissing).toHaveBeenCalledWith(vehicleClassCollection, vehicleClass);
+      expect(comp.vehicleClassesCollection).toEqual(expectedCollection);
+    });
+
+    it('Should call bankDetails query and add missing value', () => {
+      const policy: IPolicy = { id: 456 };
+      const bankDetails: IBankDetails = { id: 78410 };
+      policy.bankDetails = bankDetails;
+
+      const bankDetailsCollection: IBankDetails[] = [{ id: 2335 }];
+      jest.spyOn(bankDetailsService, 'query').mockReturnValue(of(new HttpResponse({ body: bankDetailsCollection })));
+      const expectedCollection: IBankDetails[] = [bankDetails, ...bankDetailsCollection];
+      jest.spyOn(bankDetailsService, 'addBankDetailsToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ policy });
+      comp.ngOnInit();
+
+      expect(bankDetailsService.query).toHaveBeenCalled();
+      expect(bankDetailsService.addBankDetailsToCollectionIfMissing).toHaveBeenCalledWith(bankDetailsCollection, bankDetails);
+      expect(comp.bankDetailsCollection).toEqual(expectedCollection);
+    });
+
     it('Should call Users query and add missing value', () => {
       const policy: IPolicy = { id: 456 };
       const users: IUsers = { id: 75345 };
@@ -60,6 +192,18 @@ describe('Policy Management Update Component', () => {
 
     it('Should update editForm', () => {
       const policy: IPolicy = { id: 456 };
+      const agency: IAgency = { id: 19090 };
+      policy.agency = agency;
+      const company: ICompany = { id: 84590 };
+      policy.company = company;
+      const product: IProduct = { id: 79818 };
+      policy.product = product;
+      const premiunDetails: IPremiunDetails = { id: 65123 };
+      policy.premiunDetails = premiunDetails;
+      const vehicleClass: IVehicleClass = { id: 49256 };
+      policy.vehicleClass = vehicleClass;
+      const bankDetails: IBankDetails = { id: 20053 };
+      policy.bankDetails = bankDetails;
       const users: IUsers = { id: 38218 };
       policy.users = users;
 
@@ -67,6 +211,12 @@ describe('Policy Management Update Component', () => {
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(policy));
+      expect(comp.agenciesCollection).toContain(agency);
+      expect(comp.companiesCollection).toContain(company);
+      expect(comp.productsCollection).toContain(product);
+      expect(comp.premiunDetailsCollection).toContain(premiunDetails);
+      expect(comp.vehicleClassesCollection).toContain(vehicleClass);
+      expect(comp.bankDetailsCollection).toContain(bankDetails);
       expect(comp.usersSharedCollection).toContain(users);
     });
   });
@@ -136,6 +286,54 @@ describe('Policy Management Update Component', () => {
   });
 
   describe('Tracking relationships identifiers', () => {
+    describe('trackAgencyById', () => {
+      it('Should return tracked Agency primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackAgencyById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackCompanyById', () => {
+      it('Should return tracked Company primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackCompanyById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackProductById', () => {
+      it('Should return tracked Product primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackProductById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackPremiunDetailsById', () => {
+      it('Should return tracked PremiunDetails primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackPremiunDetailsById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackVehicleClassById', () => {
+      it('Should return tracked VehicleClass primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackVehicleClassById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
+    describe('trackBankDetailsById', () => {
+      it('Should return tracked BankDetails primary key', () => {
+        const entity = { id: 123 };
+        const trackResult = comp.trackBankDetailsById(0, entity);
+        expect(trackResult).toEqual(entity.id);
+      });
+    });
+
     describe('trackUsersById', () => {
       it('Should return tracked Users primary key', () => {
         const entity = { id: 123 };

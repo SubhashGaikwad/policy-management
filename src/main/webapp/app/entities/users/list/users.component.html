@@ -33,6 +33,12 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="groupCode">
+            <span jhiTranslate="policyManagementApp.users.groupCode">Group Code</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="groupHeadName">
+            <span jhiTranslate="policyManagementApp.users.groupHeadName">Group Head Name</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="firstName">
             <span jhiTranslate="policyManagementApp.users.firstName">First Name</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -41,6 +47,9 @@
           </th>
           <th scope="col" jhiSortBy="birthDate">
             <span jhiTranslate="policyManagementApp.users.birthDate">Birth Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="marriageDate">
+            <span jhiTranslate="policyManagementApp.users.marriageDate">Marriage Date</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="userTypeId">
             <span jhiTranslate="policyManagementApp.users.userTypeId">User Type Id</span> <fa-icon icon="sort"></fa-icon>
@@ -63,8 +72,17 @@
           <th scope="col" jhiSortBy="activated">
             <span jhiTranslate="policyManagementApp.users.activated">Activated</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="licenceExpiryDate">
+            <span jhiTranslate="policyManagementApp.users.licenceExpiryDate">Licence Expiry Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="mobileNo">
             <span jhiTranslate="policyManagementApp.users.mobileNo">Mobile No</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="aadharCardNuber">
+            <span jhiTranslate="policyManagementApp.users.aadharCardNuber">Aadhar Card Nuber</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="pancardNumber">
+            <span jhiTranslate="policyManagementApp.users.pancardNumber">Pancard Number</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="oneTimePassword">
             <span jhiTranslate="policyManagementApp.users.oneTimePassword">One Time Password</span> <fa-icon icon="sort"></fa-icon>
@@ -89,9 +107,12 @@
           <td>
             <a [routerLink]="['/users', users.id, 'view']">{{ users.id }}</a>
           </td>
+          <td>{{ users.groupCode }}</td>
+          <td>{{ users.groupHeadName }}</td>
           <td>{{ users.firstName }}</td>
           <td>{{ users.lastName }}</td>
           <td>{{ users.birthDate | formatMediumDatetime }}</td>
+          <td>{{ users.marriageDate | formatMediumDatetime }}</td>
           <td>{{ users.userTypeId }}</td>
           <td>{{ users.username }}</td>
           <td>{{ users.password }}</td>
@@ -99,7 +120,10 @@
           <td>{{ users.imageUrl }}</td>
           <td jhiTranslate="{{ 'policyManagementApp.StatusInd.' + users.status }}">{{ users.status }}</td>
           <td>{{ users.activated }}</td>
+          <td>{{ users.licenceExpiryDate | formatMediumDatetime }}</td>
           <td>{{ users.mobileNo }}</td>
+          <td>{{ users.aadharCardNuber }}</td>
+          <td>{{ users.pancardNumber }}</td>
           <td>{{ users.oneTimePassword }}</td>
           <td>{{ users.otpExpiryTime | formatMediumDatetime }}</td>
           <td>{{ users.lastModified | formatMediumDatetime }}</td>

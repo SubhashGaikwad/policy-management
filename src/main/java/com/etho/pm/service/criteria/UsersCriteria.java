@@ -45,11 +45,17 @@ public class UsersCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
+    private StringFilter groupCode;
+
+    private StringFilter groupHeadName;
+
     private StringFilter firstName;
 
     private StringFilter lastName;
 
     private InstantFilter birthDate;
+
+    private InstantFilter marriageDate;
 
     private LongFilter userTypeId;
 
@@ -65,7 +71,13 @@ public class UsersCriteria implements Serializable, Criteria {
 
     private BooleanFilter activated;
 
+    private InstantFilter licenceExpiryDate;
+
     private StringFilter mobileNo;
+
+    private StringFilter aadharCardNuber;
+
+    private StringFilter pancardNumber;
 
     private StringFilter oneTimePassword;
 
@@ -87,9 +99,12 @@ public class UsersCriteria implements Serializable, Criteria {
 
     public UsersCriteria(UsersCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.groupCode = other.groupCode == null ? null : other.groupCode.copy();
+        this.groupHeadName = other.groupHeadName == null ? null : other.groupHeadName.copy();
         this.firstName = other.firstName == null ? null : other.firstName.copy();
         this.lastName = other.lastName == null ? null : other.lastName.copy();
         this.birthDate = other.birthDate == null ? null : other.birthDate.copy();
+        this.marriageDate = other.marriageDate == null ? null : other.marriageDate.copy();
         this.userTypeId = other.userTypeId == null ? null : other.userTypeId.copy();
         this.username = other.username == null ? null : other.username.copy();
         this.password = other.password == null ? null : other.password.copy();
@@ -97,7 +112,10 @@ public class UsersCriteria implements Serializable, Criteria {
         this.imageUrl = other.imageUrl == null ? null : other.imageUrl.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.activated = other.activated == null ? null : other.activated.copy();
+        this.licenceExpiryDate = other.licenceExpiryDate == null ? null : other.licenceExpiryDate.copy();
         this.mobileNo = other.mobileNo == null ? null : other.mobileNo.copy();
+        this.aadharCardNuber = other.aadharCardNuber == null ? null : other.aadharCardNuber.copy();
+        this.pancardNumber = other.pancardNumber == null ? null : other.pancardNumber.copy();
         this.oneTimePassword = other.oneTimePassword == null ? null : other.oneTimePassword.copy();
         this.otpExpiryTime = other.otpExpiryTime == null ? null : other.otpExpiryTime.copy();
         this.lastModified = other.lastModified == null ? null : other.lastModified.copy();
@@ -126,6 +144,36 @@ public class UsersCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public StringFilter getGroupCode() {
+        return groupCode;
+    }
+
+    public StringFilter groupCode() {
+        if (groupCode == null) {
+            groupCode = new StringFilter();
+        }
+        return groupCode;
+    }
+
+    public void setGroupCode(StringFilter groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    public StringFilter getGroupHeadName() {
+        return groupHeadName;
+    }
+
+    public StringFilter groupHeadName() {
+        if (groupHeadName == null) {
+            groupHeadName = new StringFilter();
+        }
+        return groupHeadName;
+    }
+
+    public void setGroupHeadName(StringFilter groupHeadName) {
+        this.groupHeadName = groupHeadName;
     }
 
     public StringFilter getFirstName() {
@@ -171,6 +219,21 @@ public class UsersCriteria implements Serializable, Criteria {
 
     public void setBirthDate(InstantFilter birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public InstantFilter getMarriageDate() {
+        return marriageDate;
+    }
+
+    public InstantFilter marriageDate() {
+        if (marriageDate == null) {
+            marriageDate = new InstantFilter();
+        }
+        return marriageDate;
+    }
+
+    public void setMarriageDate(InstantFilter marriageDate) {
+        this.marriageDate = marriageDate;
     }
 
     public LongFilter getUserTypeId() {
@@ -278,6 +341,21 @@ public class UsersCriteria implements Serializable, Criteria {
         this.activated = activated;
     }
 
+    public InstantFilter getLicenceExpiryDate() {
+        return licenceExpiryDate;
+    }
+
+    public InstantFilter licenceExpiryDate() {
+        if (licenceExpiryDate == null) {
+            licenceExpiryDate = new InstantFilter();
+        }
+        return licenceExpiryDate;
+    }
+
+    public void setLicenceExpiryDate(InstantFilter licenceExpiryDate) {
+        this.licenceExpiryDate = licenceExpiryDate;
+    }
+
     public StringFilter getMobileNo() {
         return mobileNo;
     }
@@ -291,6 +369,36 @@ public class UsersCriteria implements Serializable, Criteria {
 
     public void setMobileNo(StringFilter mobileNo) {
         this.mobileNo = mobileNo;
+    }
+
+    public StringFilter getAadharCardNuber() {
+        return aadharCardNuber;
+    }
+
+    public StringFilter aadharCardNuber() {
+        if (aadharCardNuber == null) {
+            aadharCardNuber = new StringFilter();
+        }
+        return aadharCardNuber;
+    }
+
+    public void setAadharCardNuber(StringFilter aadharCardNuber) {
+        this.aadharCardNuber = aadharCardNuber;
+    }
+
+    public StringFilter getPancardNumber() {
+        return pancardNumber;
+    }
+
+    public StringFilter pancardNumber() {
+        if (pancardNumber == null) {
+            pancardNumber = new StringFilter();
+        }
+        return pancardNumber;
+    }
+
+    public void setPancardNumber(StringFilter pancardNumber) {
+        this.pancardNumber = pancardNumber;
     }
 
     public StringFilter getOneTimePassword() {
@@ -417,9 +525,12 @@ public class UsersCriteria implements Serializable, Criteria {
         final UsersCriteria that = (UsersCriteria) o;
         return (
             Objects.equals(id, that.id) &&
+            Objects.equals(groupCode, that.groupCode) &&
+            Objects.equals(groupHeadName, that.groupHeadName) &&
             Objects.equals(firstName, that.firstName) &&
             Objects.equals(lastName, that.lastName) &&
             Objects.equals(birthDate, that.birthDate) &&
+            Objects.equals(marriageDate, that.marriageDate) &&
             Objects.equals(userTypeId, that.userTypeId) &&
             Objects.equals(username, that.username) &&
             Objects.equals(password, that.password) &&
@@ -427,7 +538,10 @@ public class UsersCriteria implements Serializable, Criteria {
             Objects.equals(imageUrl, that.imageUrl) &&
             Objects.equals(status, that.status) &&
             Objects.equals(activated, that.activated) &&
+            Objects.equals(licenceExpiryDate, that.licenceExpiryDate) &&
             Objects.equals(mobileNo, that.mobileNo) &&
+            Objects.equals(aadharCardNuber, that.aadharCardNuber) &&
+            Objects.equals(pancardNumber, that.pancardNumber) &&
             Objects.equals(oneTimePassword, that.oneTimePassword) &&
             Objects.equals(otpExpiryTime, that.otpExpiryTime) &&
             Objects.equals(lastModified, that.lastModified) &&
@@ -443,9 +557,12 @@ public class UsersCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
+            groupCode,
+            groupHeadName,
             firstName,
             lastName,
             birthDate,
+            marriageDate,
             userTypeId,
             username,
             password,
@@ -453,7 +570,10 @@ public class UsersCriteria implements Serializable, Criteria {
             imageUrl,
             status,
             activated,
+            licenceExpiryDate,
             mobileNo,
+            aadharCardNuber,
+            pancardNumber,
             oneTimePassword,
             otpExpiryTime,
             lastModified,
@@ -470,9 +590,12 @@ public class UsersCriteria implements Serializable, Criteria {
     public String toString() {
         return "UsersCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
+            (groupCode != null ? "groupCode=" + groupCode + ", " : "") +
+            (groupHeadName != null ? "groupHeadName=" + groupHeadName + ", " : "") +
             (firstName != null ? "firstName=" + firstName + ", " : "") +
             (lastName != null ? "lastName=" + lastName + ", " : "") +
             (birthDate != null ? "birthDate=" + birthDate + ", " : "") +
+            (marriageDate != null ? "marriageDate=" + marriageDate + ", " : "") +
             (userTypeId != null ? "userTypeId=" + userTypeId + ", " : "") +
             (username != null ? "username=" + username + ", " : "") +
             (password != null ? "password=" + password + ", " : "") +
@@ -480,7 +603,10 @@ public class UsersCriteria implements Serializable, Criteria {
             (imageUrl != null ? "imageUrl=" + imageUrl + ", " : "") +
             (status != null ? "status=" + status + ", " : "") +
             (activated != null ? "activated=" + activated + ", " : "") +
+            (licenceExpiryDate != null ? "licenceExpiryDate=" + licenceExpiryDate + ", " : "") +
             (mobileNo != null ? "mobileNo=" + mobileNo + ", " : "") +
+            (aadharCardNuber != null ? "aadharCardNuber=" + aadharCardNuber + ", " : "") +
+            (pancardNumber != null ? "pancardNumber=" + pancardNumber + ", " : "") +
             (oneTimePassword != null ? "oneTimePassword=" + oneTimePassword + ", " : "") +
             (otpExpiryTime != null ? "otpExpiryTime=" + otpExpiryTime + ", " : "") +
             (lastModified != null ? "lastModified=" + lastModified + ", " : "") +

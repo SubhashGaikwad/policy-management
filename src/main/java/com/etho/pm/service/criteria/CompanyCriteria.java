@@ -53,6 +53,8 @@ public class CompanyCriteria implements Serializable, Criteria {
 
     private LongFilter addressId;
 
+    private LongFilter policyId;
+
     private Boolean distinct;
 
     public CompanyCriteria() {}
@@ -72,6 +74,7 @@ public class CompanyCriteria implements Serializable, Criteria {
         this.companyTypeId = other.companyTypeId == null ? null : other.companyTypeId.copy();
         this.productId = other.productId == null ? null : other.productId.copy();
         this.addressId = other.addressId == null ? null : other.addressId.copy();
+        this.policyId = other.policyId == null ? null : other.policyId.copy();
         this.distinct = other.distinct;
     }
 
@@ -290,6 +293,21 @@ public class CompanyCriteria implements Serializable, Criteria {
         this.addressId = addressId;
     }
 
+    public LongFilter getPolicyId() {
+        return policyId;
+    }
+
+    public LongFilter policyId() {
+        if (policyId == null) {
+            policyId = new LongFilter();
+        }
+        return policyId;
+    }
+
+    public void setPolicyId(LongFilter policyId) {
+        this.policyId = policyId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -322,6 +340,7 @@ public class CompanyCriteria implements Serializable, Criteria {
             Objects.equals(companyTypeId, that.companyTypeId) &&
             Objects.equals(productId, that.productId) &&
             Objects.equals(addressId, that.addressId) &&
+            Objects.equals(policyId, that.policyId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -343,6 +362,7 @@ public class CompanyCriteria implements Serializable, Criteria {
             companyTypeId,
             productId,
             addressId,
+            policyId,
             distinct
         );
     }
@@ -365,6 +385,7 @@ public class CompanyCriteria implements Serializable, Criteria {
             (companyTypeId != null ? "companyTypeId=" + companyTypeId + ", " : "") +
             (productId != null ? "productId=" + productId + ", " : "") +
             (addressId != null ? "addressId=" + addressId + ", " : "") +
+            (policyId != null ? "policyId=" + policyId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

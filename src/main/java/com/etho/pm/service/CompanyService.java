@@ -4,7 +4,11 @@ import com.etho.pm.domain.Company;
 import com.etho.pm.repository.CompanyRepository;
 import com.etho.pm.service.dto.CompanyDTO;
 import com.etho.pm.service.mapper.CompanyMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -73,6 +77,20 @@ public class CompanyService {
     public Page<CompanyDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Companies");
         return companyRepository.findAll(pageable).map(companyMapper::toDto);
+    }
+
+    /**
+     *  Get all the companies where Policy is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<CompanyDTO> findAllWherePolicyIsNull() {
+        log.debug("Request to get all companies where Policy is null");
+        return StreamSupport
+            .stream(companyRepository.findAll().spliterator(), false)
+            .filter(company -> company.getPolicy() == null)
+            .map(companyMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

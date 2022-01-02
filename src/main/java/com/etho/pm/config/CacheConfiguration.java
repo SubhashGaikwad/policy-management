@@ -73,6 +73,16 @@ public class CacheConfiguration {
             createCache(cm, com.etho.pm.domain.SecurityPermission.class.getName());
             createCache(cm, com.etho.pm.domain.SecurityPermission.class.getName() + ".securityRoles");
             createCache(cm, com.etho.pm.domain.SecurityPermission.class.getName() + ".securityUsers");
+            createCache(cm, com.etho.pm.domain.Policy.class.getName() + ".members");
+            createCache(cm, com.etho.pm.domain.PremiunDetails.class.getName());
+            createCache(cm, com.etho.pm.domain.Member.class.getName());
+            createCache(cm, com.etho.pm.domain.VehicleClass.class.getName());
+            createCache(cm, com.etho.pm.domain.VehicleDetails.class.getName());
+            createCache(cm, com.etho.pm.domain.VehicleDetails.class.getName() + ".parameterLookups");
+            createCache(cm, com.etho.pm.domain.ParameterLookup.class.getName());
+            createCache(cm, com.etho.pm.domain.BankDetails.class.getName());
+            createCache(cm, com.etho.pm.domain.Agency.class.getName());
+            createCache(cm, com.etho.pm.domain.Rider.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

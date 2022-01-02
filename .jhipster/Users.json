@@ -2,6 +2,14 @@
   "name": "Users",
   "fields": [
     {
+      "fieldName": "groupCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "groupHeadName",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "firstName",
       "fieldType": "String"
     },
@@ -11,6 +19,11 @@
     },
     {
       "fieldName": "birthDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "marriageDate",
       "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     },
@@ -48,7 +61,19 @@
       "fieldValidateRules": ["required"]
     },
     {
+      "fieldName": "licenceExpiryDate",
+      "fieldType": "Instant"
+    },
+    {
       "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadharCardNuber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pancardNumber",
       "fieldType": "String"
     },
     {

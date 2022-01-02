@@ -9,6 +9,7 @@ import com.etho.pm.IntegrationTest;
 import com.etho.pm.domain.Address;
 import com.etho.pm.domain.Company;
 import com.etho.pm.domain.CompanyType;
+import com.etho.pm.domain.Policy;
 import com.etho.pm.domain.Product;
 import com.etho.pm.repository.CompanyRepository;
 import com.etho.pm.service.criteria.CompanyCriteria;
@@ -1138,6 +1139,33 @@ class CompanyResourceIT {
 
         // Get all the companyList where address equals to (addressId + 1)
         defaultCompanyShouldNotBeFound("addressId.equals=" + (addressId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllCompaniesByPolicyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+        Policy policy;
+        if (TestUtil.findAll(em, Policy.class).isEmpty()) {
+            policy = PolicyResourceIT.createEntity(em);
+            em.persist(policy);
+            em.flush();
+        } else {
+            policy = TestUtil.findAll(em, Policy.class).get(0);
+        }
+        em.persist(policy);
+        em.flush();
+        company.setPolicy(policy);
+        policy.setCompany(company);
+        companyRepository.saveAndFlush(company);
+        Long policyId = policy.getId();
+
+        // Get all the companyList where policy equals to policyId
+        defaultCompanyShouldBeFound("policyId.equals=" + policyId);
+
+        // Get all the companyList where policy equals to (policyId + 1)
+        defaultCompanyShouldNotBeFound("policyId.equals=" + (policyId + 1));
     }
 
     /**
