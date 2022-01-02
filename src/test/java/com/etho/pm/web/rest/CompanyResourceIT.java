@@ -9,6 +9,7 @@ import com.etho.pm.IntegrationTest;
 import com.etho.pm.domain.Address;
 import com.etho.pm.domain.Company;
 import com.etho.pm.domain.CompanyType;
+import com.etho.pm.domain.Policy;
 import com.etho.pm.domain.Product;
 import com.etho.pm.repository.CompanyRepository;
 import com.etho.pm.service.criteria.CompanyCriteria;
@@ -51,10 +52,6 @@ class CompanyResourceIT {
 
     private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_EMAIL = "BBBBBBBBBB";
-
-    private static final Long DEFAULT_COMPANY_TYPE_ID = 1L;
-    private static final Long UPDATED_COMPANY_TYPE_ID = 2L;
-    private static final Long SMALLER_COMPANY_TYPE_ID = 1L - 1L;
 
     private static final String DEFAULT_IMAGE_URL = "AAAAAAAAAA";
     private static final String UPDATED_IMAGE_URL = "BBBBBBBBBB";
@@ -101,7 +98,6 @@ class CompanyResourceIT {
             .branch(DEFAULT_BRANCH)
             .brnachCode(DEFAULT_BRNACH_CODE)
             .email(DEFAULT_EMAIL)
-            .companyTypeId(DEFAULT_COMPANY_TYPE_ID)
             .imageUrl(DEFAULT_IMAGE_URL)
             .contactNo(DEFAULT_CONTACT_NO)
             .lastModified(DEFAULT_LAST_MODIFIED)
@@ -122,7 +118,6 @@ class CompanyResourceIT {
             .branch(UPDATED_BRANCH)
             .brnachCode(UPDATED_BRNACH_CODE)
             .email(UPDATED_EMAIL)
-            .companyTypeId(UPDATED_COMPANY_TYPE_ID)
             .imageUrl(UPDATED_IMAGE_URL)
             .contactNo(UPDATED_CONTACT_NO)
             .lastModified(UPDATED_LAST_MODIFIED)
@@ -154,7 +149,6 @@ class CompanyResourceIT {
         assertThat(testCompany.getBranch()).isEqualTo(DEFAULT_BRANCH);
         assertThat(testCompany.getBrnachCode()).isEqualTo(DEFAULT_BRNACH_CODE);
         assertThat(testCompany.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testCompany.getCompanyTypeId()).isEqualTo(DEFAULT_COMPANY_TYPE_ID);
         assertThat(testCompany.getImageUrl()).isEqualTo(DEFAULT_IMAGE_URL);
         assertThat(testCompany.getContactNo()).isEqualTo(DEFAULT_CONTACT_NO);
         assertThat(testCompany.getLastModified()).isEqualTo(DEFAULT_LAST_MODIFIED);
@@ -233,7 +227,6 @@ class CompanyResourceIT {
             .andExpect(jsonPath("$.[*].branch").value(hasItem(DEFAULT_BRANCH)))
             .andExpect(jsonPath("$.[*].brnachCode").value(hasItem(DEFAULT_BRNACH_CODE)))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].companyTypeId").value(hasItem(DEFAULT_COMPANY_TYPE_ID.intValue())))
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].contactNo").value(hasItem(DEFAULT_CONTACT_NO)))
             .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
@@ -257,7 +250,6 @@ class CompanyResourceIT {
             .andExpect(jsonPath("$.branch").value(DEFAULT_BRANCH))
             .andExpect(jsonPath("$.brnachCode").value(DEFAULT_BRNACH_CODE))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.companyTypeId").value(DEFAULT_COMPANY_TYPE_ID.intValue()))
             .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL))
             .andExpect(jsonPath("$.contactNo").value(DEFAULT_CONTACT_NO))
             .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
@@ -674,110 +666,6 @@ class CompanyResourceIT {
 
     @Test
     @Transactional
-    void getAllCompaniesByCompanyTypeIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        companyRepository.saveAndFlush(company);
-
-        // Get all the companyList where companyTypeId equals to DEFAULT_COMPANY_TYPE_ID
-        defaultCompanyShouldBeFound("companyTypeId.equals=" + DEFAULT_COMPANY_TYPE_ID);
-
-        // Get all the companyList where companyTypeId equals to UPDATED_COMPANY_TYPE_ID
-        defaultCompanyShouldNotBeFound("companyTypeId.equals=" + UPDATED_COMPANY_TYPE_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllCompaniesByCompanyTypeIdIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        companyRepository.saveAndFlush(company);
-
-        // Get all the companyList where companyTypeId not equals to DEFAULT_COMPANY_TYPE_ID
-        defaultCompanyShouldNotBeFound("companyTypeId.notEquals=" + DEFAULT_COMPANY_TYPE_ID);
-
-        // Get all the companyList where companyTypeId not equals to UPDATED_COMPANY_TYPE_ID
-        defaultCompanyShouldBeFound("companyTypeId.notEquals=" + UPDATED_COMPANY_TYPE_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllCompaniesByCompanyTypeIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        companyRepository.saveAndFlush(company);
-
-        // Get all the companyList where companyTypeId in DEFAULT_COMPANY_TYPE_ID or UPDATED_COMPANY_TYPE_ID
-        defaultCompanyShouldBeFound("companyTypeId.in=" + DEFAULT_COMPANY_TYPE_ID + "," + UPDATED_COMPANY_TYPE_ID);
-
-        // Get all the companyList where companyTypeId equals to UPDATED_COMPANY_TYPE_ID
-        defaultCompanyShouldNotBeFound("companyTypeId.in=" + UPDATED_COMPANY_TYPE_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllCompaniesByCompanyTypeIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        companyRepository.saveAndFlush(company);
-
-        // Get all the companyList where companyTypeId is not null
-        defaultCompanyShouldBeFound("companyTypeId.specified=true");
-
-        // Get all the companyList where companyTypeId is null
-        defaultCompanyShouldNotBeFound("companyTypeId.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCompaniesByCompanyTypeIdIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        companyRepository.saveAndFlush(company);
-
-        // Get all the companyList where companyTypeId is greater than or equal to DEFAULT_COMPANY_TYPE_ID
-        defaultCompanyShouldBeFound("companyTypeId.greaterThanOrEqual=" + DEFAULT_COMPANY_TYPE_ID);
-
-        // Get all the companyList where companyTypeId is greater than or equal to UPDATED_COMPANY_TYPE_ID
-        defaultCompanyShouldNotBeFound("companyTypeId.greaterThanOrEqual=" + UPDATED_COMPANY_TYPE_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllCompaniesByCompanyTypeIdIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        companyRepository.saveAndFlush(company);
-
-        // Get all the companyList where companyTypeId is less than or equal to DEFAULT_COMPANY_TYPE_ID
-        defaultCompanyShouldBeFound("companyTypeId.lessThanOrEqual=" + DEFAULT_COMPANY_TYPE_ID);
-
-        // Get all the companyList where companyTypeId is less than or equal to SMALLER_COMPANY_TYPE_ID
-        defaultCompanyShouldNotBeFound("companyTypeId.lessThanOrEqual=" + SMALLER_COMPANY_TYPE_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllCompaniesByCompanyTypeIdIsLessThanSomething() throws Exception {
-        // Initialize the database
-        companyRepository.saveAndFlush(company);
-
-        // Get all the companyList where companyTypeId is less than DEFAULT_COMPANY_TYPE_ID
-        defaultCompanyShouldNotBeFound("companyTypeId.lessThan=" + DEFAULT_COMPANY_TYPE_ID);
-
-        // Get all the companyList where companyTypeId is less than UPDATED_COMPANY_TYPE_ID
-        defaultCompanyShouldBeFound("companyTypeId.lessThan=" + UPDATED_COMPANY_TYPE_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllCompaniesByCompanyTypeIdIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        companyRepository.saveAndFlush(company);
-
-        // Get all the companyList where companyTypeId is greater than DEFAULT_COMPANY_TYPE_ID
-        defaultCompanyShouldNotBeFound("companyTypeId.greaterThan=" + DEFAULT_COMPANY_TYPE_ID);
-
-        // Get all the companyList where companyTypeId is greater than SMALLER_COMPANY_TYPE_ID
-        defaultCompanyShouldBeFound("companyTypeId.greaterThan=" + SMALLER_COMPANY_TYPE_ID);
-    }
-
-    @Test
-    @Transactional
     void getAllCompaniesByImageUrlIsEqualToSomething() throws Exception {
         // Initialize the database
         companyRepository.saveAndFlush(company);
@@ -1140,6 +1028,33 @@ class CompanyResourceIT {
         defaultCompanyShouldNotBeFound("addressId.equals=" + (addressId + 1));
     }
 
+    @Test
+    @Transactional
+    void getAllCompaniesByPolicyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+        Policy policy;
+        if (TestUtil.findAll(em, Policy.class).isEmpty()) {
+            policy = PolicyResourceIT.createEntity(em);
+            em.persist(policy);
+            em.flush();
+        } else {
+            policy = TestUtil.findAll(em, Policy.class).get(0);
+        }
+        em.persist(policy);
+        em.flush();
+        company.setPolicy(policy);
+        policy.setCompany(company);
+        companyRepository.saveAndFlush(company);
+        Long policyId = policy.getId();
+
+        // Get all the companyList where policy equals to policyId
+        defaultCompanyShouldBeFound("policyId.equals=" + policyId);
+
+        // Get all the companyList where policy equals to (policyId + 1)
+        defaultCompanyShouldNotBeFound("policyId.equals=" + (policyId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -1154,7 +1069,6 @@ class CompanyResourceIT {
             .andExpect(jsonPath("$.[*].branch").value(hasItem(DEFAULT_BRANCH)))
             .andExpect(jsonPath("$.[*].brnachCode").value(hasItem(DEFAULT_BRNACH_CODE)))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].companyTypeId").value(hasItem(DEFAULT_COMPANY_TYPE_ID.intValue())))
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].contactNo").value(hasItem(DEFAULT_CONTACT_NO)))
             .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
@@ -1212,7 +1126,6 @@ class CompanyResourceIT {
             .branch(UPDATED_BRANCH)
             .brnachCode(UPDATED_BRNACH_CODE)
             .email(UPDATED_EMAIL)
-            .companyTypeId(UPDATED_COMPANY_TYPE_ID)
             .imageUrl(UPDATED_IMAGE_URL)
             .contactNo(UPDATED_CONTACT_NO)
             .lastModified(UPDATED_LAST_MODIFIED)
@@ -1236,7 +1149,6 @@ class CompanyResourceIT {
         assertThat(testCompany.getBranch()).isEqualTo(UPDATED_BRANCH);
         assertThat(testCompany.getBrnachCode()).isEqualTo(UPDATED_BRNACH_CODE);
         assertThat(testCompany.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testCompany.getCompanyTypeId()).isEqualTo(UPDATED_COMPANY_TYPE_ID);
         assertThat(testCompany.getImageUrl()).isEqualTo(UPDATED_IMAGE_URL);
         assertThat(testCompany.getContactNo()).isEqualTo(UPDATED_CONTACT_NO);
         assertThat(testCompany.getLastModified()).isEqualTo(UPDATED_LAST_MODIFIED);
@@ -1320,12 +1232,7 @@ class CompanyResourceIT {
         Company partialUpdatedCompany = new Company();
         partialUpdatedCompany.setId(company.getId());
 
-        partialUpdatedCompany
-            .address(UPDATED_ADDRESS)
-            .branch(UPDATED_BRANCH)
-            .email(UPDATED_EMAIL)
-            .imageUrl(UPDATED_IMAGE_URL)
-            .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
+        partialUpdatedCompany.address(UPDATED_ADDRESS).branch(UPDATED_BRANCH).email(UPDATED_EMAIL).contactNo(UPDATED_CONTACT_NO);
 
         restCompanyMockMvc
             .perform(
@@ -1344,11 +1251,10 @@ class CompanyResourceIT {
         assertThat(testCompany.getBranch()).isEqualTo(UPDATED_BRANCH);
         assertThat(testCompany.getBrnachCode()).isEqualTo(DEFAULT_BRNACH_CODE);
         assertThat(testCompany.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testCompany.getCompanyTypeId()).isEqualTo(DEFAULT_COMPANY_TYPE_ID);
-        assertThat(testCompany.getImageUrl()).isEqualTo(UPDATED_IMAGE_URL);
-        assertThat(testCompany.getContactNo()).isEqualTo(DEFAULT_CONTACT_NO);
+        assertThat(testCompany.getImageUrl()).isEqualTo(DEFAULT_IMAGE_URL);
+        assertThat(testCompany.getContactNo()).isEqualTo(UPDATED_CONTACT_NO);
         assertThat(testCompany.getLastModified()).isEqualTo(DEFAULT_LAST_MODIFIED);
-        assertThat(testCompany.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
+        assertThat(testCompany.getLastModifiedBy()).isEqualTo(DEFAULT_LAST_MODIFIED_BY);
     }
 
     @Test
@@ -1369,7 +1275,6 @@ class CompanyResourceIT {
             .branch(UPDATED_BRANCH)
             .brnachCode(UPDATED_BRNACH_CODE)
             .email(UPDATED_EMAIL)
-            .companyTypeId(UPDATED_COMPANY_TYPE_ID)
             .imageUrl(UPDATED_IMAGE_URL)
             .contactNo(UPDATED_CONTACT_NO)
             .lastModified(UPDATED_LAST_MODIFIED)
@@ -1392,7 +1297,6 @@ class CompanyResourceIT {
         assertThat(testCompany.getBranch()).isEqualTo(UPDATED_BRANCH);
         assertThat(testCompany.getBrnachCode()).isEqualTo(UPDATED_BRNACH_CODE);
         assertThat(testCompany.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testCompany.getCompanyTypeId()).isEqualTo(UPDATED_COMPANY_TYPE_ID);
         assertThat(testCompany.getImageUrl()).isEqualTo(UPDATED_IMAGE_URL);
         assertThat(testCompany.getContactNo()).isEqualTo(UPDATED_CONTACT_NO);
         assertThat(testCompany.getLastModified()).isEqualTo(UPDATED_LAST_MODIFIED);

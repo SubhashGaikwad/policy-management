@@ -21,6 +21,14 @@
         "userAccess": "User Access",
         "securityRole": "Security Role",
         "securityPermission": "Security Permission",
+        "premiunDetails": "Premiun Details",
+        "member": "Member",
+        "vehicleClass": "Vehicle Class",
+        "vehicleDetails": "Vehicle Details",
+        "parameterLookup": "Parameter Lookup",
+        "bankDetails": "Bank Details",
+        "agency": "Agency",
+        "rider": "Rider",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

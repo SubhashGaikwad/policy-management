@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -75,8 +75,12 @@ export class PolicyService {
 
   protected convertDateFromClient(policy: IPolicy): IPolicy {
     return Object.assign({}, policy, {
-      dateStart: policy.dateStart?.isValid() ? policy.dateStart.toJSON() : undefined,
-      dateEnd: policy.dateEnd?.isValid() ? policy.dateEnd.toJSON() : undefined,
+      commDate: policy.commDate?.isValid() ? policy.commDate.toJSON() : undefined,
+      policyStartDate: policy.policyStartDate?.isValid() ? policy.policyStartDate.toJSON() : undefined,
+      policyEndDate: policy.policyEndDate?.isValid() ? policy.policyEndDate.toJSON() : undefined,
+      paymentDate: policy.paymentDate?.isValid() ? policy.paymentDate.toJSON() : undefined,
+      riskCoveredFrom: policy.riskCoveredFrom?.isValid() ? policy.riskCoveredFrom.toJSON() : undefined,
+      riskCoveredTo: policy.riskCoveredTo?.isValid() ? policy.riskCoveredTo.toJSON() : undefined,
       maturityDate: policy.maturityDate?.isValid() ? policy.maturityDate.toJSON() : undefined,
       lastModified: policy.lastModified?.isValid() ? policy.lastModified.toJSON() : undefined,
     });
@@ -84,8 +88,12 @@ export class PolicyService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.dateStart = res.body.dateStart ? dayjs(res.body.dateStart) : undefined;
-      res.body.dateEnd = res.body.dateEnd ? dayjs(res.body.dateEnd) : undefined;
+      res.body.commDate = res.body.commDate ? dayjs(res.body.commDate) : undefined;
+      res.body.policyStartDate = res.body.policyStartDate ? dayjs(res.body.policyStartDate) : undefined;
+      res.body.policyEndDate = res.body.policyEndDate ? dayjs(res.body.policyEndDate) : undefined;
+      res.body.paymentDate = res.body.paymentDate ? dayjs(res.body.paymentDate) : undefined;
+      res.body.riskCoveredFrom = res.body.riskCoveredFrom ? dayjs(res.body.riskCoveredFrom) : undefined;
+      res.body.riskCoveredTo = res.body.riskCoveredTo ? dayjs(res.body.riskCoveredTo) : undefined;
       res.body.maturityDate = res.body.maturityDate ? dayjs(res.body.maturityDate) : undefined;
       res.body.lastModified = res.body.lastModified ? dayjs(res.body.lastModified) : undefined;
     }
@@ -95,8 +103,12 @@ export class PolicyService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((policy: IPolicy) => {
-        policy.dateStart = policy.dateStart ? dayjs(policy.dateStart) : undefined;
-        policy.dateEnd = policy.dateEnd ? dayjs(policy.dateEnd) : undefined;
+        policy.commDate = policy.commDate ? dayjs(policy.commDate) : undefined;
+        policy.policyStartDate = policy.policyStartDate ? dayjs(policy.policyStartDate) : undefined;
+        policy.policyEndDate = policy.policyEndDate ? dayjs(policy.policyEndDate) : undefined;
+        policy.paymentDate = policy.paymentDate ? dayjs(policy.paymentDate) : undefined;
+        policy.riskCoveredFrom = policy.riskCoveredFrom ? dayjs(policy.riskCoveredFrom) : undefined;
+        policy.riskCoveredTo = policy.riskCoveredTo ? dayjs(policy.riskCoveredTo) : undefined;
         policy.maturityDate = policy.maturityDate ? dayjs(policy.maturityDate) : undefined;
         policy.lastModified = policy.lastModified ? dayjs(policy.lastModified) : undefined;
       });

@@ -46,7 +46,7 @@ public class ProductDetails implements Serializable {
     @JoinColumn(unique = true)
     private ProductType productType;
 
-    @JsonIgnoreProperties(value = { "productDetails", "company" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "productDetails", "policy", "company" }, allowSetters = true)
     @OneToOne(mappedBy = "productDetails")
     private Product product;
 

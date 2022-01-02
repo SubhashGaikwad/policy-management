@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { IPolicy } from 'app/entities/policy/policy.model';
 
 export interface INominee {

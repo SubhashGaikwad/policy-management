@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { IUsers } from 'app/entities/users/users.model';
 
 export interface IUsersType {

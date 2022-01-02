@@ -22,8 +22,6 @@ public class CompanyDTO implements Serializable {
 
     private String email;
 
-    private Long companyTypeId;
-
     private String imageUrl;
 
     private String contactNo;
@@ -82,14 +80,6 @@ public class CompanyDTO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Long getCompanyTypeId() {
-        return companyTypeId;
-    }
-
-    public void setCompanyTypeId(Long companyTypeId) {
-        this.companyTypeId = companyTypeId;
     }
 
     public String getImageUrl() {
@@ -163,7 +153,6 @@ public class CompanyDTO implements Serializable {
             ", branch='" + getBranch() + "'" +
             ", brnachCode='" + getBrnachCode() + "'" +
             ", email='" + getEmail() + "'" +
-            ", companyTypeId=" + getCompanyTypeId() +
             ", imageUrl='" + getImageUrl() + "'" +
             ", contactNo='" + getContactNo() + "'" +
             ", lastModified='" + getLastModified() + "'" +

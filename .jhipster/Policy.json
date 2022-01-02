@@ -6,20 +6,46 @@
       "fieldType": "Long"
     },
     {
-      "fieldName": "instalmentAmount",
-      "fieldType": "Long"
+      "fieldName": "policyNumber",
+      "fieldType": "String"
     },
     {
       "fieldName": "term",
       "fieldType": "Long"
     },
     {
-      "fieldName": "instalmentPeriod",
+      "fieldName": "ppt",
       "fieldType": "Long"
     },
     {
-      "fieldName": "instalmentDate",
+      "fieldName": "commDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "proposerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sumAssuredAmount",
       "fieldType": "Long"
+    },
+    {
+      "fieldName": "premiumMode",
+      "fieldType": "PremiumMode",
+      "fieldValues": "YEARLY (Yearly),HLY (Halfyear),QLY (Qly),MONTHLY (Monthly),SSS (sss),SINGLE (Single)"
+    },
+    {
+      "fieldName": "basicPremium",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "extraPremium",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "gst",
+      "fieldType": "String"
     },
     {
       "fieldName": "status",
@@ -27,14 +53,118 @@
       "fieldValues": "OPEN (Open),INFORCE (inforce),CANCELLED (Cancelled),CLOSED (Closed),MATURED (Matured),SUSPENDED (Suspended)"
     },
     {
-      "fieldName": "dateStart",
-      "fieldType": "Instant",
-      "fieldValidateRules": ["required"]
+      "fieldName": "totalPremiun",
+      "fieldType": "String"
     },
     {
-      "fieldName": "dateEnd",
-      "fieldType": "Instant",
-      "fieldValidateRules": ["required"]
+      "fieldName": "gstFirstYear",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "netPremium",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "taxBeneficiary",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "policyReceived",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "previousPolicy",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "policyStartDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "policyEndDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "period",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "claimDone",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "freeHeathCheckup",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "zone",
+      "fieldType": "Zone",
+      "fieldValues": "A (A),B (B),C (C)"
+    },
+    {
+      "fieldName": "noOfYear",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "floaterSum",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tpa",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "paymentDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "policyType",
+      "fieldType": "PolicyType",
+      "fieldValues": "LIFE (Life),HEATH (Health),MOTAR (Motar),OTHER (Other)"
+    },
+    {
+      "fieldName": "paToOwner",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "paToOther",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loading",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "riskCoveredFrom",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "riskCoveredTo",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "freeField1",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "freeField2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "freeField3",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "freeField4",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "freeField5",
+      "fieldType": "String"
     },
     {
       "fieldName": "maturityDate",
@@ -58,10 +188,58 @@
   ],
   "relationships": [
     {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "agency",
+      "otherEntityRelationshipName": "policy",
+      "relationshipName": "agency",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "company",
+      "otherEntityRelationshipName": "policy",
+      "relationshipName": "company",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "policy",
+      "relationshipName": "product",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "premiunDetails",
+      "otherEntityRelationshipName": "policy",
+      "relationshipName": "premiunDetails",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "vehicleClass",
+      "otherEntityRelationshipName": "policy",
+      "relationshipName": "vehicleClass",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "bankDetails",
+      "otherEntityRelationshipName": "policy",
+      "relationshipName": "bankDetails",
+      "ownerSide": true
+    },
+    {
       "relationshipType": "one-to-many",
       "otherEntityName": "nominee",
       "otherEntityRelationshipName": "policy",
       "relationshipName": "nominee"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "member",
+      "otherEntityRelationshipName": "policy",
+      "relationshipName": "member"
     },
     {
       "relationshipType": "many-to-one",

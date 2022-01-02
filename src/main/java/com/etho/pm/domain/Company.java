@@ -40,9 +40,6 @@ public class Company implements Serializable {
     @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "company_type_id")
-    private Long companyTypeId;
-
     @Column(name = "image_url")
     private String imageUrl;
 
@@ -64,13 +61,20 @@ public class Company implements Serializable {
 
     @OneToMany(mappedBy = "company")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "productDetails", "company" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "productDetails", "policy", "company" }, allowSetters = true)
     private Set<Product> products = new HashSet<>();
 
     @OneToMany(mappedBy = "company")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "users", "company" }, allowSetters = true)
     private Set<Address> addresses = new HashSet<>();
+
+    @JsonIgnoreProperties(
+        value = { "agency", "company", "product", "premiunDetails", "vehicleClass", "bankDetails", "nominees", "members", "users" },
+        allowSetters = true
+    )
+    @OneToOne(mappedBy = "company")
+    private Policy policy;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -150,19 +154,6 @@ public class Company implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Long getCompanyTypeId() {
-        return this.companyTypeId;
-    }
-
-    public Company companyTypeId(Long companyTypeId) {
-        this.setCompanyTypeId(companyTypeId);
-        return this;
-    }
-
-    public void setCompanyTypeId(Long companyTypeId) {
-        this.companyTypeId = companyTypeId;
     }
 
     public String getImageUrl() {
@@ -292,6 +283,25 @@ public class Company implements Serializable {
         return this;
     }
 
+    public Policy getPolicy() {
+        return this.policy;
+    }
+
+    public void setPolicy(Policy policy) {
+        if (this.policy != null) {
+            this.policy.setCompany(null);
+        }
+        if (policy != null) {
+            policy.setCompany(this);
+        }
+        this.policy = policy;
+    }
+
+    public Company policy(Policy policy) {
+        this.setPolicy(policy);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -321,7 +331,6 @@ public class Company implements Serializable {
             ", branch='" + getBranch() + "'" +
             ", brnachCode='" + getBrnachCode() + "'" +
             ", email='" + getEmail() + "'" +
-            ", companyTypeId=" + getCompanyTypeId() +
             ", imageUrl='" + getImageUrl() + "'" +
             ", contactNo='" + getContactNo() + "'" +
             ", lastModified='" + getLastModified() + "'" +

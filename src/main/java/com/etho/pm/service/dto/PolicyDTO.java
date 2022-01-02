@@ -1,6 +1,9 @@
 package com.etho.pm.service.dto;
 
 import com.etho.pm.domain.enumeration.PolicyStatus;
+import com.etho.pm.domain.enumeration.PolicyType;
+import com.etho.pm.domain.enumeration.PremiumMode;
+import com.etho.pm.domain.enumeration.Zone;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
@@ -15,21 +18,84 @@ public class PolicyDTO implements Serializable {
 
     private Long policyAmount;
 
-    private Long instalmentAmount;
+    private String policyNumber;
 
     private Long term;
 
-    private Long instalmentPeriod;
+    private Long ppt;
 
-    private Long instalmentDate;
+    @NotNull
+    private Instant commDate;
+
+    private String proposerName;
+
+    private Long sumAssuredAmount;
+
+    private PremiumMode premiumMode;
+
+    private Long basicPremium;
+
+    private Long extraPremium;
+
+    private String gst;
 
     private PolicyStatus status;
 
-    @NotNull
-    private Instant dateStart;
+    private String totalPremiun;
 
-    @NotNull
-    private Instant dateEnd;
+    private String gstFirstYear;
+
+    private String netPremium;
+
+    private String taxBeneficiary;
+
+    private Boolean policyReceived;
+
+    private Long previousPolicy;
+
+    private Instant policyStartDate;
+
+    private Instant policyEndDate;
+
+    private String period;
+
+    private Boolean claimDone;
+
+    private Boolean freeHeathCheckup;
+
+    private Zone zone;
+
+    private Long noOfYear;
+
+    private String floaterSum;
+
+    private String tpa;
+
+    private Instant paymentDate;
+
+    private PolicyType policyType;
+
+    private String paToOwner;
+
+    private String paToOther;
+
+    private Long loading;
+
+    private Instant riskCoveredFrom;
+
+    private Instant riskCoveredTo;
+
+    private String notes;
+
+    private String freeField1;
+
+    private String freeField2;
+
+    private String freeField3;
+
+    private String freeField4;
+
+    private String freeField5;
 
     @NotNull
     private Instant maturityDate;
@@ -41,6 +107,18 @@ public class PolicyDTO implements Serializable {
 
     @NotNull
     private String lastModifiedBy;
+
+    private AgencyDTO agency;
+
+    private CompanyDTO company;
+
+    private ProductDTO product;
+
+    private PremiunDetailsDTO premiunDetails;
+
+    private VehicleClassDTO vehicleClass;
+
+    private BankDetailsDTO bankDetails;
 
     private UsersDTO users;
 
@@ -60,12 +138,12 @@ public class PolicyDTO implements Serializable {
         this.policyAmount = policyAmount;
     }
 
-    public Long getInstalmentAmount() {
-        return instalmentAmount;
+    public String getPolicyNumber() {
+        return policyNumber;
     }
 
-    public void setInstalmentAmount(Long instalmentAmount) {
-        this.instalmentAmount = instalmentAmount;
+    public void setPolicyNumber(String policyNumber) {
+        this.policyNumber = policyNumber;
     }
 
     public Long getTerm() {
@@ -76,20 +154,68 @@ public class PolicyDTO implements Serializable {
         this.term = term;
     }
 
-    public Long getInstalmentPeriod() {
-        return instalmentPeriod;
+    public Long getPpt() {
+        return ppt;
     }
 
-    public void setInstalmentPeriod(Long instalmentPeriod) {
-        this.instalmentPeriod = instalmentPeriod;
+    public void setPpt(Long ppt) {
+        this.ppt = ppt;
     }
 
-    public Long getInstalmentDate() {
-        return instalmentDate;
+    public Instant getCommDate() {
+        return commDate;
     }
 
-    public void setInstalmentDate(Long instalmentDate) {
-        this.instalmentDate = instalmentDate;
+    public void setCommDate(Instant commDate) {
+        this.commDate = commDate;
+    }
+
+    public String getProposerName() {
+        return proposerName;
+    }
+
+    public void setProposerName(String proposerName) {
+        this.proposerName = proposerName;
+    }
+
+    public Long getSumAssuredAmount() {
+        return sumAssuredAmount;
+    }
+
+    public void setSumAssuredAmount(Long sumAssuredAmount) {
+        this.sumAssuredAmount = sumAssuredAmount;
+    }
+
+    public PremiumMode getPremiumMode() {
+        return premiumMode;
+    }
+
+    public void setPremiumMode(PremiumMode premiumMode) {
+        this.premiumMode = premiumMode;
+    }
+
+    public Long getBasicPremium() {
+        return basicPremium;
+    }
+
+    public void setBasicPremium(Long basicPremium) {
+        this.basicPremium = basicPremium;
+    }
+
+    public Long getExtraPremium() {
+        return extraPremium;
+    }
+
+    public void setExtraPremium(Long extraPremium) {
+        this.extraPremium = extraPremium;
+    }
+
+    public String getGst() {
+        return gst;
+    }
+
+    public void setGst(String gst) {
+        this.gst = gst;
     }
 
     public PolicyStatus getStatus() {
@@ -100,20 +226,228 @@ public class PolicyDTO implements Serializable {
         this.status = status;
     }
 
-    public Instant getDateStart() {
-        return dateStart;
+    public String getTotalPremiun() {
+        return totalPremiun;
     }
 
-    public void setDateStart(Instant dateStart) {
-        this.dateStart = dateStart;
+    public void setTotalPremiun(String totalPremiun) {
+        this.totalPremiun = totalPremiun;
     }
 
-    public Instant getDateEnd() {
-        return dateEnd;
+    public String getGstFirstYear() {
+        return gstFirstYear;
     }
 
-    public void setDateEnd(Instant dateEnd) {
-        this.dateEnd = dateEnd;
+    public void setGstFirstYear(String gstFirstYear) {
+        this.gstFirstYear = gstFirstYear;
+    }
+
+    public String getNetPremium() {
+        return netPremium;
+    }
+
+    public void setNetPremium(String netPremium) {
+        this.netPremium = netPremium;
+    }
+
+    public String getTaxBeneficiary() {
+        return taxBeneficiary;
+    }
+
+    public void setTaxBeneficiary(String taxBeneficiary) {
+        this.taxBeneficiary = taxBeneficiary;
+    }
+
+    public Boolean getPolicyReceived() {
+        return policyReceived;
+    }
+
+    public void setPolicyReceived(Boolean policyReceived) {
+        this.policyReceived = policyReceived;
+    }
+
+    public Long getPreviousPolicy() {
+        return previousPolicy;
+    }
+
+    public void setPreviousPolicy(Long previousPolicy) {
+        this.previousPolicy = previousPolicy;
+    }
+
+    public Instant getPolicyStartDate() {
+        return policyStartDate;
+    }
+
+    public void setPolicyStartDate(Instant policyStartDate) {
+        this.policyStartDate = policyStartDate;
+    }
+
+    public Instant getPolicyEndDate() {
+        return policyEndDate;
+    }
+
+    public void setPolicyEndDate(Instant policyEndDate) {
+        this.policyEndDate = policyEndDate;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public Boolean getClaimDone() {
+        return claimDone;
+    }
+
+    public void setClaimDone(Boolean claimDone) {
+        this.claimDone = claimDone;
+    }
+
+    public Boolean getFreeHeathCheckup() {
+        return freeHeathCheckup;
+    }
+
+    public void setFreeHeathCheckup(Boolean freeHeathCheckup) {
+        this.freeHeathCheckup = freeHeathCheckup;
+    }
+
+    public Zone getZone() {
+        return zone;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    public Long getNoOfYear() {
+        return noOfYear;
+    }
+
+    public void setNoOfYear(Long noOfYear) {
+        this.noOfYear = noOfYear;
+    }
+
+    public String getFloaterSum() {
+        return floaterSum;
+    }
+
+    public void setFloaterSum(String floaterSum) {
+        this.floaterSum = floaterSum;
+    }
+
+    public String getTpa() {
+        return tpa;
+    }
+
+    public void setTpa(String tpa) {
+        this.tpa = tpa;
+    }
+
+    public Instant getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(Instant paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public PolicyType getPolicyType() {
+        return policyType;
+    }
+
+    public void setPolicyType(PolicyType policyType) {
+        this.policyType = policyType;
+    }
+
+    public String getPaToOwner() {
+        return paToOwner;
+    }
+
+    public void setPaToOwner(String paToOwner) {
+        this.paToOwner = paToOwner;
+    }
+
+    public String getPaToOther() {
+        return paToOther;
+    }
+
+    public void setPaToOther(String paToOther) {
+        this.paToOther = paToOther;
+    }
+
+    public Long getLoading() {
+        return loading;
+    }
+
+    public void setLoading(Long loading) {
+        this.loading = loading;
+    }
+
+    public Instant getRiskCoveredFrom() {
+        return riskCoveredFrom;
+    }
+
+    public void setRiskCoveredFrom(Instant riskCoveredFrom) {
+        this.riskCoveredFrom = riskCoveredFrom;
+    }
+
+    public Instant getRiskCoveredTo() {
+        return riskCoveredTo;
+    }
+
+    public void setRiskCoveredTo(Instant riskCoveredTo) {
+        this.riskCoveredTo = riskCoveredTo;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getFreeField1() {
+        return freeField1;
+    }
+
+    public void setFreeField1(String freeField1) {
+        this.freeField1 = freeField1;
+    }
+
+    public String getFreeField2() {
+        return freeField2;
+    }
+
+    public void setFreeField2(String freeField2) {
+        this.freeField2 = freeField2;
+    }
+
+    public String getFreeField3() {
+        return freeField3;
+    }
+
+    public void setFreeField3(String freeField3) {
+        this.freeField3 = freeField3;
+    }
+
+    public String getFreeField4() {
+        return freeField4;
+    }
+
+    public void setFreeField4(String freeField4) {
+        this.freeField4 = freeField4;
+    }
+
+    public String getFreeField5() {
+        return freeField5;
+    }
+
+    public void setFreeField5(String freeField5) {
+        this.freeField5 = freeField5;
     }
 
     public Instant getMaturityDate() {
@@ -146,6 +480,54 @@ public class PolicyDTO implements Serializable {
 
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public AgencyDTO getAgency() {
+        return agency;
+    }
+
+    public void setAgency(AgencyDTO agency) {
+        this.agency = agency;
+    }
+
+    public CompanyDTO getCompany() {
+        return company;
+    }
+
+    public void setCompany(CompanyDTO company) {
+        this.company = company;
+    }
+
+    public ProductDTO getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductDTO product) {
+        this.product = product;
+    }
+
+    public PremiunDetailsDTO getPremiunDetails() {
+        return premiunDetails;
+    }
+
+    public void setPremiunDetails(PremiunDetailsDTO premiunDetails) {
+        this.premiunDetails = premiunDetails;
+    }
+
+    public VehicleClassDTO getVehicleClass() {
+        return vehicleClass;
+    }
+
+    public void setVehicleClass(VehicleClassDTO vehicleClass) {
+        this.vehicleClass = vehicleClass;
+    }
+
+    public BankDetailsDTO getBankDetails() {
+        return bankDetails;
+    }
+
+    public void setBankDetails(BankDetailsDTO bankDetails) {
+        this.bankDetails = bankDetails;
     }
 
     public UsersDTO getUsers() {
@@ -183,17 +565,55 @@ public class PolicyDTO implements Serializable {
         return "PolicyDTO{" +
             "id=" + getId() +
             ", policyAmount=" + getPolicyAmount() +
-            ", instalmentAmount=" + getInstalmentAmount() +
+            ", policyNumber='" + getPolicyNumber() + "'" +
             ", term=" + getTerm() +
-            ", instalmentPeriod=" + getInstalmentPeriod() +
-            ", instalmentDate=" + getInstalmentDate() +
+            ", ppt=" + getPpt() +
+            ", commDate='" + getCommDate() + "'" +
+            ", proposerName='" + getProposerName() + "'" +
+            ", sumAssuredAmount=" + getSumAssuredAmount() +
+            ", premiumMode='" + getPremiumMode() + "'" +
+            ", basicPremium=" + getBasicPremium() +
+            ", extraPremium=" + getExtraPremium() +
+            ", gst='" + getGst() + "'" +
             ", status='" + getStatus() + "'" +
-            ", dateStart='" + getDateStart() + "'" +
-            ", dateEnd='" + getDateEnd() + "'" +
+            ", totalPremiun='" + getTotalPremiun() + "'" +
+            ", gstFirstYear='" + getGstFirstYear() + "'" +
+            ", netPremium='" + getNetPremium() + "'" +
+            ", taxBeneficiary='" + getTaxBeneficiary() + "'" +
+            ", policyReceived='" + getPolicyReceived() + "'" +
+            ", previousPolicy=" + getPreviousPolicy() +
+            ", policyStartDate='" + getPolicyStartDate() + "'" +
+            ", policyEndDate='" + getPolicyEndDate() + "'" +
+            ", period='" + getPeriod() + "'" +
+            ", claimDone='" + getClaimDone() + "'" +
+            ", freeHeathCheckup='" + getFreeHeathCheckup() + "'" +
+            ", zone='" + getZone() + "'" +
+            ", noOfYear=" + getNoOfYear() +
+            ", floaterSum='" + getFloaterSum() + "'" +
+            ", tpa='" + getTpa() + "'" +
+            ", paymentDate='" + getPaymentDate() + "'" +
+            ", policyType='" + getPolicyType() + "'" +
+            ", paToOwner='" + getPaToOwner() + "'" +
+            ", paToOther='" + getPaToOther() + "'" +
+            ", loading=" + getLoading() +
+            ", riskCoveredFrom='" + getRiskCoveredFrom() + "'" +
+            ", riskCoveredTo='" + getRiskCoveredTo() + "'" +
+            ", notes='" + getNotes() + "'" +
+            ", freeField1='" + getFreeField1() + "'" +
+            ", freeField2='" + getFreeField2() + "'" +
+            ", freeField3='" + getFreeField3() + "'" +
+            ", freeField4='" + getFreeField4() + "'" +
+            ", freeField5='" + getFreeField5() + "'" +
             ", maturityDate='" + getMaturityDate() + "'" +
             ", uinNo='" + getUinNo() + "'" +
             ", lastModified='" + getLastModified() + "'" +
             ", lastModifiedBy='" + getLastModifiedBy() + "'" +
+            ", agency=" + getAgency() +
+            ", company=" + getCompany() +
+            ", product=" + getProduct() +
+            ", premiunDetails=" + getPremiunDetails() +
+            ", vehicleClass=" + getVehicleClass() +
+            ", bankDetails=" + getBankDetails() +
             ", users=" + getUsers() +
             "}";
     }
