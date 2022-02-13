@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { INominee, Nominee } from '../nominee.model';
 
 import { NomineeService } from './nominee.service';
@@ -38,7 +38,7 @@ describe('Nominee Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -54,7 +54,7 @@ describe('Nominee Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -81,7 +81,7 @@ describe('Nominee Service', () => {
           relation: 'BBBBBB',
           nomineePercentage: 1,
           contactNo: 1,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
@@ -134,7 +134,7 @@ describe('Nominee Service', () => {
           relation: 'BBBBBB',
           nomineePercentage: 1,
           contactNo: 1,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault

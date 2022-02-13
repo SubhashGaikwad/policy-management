@@ -13,8 +13,8 @@ import com.etho.pm.repository.AddressRepository;
 import com.etho.pm.service.criteria.AddressCriteria;
 import com.etho.pm.service.dto.AddressDTO;
 import com.etho.pm.service.mapper.AddressMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -55,8 +55,9 @@ class AddressResourceIT {
     private static final Long UPDATED_PINCODE = 2L;
     private static final Long SMALLER_PINCODE = 1L - 1L;
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -809,6 +810,58 @@ class AddressResourceIT {
 
         // Get all the addressList where lastModified is null
         defaultAddressShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllAddressesByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultAddressShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the addressList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultAddressShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllAddressesByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultAddressShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the addressList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultAddressShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllAddressesByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultAddressShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the addressList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultAddressShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllAddressesByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultAddressShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the addressList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultAddressShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test

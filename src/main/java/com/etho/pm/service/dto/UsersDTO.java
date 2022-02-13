@@ -2,7 +2,7 @@ package com.etho.pm.service.dto;
 
 import com.etho.pm.domain.enumeration.StatusInd;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -13,12 +13,19 @@ public class UsersDTO implements Serializable {
 
     private Long id;
 
+    private String groupCode;
+
+    private String groupHeadName;
+
     private String firstName;
 
     private String lastName;
 
     @NotNull
-    private Instant birthDate;
+    private LocalDate birthDate;
+
+    @NotNull
+    private LocalDate marriageDate;
 
     private Long userTypeId;
 
@@ -37,14 +44,20 @@ public class UsersDTO implements Serializable {
     @NotNull
     private Boolean activated;
 
+    private LocalDate licenceExpiryDate;
+
     private String mobileNo;
+
+    private String aadharCardNuber;
+
+    private String pancardNumber;
 
     private String oneTimePassword;
 
-    private Instant otpExpiryTime;
+    private LocalDate otpExpiryTime;
 
     @NotNull
-    private Instant lastModified;
+    private LocalDate lastModified;
 
     @NotNull
     private String lastModifiedBy;
@@ -57,6 +70,22 @@ public class UsersDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    public String getGroupHeadName() {
+        return groupHeadName;
+    }
+
+    public void setGroupHeadName(String groupHeadName) {
+        this.groupHeadName = groupHeadName;
     }
 
     public String getFirstName() {
@@ -75,12 +104,20 @@ public class UsersDTO implements Serializable {
         this.lastName = lastName;
     }
 
-    public Instant getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Instant birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public LocalDate getMarriageDate() {
+        return marriageDate;
+    }
+
+    public void setMarriageDate(LocalDate marriageDate) {
+        this.marriageDate = marriageDate;
     }
 
     public Long getUserTypeId() {
@@ -139,12 +176,36 @@ public class UsersDTO implements Serializable {
         this.activated = activated;
     }
 
+    public LocalDate getLicenceExpiryDate() {
+        return licenceExpiryDate;
+    }
+
+    public void setLicenceExpiryDate(LocalDate licenceExpiryDate) {
+        this.licenceExpiryDate = licenceExpiryDate;
+    }
+
     public String getMobileNo() {
         return mobileNo;
     }
 
     public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
+    }
+
+    public String getAadharCardNuber() {
+        return aadharCardNuber;
+    }
+
+    public void setAadharCardNuber(String aadharCardNuber) {
+        this.aadharCardNuber = aadharCardNuber;
+    }
+
+    public String getPancardNumber() {
+        return pancardNumber;
+    }
+
+    public void setPancardNumber(String pancardNumber) {
+        this.pancardNumber = pancardNumber;
     }
 
     public String getOneTimePassword() {
@@ -155,19 +216,19 @@ public class UsersDTO implements Serializable {
         this.oneTimePassword = oneTimePassword;
     }
 
-    public Instant getOtpExpiryTime() {
+    public LocalDate getOtpExpiryTime() {
         return otpExpiryTime;
     }
 
-    public void setOtpExpiryTime(Instant otpExpiryTime) {
+    public void setOtpExpiryTime(LocalDate otpExpiryTime) {
         this.otpExpiryTime = otpExpiryTime;
     }
 
-    public Instant getLastModified() {
+    public LocalDate getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(LocalDate lastModified) {
         this.lastModified = lastModified;
     }
 
@@ -213,9 +274,12 @@ public class UsersDTO implements Serializable {
     public String toString() {
         return "UsersDTO{" +
             "id=" + getId() +
+            ", groupCode='" + getGroupCode() + "'" +
+            ", groupHeadName='" + getGroupHeadName() + "'" +
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
             ", birthDate='" + getBirthDate() + "'" +
+            ", marriageDate='" + getMarriageDate() + "'" +
             ", userTypeId=" + getUserTypeId() +
             ", username='" + getUsername() + "'" +
             ", password='" + getPassword() + "'" +
@@ -223,7 +287,10 @@ public class UsersDTO implements Serializable {
             ", imageUrl='" + getImageUrl() + "'" +
             ", status='" + getStatus() + "'" +
             ", activated='" + getActivated() + "'" +
+            ", licenceExpiryDate='" + getLicenceExpiryDate() + "'" +
             ", mobileNo='" + getMobileNo() + "'" +
+            ", aadharCardNuber='" + getAadharCardNuber() + "'" +
+            ", pancardNumber='" + getPancardNumber() + "'" +
             ", oneTimePassword='" + getOneTimePassword() + "'" +
             ", otpExpiryTime='" + getOtpExpiryTime() + "'" +
             ", lastModified='" + getLastModified() + "'" +

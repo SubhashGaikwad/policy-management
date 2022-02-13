@@ -15,8 +15,8 @@ import com.etho.pm.repository.UsersRepository;
 import com.etho.pm.service.criteria.UsersCriteria;
 import com.etho.pm.service.dto.UsersDTO;
 import com.etho.pm.service.mapper.UsersMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,14 +38,25 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class UsersResourceIT {
 
+    private static final String DEFAULT_GROUP_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_GROUP_CODE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_GROUP_HEAD_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_GROUP_HEAD_NAME = "BBBBBBBBBB";
+
     private static final String DEFAULT_FIRST_NAME = "AAAAAAAAAA";
     private static final String UPDATED_FIRST_NAME = "BBBBBBBBBB";
 
     private static final String DEFAULT_LAST_NAME = "AAAAAAAAAA";
     private static final String UPDATED_LAST_NAME = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_BIRTH_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_BIRTH_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_BIRTH_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_BIRTH_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_BIRTH_DATE = LocalDate.ofEpochDay(-1L);
+
+    private static final LocalDate DEFAULT_MARRIAGE_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_MARRIAGE_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_MARRIAGE_DATE = LocalDate.ofEpochDay(-1L);
 
     private static final Long DEFAULT_USER_TYPE_ID = 1L;
     private static final Long UPDATED_USER_TYPE_ID = 2L;
@@ -69,17 +80,29 @@ class UsersResourceIT {
     private static final Boolean DEFAULT_ACTIVATED = false;
     private static final Boolean UPDATED_ACTIVATED = true;
 
+    private static final LocalDate DEFAULT_LICENCE_EXPIRY_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LICENCE_EXPIRY_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LICENCE_EXPIRY_DATE = LocalDate.ofEpochDay(-1L);
+
     private static final String DEFAULT_MOBILE_NO = "AAAAAAAAAA";
     private static final String UPDATED_MOBILE_NO = "BBBBBBBBBB";
+
+    private static final String DEFAULT_AADHAR_CARD_NUBER = "AAAAAAAAAA";
+    private static final String UPDATED_AADHAR_CARD_NUBER = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PANCARD_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_PANCARD_NUMBER = "BBBBBBBBBB";
 
     private static final String DEFAULT_ONE_TIME_PASSWORD = "AAAAAAAAAA";
     private static final String UPDATED_ONE_TIME_PASSWORD = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_OTP_EXPIRY_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_OTP_EXPIRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_OTP_EXPIRY_TIME = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_OTP_EXPIRY_TIME = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_OTP_EXPIRY_TIME = LocalDate.ofEpochDay(-1L);
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -112,9 +135,12 @@ class UsersResourceIT {
      */
     public static Users createEntity(EntityManager em) {
         Users users = new Users()
+            .groupCode(DEFAULT_GROUP_CODE)
+            .groupHeadName(DEFAULT_GROUP_HEAD_NAME)
             .firstName(DEFAULT_FIRST_NAME)
             .lastName(DEFAULT_LAST_NAME)
             .birthDate(DEFAULT_BIRTH_DATE)
+            .marriageDate(DEFAULT_MARRIAGE_DATE)
             .userTypeId(DEFAULT_USER_TYPE_ID)
             .username(DEFAULT_USERNAME)
             .password(DEFAULT_PASSWORD)
@@ -122,7 +148,10 @@ class UsersResourceIT {
             .imageUrl(DEFAULT_IMAGE_URL)
             .status(DEFAULT_STATUS)
             .activated(DEFAULT_ACTIVATED)
+            .licenceExpiryDate(DEFAULT_LICENCE_EXPIRY_DATE)
             .mobileNo(DEFAULT_MOBILE_NO)
+            .aadharCardNuber(DEFAULT_AADHAR_CARD_NUBER)
+            .pancardNumber(DEFAULT_PANCARD_NUMBER)
             .oneTimePassword(DEFAULT_ONE_TIME_PASSWORD)
             .otpExpiryTime(DEFAULT_OTP_EXPIRY_TIME)
             .lastModified(DEFAULT_LAST_MODIFIED)
@@ -138,9 +167,12 @@ class UsersResourceIT {
      */
     public static Users createUpdatedEntity(EntityManager em) {
         Users users = new Users()
+            .groupCode(UPDATED_GROUP_CODE)
+            .groupHeadName(UPDATED_GROUP_HEAD_NAME)
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .birthDate(UPDATED_BIRTH_DATE)
+            .marriageDate(UPDATED_MARRIAGE_DATE)
             .userTypeId(UPDATED_USER_TYPE_ID)
             .username(UPDATED_USERNAME)
             .password(UPDATED_PASSWORD)
@@ -148,7 +180,10 @@ class UsersResourceIT {
             .imageUrl(UPDATED_IMAGE_URL)
             .status(UPDATED_STATUS)
             .activated(UPDATED_ACTIVATED)
+            .licenceExpiryDate(UPDATED_LICENCE_EXPIRY_DATE)
             .mobileNo(UPDATED_MOBILE_NO)
+            .aadharCardNuber(UPDATED_AADHAR_CARD_NUBER)
+            .pancardNumber(UPDATED_PANCARD_NUMBER)
             .oneTimePassword(UPDATED_ONE_TIME_PASSWORD)
             .otpExpiryTime(UPDATED_OTP_EXPIRY_TIME)
             .lastModified(UPDATED_LAST_MODIFIED)
@@ -175,9 +210,12 @@ class UsersResourceIT {
         List<Users> usersList = usersRepository.findAll();
         assertThat(usersList).hasSize(databaseSizeBeforeCreate + 1);
         Users testUsers = usersList.get(usersList.size() - 1);
+        assertThat(testUsers.getGroupCode()).isEqualTo(DEFAULT_GROUP_CODE);
+        assertThat(testUsers.getGroupHeadName()).isEqualTo(DEFAULT_GROUP_HEAD_NAME);
         assertThat(testUsers.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
         assertThat(testUsers.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testUsers.getBirthDate()).isEqualTo(DEFAULT_BIRTH_DATE);
+        assertThat(testUsers.getMarriageDate()).isEqualTo(DEFAULT_MARRIAGE_DATE);
         assertThat(testUsers.getUserTypeId()).isEqualTo(DEFAULT_USER_TYPE_ID);
         assertThat(testUsers.getUsername()).isEqualTo(DEFAULT_USERNAME);
         assertThat(testUsers.getPassword()).isEqualTo(DEFAULT_PASSWORD);
@@ -185,7 +223,10 @@ class UsersResourceIT {
         assertThat(testUsers.getImageUrl()).isEqualTo(DEFAULT_IMAGE_URL);
         assertThat(testUsers.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testUsers.getActivated()).isEqualTo(DEFAULT_ACTIVATED);
+        assertThat(testUsers.getLicenceExpiryDate()).isEqualTo(DEFAULT_LICENCE_EXPIRY_DATE);
         assertThat(testUsers.getMobileNo()).isEqualTo(DEFAULT_MOBILE_NO);
+        assertThat(testUsers.getAadharCardNuber()).isEqualTo(DEFAULT_AADHAR_CARD_NUBER);
+        assertThat(testUsers.getPancardNumber()).isEqualTo(DEFAULT_PANCARD_NUMBER);
         assertThat(testUsers.getOneTimePassword()).isEqualTo(DEFAULT_ONE_TIME_PASSWORD);
         assertThat(testUsers.getOtpExpiryTime()).isEqualTo(DEFAULT_OTP_EXPIRY_TIME);
         assertThat(testUsers.getLastModified()).isEqualTo(DEFAULT_LAST_MODIFIED);
@@ -217,6 +258,24 @@ class UsersResourceIT {
         int databaseSizeBeforeTest = usersRepository.findAll().size();
         // set the field null
         users.setBirthDate(null);
+
+        // Create the Users, which fails.
+        UsersDTO usersDTO = usersMapper.toDto(users);
+
+        restUsersMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(usersDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Users> usersList = usersRepository.findAll();
+        assertThat(usersList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkMarriageDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = usersRepository.findAll().size();
+        // set the field null
+        users.setMarriageDate(null);
 
         // Create the Users, which fails.
         UsersDTO usersDTO = usersMapper.toDto(users);
@@ -331,9 +390,12 @@ class UsersResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(users.getId().intValue())))
+            .andExpect(jsonPath("$.[*].groupCode").value(hasItem(DEFAULT_GROUP_CODE)))
+            .andExpect(jsonPath("$.[*].groupHeadName").value(hasItem(DEFAULT_GROUP_HEAD_NAME)))
             .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
             .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
             .andExpect(jsonPath("$.[*].birthDate").value(hasItem(DEFAULT_BIRTH_DATE.toString())))
+            .andExpect(jsonPath("$.[*].marriageDate").value(hasItem(DEFAULT_MARRIAGE_DATE.toString())))
             .andExpect(jsonPath("$.[*].userTypeId").value(hasItem(DEFAULT_USER_TYPE_ID.intValue())))
             .andExpect(jsonPath("$.[*].username").value(hasItem(DEFAULT_USERNAME)))
             .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD)))
@@ -341,7 +403,10 @@ class UsersResourceIT {
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].activated").value(hasItem(DEFAULT_ACTIVATED.booleanValue())))
+            .andExpect(jsonPath("$.[*].licenceExpiryDate").value(hasItem(DEFAULT_LICENCE_EXPIRY_DATE.toString())))
             .andExpect(jsonPath("$.[*].mobileNo").value(hasItem(DEFAULT_MOBILE_NO)))
+            .andExpect(jsonPath("$.[*].aadharCardNuber").value(hasItem(DEFAULT_AADHAR_CARD_NUBER)))
+            .andExpect(jsonPath("$.[*].pancardNumber").value(hasItem(DEFAULT_PANCARD_NUMBER)))
             .andExpect(jsonPath("$.[*].oneTimePassword").value(hasItem(DEFAULT_ONE_TIME_PASSWORD)))
             .andExpect(jsonPath("$.[*].otpExpiryTime").value(hasItem(DEFAULT_OTP_EXPIRY_TIME.toString())))
             .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
@@ -360,9 +425,12 @@ class UsersResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(users.getId().intValue()))
+            .andExpect(jsonPath("$.groupCode").value(DEFAULT_GROUP_CODE))
+            .andExpect(jsonPath("$.groupHeadName").value(DEFAULT_GROUP_HEAD_NAME))
             .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME))
             .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))
             .andExpect(jsonPath("$.birthDate").value(DEFAULT_BIRTH_DATE.toString()))
+            .andExpect(jsonPath("$.marriageDate").value(DEFAULT_MARRIAGE_DATE.toString()))
             .andExpect(jsonPath("$.userTypeId").value(DEFAULT_USER_TYPE_ID.intValue()))
             .andExpect(jsonPath("$.username").value(DEFAULT_USERNAME))
             .andExpect(jsonPath("$.password").value(DEFAULT_PASSWORD))
@@ -370,7 +438,10 @@ class UsersResourceIT {
             .andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGE_URL))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.activated").value(DEFAULT_ACTIVATED.booleanValue()))
+            .andExpect(jsonPath("$.licenceExpiryDate").value(DEFAULT_LICENCE_EXPIRY_DATE.toString()))
             .andExpect(jsonPath("$.mobileNo").value(DEFAULT_MOBILE_NO))
+            .andExpect(jsonPath("$.aadharCardNuber").value(DEFAULT_AADHAR_CARD_NUBER))
+            .andExpect(jsonPath("$.pancardNumber").value(DEFAULT_PANCARD_NUMBER))
             .andExpect(jsonPath("$.oneTimePassword").value(DEFAULT_ONE_TIME_PASSWORD))
             .andExpect(jsonPath("$.otpExpiryTime").value(DEFAULT_OTP_EXPIRY_TIME.toString()))
             .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
@@ -393,6 +464,162 @@ class UsersResourceIT {
 
         defaultUsersShouldBeFound("id.lessThanOrEqual=" + id);
         defaultUsersShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupCode equals to DEFAULT_GROUP_CODE
+        defaultUsersShouldBeFound("groupCode.equals=" + DEFAULT_GROUP_CODE);
+
+        // Get all the usersList where groupCode equals to UPDATED_GROUP_CODE
+        defaultUsersShouldNotBeFound("groupCode.equals=" + UPDATED_GROUP_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupCodeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupCode not equals to DEFAULT_GROUP_CODE
+        defaultUsersShouldNotBeFound("groupCode.notEquals=" + DEFAULT_GROUP_CODE);
+
+        // Get all the usersList where groupCode not equals to UPDATED_GROUP_CODE
+        defaultUsersShouldBeFound("groupCode.notEquals=" + UPDATED_GROUP_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupCode in DEFAULT_GROUP_CODE or UPDATED_GROUP_CODE
+        defaultUsersShouldBeFound("groupCode.in=" + DEFAULT_GROUP_CODE + "," + UPDATED_GROUP_CODE);
+
+        // Get all the usersList where groupCode equals to UPDATED_GROUP_CODE
+        defaultUsersShouldNotBeFound("groupCode.in=" + UPDATED_GROUP_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupCode is not null
+        defaultUsersShouldBeFound("groupCode.specified=true");
+
+        // Get all the usersList where groupCode is null
+        defaultUsersShouldNotBeFound("groupCode.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupCodeContainsSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupCode contains DEFAULT_GROUP_CODE
+        defaultUsersShouldBeFound("groupCode.contains=" + DEFAULT_GROUP_CODE);
+
+        // Get all the usersList where groupCode contains UPDATED_GROUP_CODE
+        defaultUsersShouldNotBeFound("groupCode.contains=" + UPDATED_GROUP_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupCodeNotContainsSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupCode does not contain DEFAULT_GROUP_CODE
+        defaultUsersShouldNotBeFound("groupCode.doesNotContain=" + DEFAULT_GROUP_CODE);
+
+        // Get all the usersList where groupCode does not contain UPDATED_GROUP_CODE
+        defaultUsersShouldBeFound("groupCode.doesNotContain=" + UPDATED_GROUP_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupHeadNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupHeadName equals to DEFAULT_GROUP_HEAD_NAME
+        defaultUsersShouldBeFound("groupHeadName.equals=" + DEFAULT_GROUP_HEAD_NAME);
+
+        // Get all the usersList where groupHeadName equals to UPDATED_GROUP_HEAD_NAME
+        defaultUsersShouldNotBeFound("groupHeadName.equals=" + UPDATED_GROUP_HEAD_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupHeadNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupHeadName not equals to DEFAULT_GROUP_HEAD_NAME
+        defaultUsersShouldNotBeFound("groupHeadName.notEquals=" + DEFAULT_GROUP_HEAD_NAME);
+
+        // Get all the usersList where groupHeadName not equals to UPDATED_GROUP_HEAD_NAME
+        defaultUsersShouldBeFound("groupHeadName.notEquals=" + UPDATED_GROUP_HEAD_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupHeadNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupHeadName in DEFAULT_GROUP_HEAD_NAME or UPDATED_GROUP_HEAD_NAME
+        defaultUsersShouldBeFound("groupHeadName.in=" + DEFAULT_GROUP_HEAD_NAME + "," + UPDATED_GROUP_HEAD_NAME);
+
+        // Get all the usersList where groupHeadName equals to UPDATED_GROUP_HEAD_NAME
+        defaultUsersShouldNotBeFound("groupHeadName.in=" + UPDATED_GROUP_HEAD_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupHeadNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupHeadName is not null
+        defaultUsersShouldBeFound("groupHeadName.specified=true");
+
+        // Get all the usersList where groupHeadName is null
+        defaultUsersShouldNotBeFound("groupHeadName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupHeadNameContainsSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupHeadName contains DEFAULT_GROUP_HEAD_NAME
+        defaultUsersShouldBeFound("groupHeadName.contains=" + DEFAULT_GROUP_HEAD_NAME);
+
+        // Get all the usersList where groupHeadName contains UPDATED_GROUP_HEAD_NAME
+        defaultUsersShouldNotBeFound("groupHeadName.contains=" + UPDATED_GROUP_HEAD_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByGroupHeadNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where groupHeadName does not contain DEFAULT_GROUP_HEAD_NAME
+        defaultUsersShouldNotBeFound("groupHeadName.doesNotContain=" + DEFAULT_GROUP_HEAD_NAME);
+
+        // Get all the usersList where groupHeadName does not contain UPDATED_GROUP_HEAD_NAME
+        defaultUsersShouldBeFound("groupHeadName.doesNotContain=" + UPDATED_GROUP_HEAD_NAME);
     }
 
     @Test
@@ -601,6 +828,162 @@ class UsersResourceIT {
 
         // Get all the usersList where birthDate is null
         defaultUsersShouldNotBeFound("birthDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByBirthDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where birthDate is greater than or equal to DEFAULT_BIRTH_DATE
+        defaultUsersShouldBeFound("birthDate.greaterThanOrEqual=" + DEFAULT_BIRTH_DATE);
+
+        // Get all the usersList where birthDate is greater than or equal to UPDATED_BIRTH_DATE
+        defaultUsersShouldNotBeFound("birthDate.greaterThanOrEqual=" + UPDATED_BIRTH_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByBirthDateIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where birthDate is less than or equal to DEFAULT_BIRTH_DATE
+        defaultUsersShouldBeFound("birthDate.lessThanOrEqual=" + DEFAULT_BIRTH_DATE);
+
+        // Get all the usersList where birthDate is less than or equal to SMALLER_BIRTH_DATE
+        defaultUsersShouldNotBeFound("birthDate.lessThanOrEqual=" + SMALLER_BIRTH_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByBirthDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where birthDate is less than DEFAULT_BIRTH_DATE
+        defaultUsersShouldNotBeFound("birthDate.lessThan=" + DEFAULT_BIRTH_DATE);
+
+        // Get all the usersList where birthDate is less than UPDATED_BIRTH_DATE
+        defaultUsersShouldBeFound("birthDate.lessThan=" + UPDATED_BIRTH_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByBirthDateIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where birthDate is greater than DEFAULT_BIRTH_DATE
+        defaultUsersShouldNotBeFound("birthDate.greaterThan=" + DEFAULT_BIRTH_DATE);
+
+        // Get all the usersList where birthDate is greater than SMALLER_BIRTH_DATE
+        defaultUsersShouldBeFound("birthDate.greaterThan=" + SMALLER_BIRTH_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByMarriageDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where marriageDate equals to DEFAULT_MARRIAGE_DATE
+        defaultUsersShouldBeFound("marriageDate.equals=" + DEFAULT_MARRIAGE_DATE);
+
+        // Get all the usersList where marriageDate equals to UPDATED_MARRIAGE_DATE
+        defaultUsersShouldNotBeFound("marriageDate.equals=" + UPDATED_MARRIAGE_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByMarriageDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where marriageDate not equals to DEFAULT_MARRIAGE_DATE
+        defaultUsersShouldNotBeFound("marriageDate.notEquals=" + DEFAULT_MARRIAGE_DATE);
+
+        // Get all the usersList where marriageDate not equals to UPDATED_MARRIAGE_DATE
+        defaultUsersShouldBeFound("marriageDate.notEquals=" + UPDATED_MARRIAGE_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByMarriageDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where marriageDate in DEFAULT_MARRIAGE_DATE or UPDATED_MARRIAGE_DATE
+        defaultUsersShouldBeFound("marriageDate.in=" + DEFAULT_MARRIAGE_DATE + "," + UPDATED_MARRIAGE_DATE);
+
+        // Get all the usersList where marriageDate equals to UPDATED_MARRIAGE_DATE
+        defaultUsersShouldNotBeFound("marriageDate.in=" + UPDATED_MARRIAGE_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByMarriageDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where marriageDate is not null
+        defaultUsersShouldBeFound("marriageDate.specified=true");
+
+        // Get all the usersList where marriageDate is null
+        defaultUsersShouldNotBeFound("marriageDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByMarriageDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where marriageDate is greater than or equal to DEFAULT_MARRIAGE_DATE
+        defaultUsersShouldBeFound("marriageDate.greaterThanOrEqual=" + DEFAULT_MARRIAGE_DATE);
+
+        // Get all the usersList where marriageDate is greater than or equal to UPDATED_MARRIAGE_DATE
+        defaultUsersShouldNotBeFound("marriageDate.greaterThanOrEqual=" + UPDATED_MARRIAGE_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByMarriageDateIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where marriageDate is less than or equal to DEFAULT_MARRIAGE_DATE
+        defaultUsersShouldBeFound("marriageDate.lessThanOrEqual=" + DEFAULT_MARRIAGE_DATE);
+
+        // Get all the usersList where marriageDate is less than or equal to SMALLER_MARRIAGE_DATE
+        defaultUsersShouldNotBeFound("marriageDate.lessThanOrEqual=" + SMALLER_MARRIAGE_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByMarriageDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where marriageDate is less than DEFAULT_MARRIAGE_DATE
+        defaultUsersShouldNotBeFound("marriageDate.lessThan=" + DEFAULT_MARRIAGE_DATE);
+
+        // Get all the usersList where marriageDate is less than UPDATED_MARRIAGE_DATE
+        defaultUsersShouldBeFound("marriageDate.lessThan=" + UPDATED_MARRIAGE_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByMarriageDateIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where marriageDate is greater than DEFAULT_MARRIAGE_DATE
+        defaultUsersShouldNotBeFound("marriageDate.greaterThan=" + DEFAULT_MARRIAGE_DATE);
+
+        // Get all the usersList where marriageDate is greater than SMALLER_MARRIAGE_DATE
+        defaultUsersShouldBeFound("marriageDate.greaterThan=" + SMALLER_MARRIAGE_DATE);
     }
 
     @Test
@@ -1125,6 +1508,110 @@ class UsersResourceIT {
 
     @Test
     @Transactional
+    void getAllUsersByLicenceExpiryDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where licenceExpiryDate equals to DEFAULT_LICENCE_EXPIRY_DATE
+        defaultUsersShouldBeFound("licenceExpiryDate.equals=" + DEFAULT_LICENCE_EXPIRY_DATE);
+
+        // Get all the usersList where licenceExpiryDate equals to UPDATED_LICENCE_EXPIRY_DATE
+        defaultUsersShouldNotBeFound("licenceExpiryDate.equals=" + UPDATED_LICENCE_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLicenceExpiryDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where licenceExpiryDate not equals to DEFAULT_LICENCE_EXPIRY_DATE
+        defaultUsersShouldNotBeFound("licenceExpiryDate.notEquals=" + DEFAULT_LICENCE_EXPIRY_DATE);
+
+        // Get all the usersList where licenceExpiryDate not equals to UPDATED_LICENCE_EXPIRY_DATE
+        defaultUsersShouldBeFound("licenceExpiryDate.notEquals=" + UPDATED_LICENCE_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLicenceExpiryDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where licenceExpiryDate in DEFAULT_LICENCE_EXPIRY_DATE or UPDATED_LICENCE_EXPIRY_DATE
+        defaultUsersShouldBeFound("licenceExpiryDate.in=" + DEFAULT_LICENCE_EXPIRY_DATE + "," + UPDATED_LICENCE_EXPIRY_DATE);
+
+        // Get all the usersList where licenceExpiryDate equals to UPDATED_LICENCE_EXPIRY_DATE
+        defaultUsersShouldNotBeFound("licenceExpiryDate.in=" + UPDATED_LICENCE_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLicenceExpiryDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where licenceExpiryDate is not null
+        defaultUsersShouldBeFound("licenceExpiryDate.specified=true");
+
+        // Get all the usersList where licenceExpiryDate is null
+        defaultUsersShouldNotBeFound("licenceExpiryDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLicenceExpiryDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where licenceExpiryDate is greater than or equal to DEFAULT_LICENCE_EXPIRY_DATE
+        defaultUsersShouldBeFound("licenceExpiryDate.greaterThanOrEqual=" + DEFAULT_LICENCE_EXPIRY_DATE);
+
+        // Get all the usersList where licenceExpiryDate is greater than or equal to UPDATED_LICENCE_EXPIRY_DATE
+        defaultUsersShouldNotBeFound("licenceExpiryDate.greaterThanOrEqual=" + UPDATED_LICENCE_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLicenceExpiryDateIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where licenceExpiryDate is less than or equal to DEFAULT_LICENCE_EXPIRY_DATE
+        defaultUsersShouldBeFound("licenceExpiryDate.lessThanOrEqual=" + DEFAULT_LICENCE_EXPIRY_DATE);
+
+        // Get all the usersList where licenceExpiryDate is less than or equal to SMALLER_LICENCE_EXPIRY_DATE
+        defaultUsersShouldNotBeFound("licenceExpiryDate.lessThanOrEqual=" + SMALLER_LICENCE_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLicenceExpiryDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where licenceExpiryDate is less than DEFAULT_LICENCE_EXPIRY_DATE
+        defaultUsersShouldNotBeFound("licenceExpiryDate.lessThan=" + DEFAULT_LICENCE_EXPIRY_DATE);
+
+        // Get all the usersList where licenceExpiryDate is less than UPDATED_LICENCE_EXPIRY_DATE
+        defaultUsersShouldBeFound("licenceExpiryDate.lessThan=" + UPDATED_LICENCE_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLicenceExpiryDateIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where licenceExpiryDate is greater than DEFAULT_LICENCE_EXPIRY_DATE
+        defaultUsersShouldNotBeFound("licenceExpiryDate.greaterThan=" + DEFAULT_LICENCE_EXPIRY_DATE);
+
+        // Get all the usersList where licenceExpiryDate is greater than SMALLER_LICENCE_EXPIRY_DATE
+        defaultUsersShouldBeFound("licenceExpiryDate.greaterThan=" + SMALLER_LICENCE_EXPIRY_DATE);
+    }
+
+    @Test
+    @Transactional
     void getAllUsersByMobileNoIsEqualToSomething() throws Exception {
         // Initialize the database
         usersRepository.saveAndFlush(users);
@@ -1199,6 +1686,162 @@ class UsersResourceIT {
 
         // Get all the usersList where mobileNo does not contain UPDATED_MOBILE_NO
         defaultUsersShouldBeFound("mobileNo.doesNotContain=" + UPDATED_MOBILE_NO);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByAadharCardNuberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where aadharCardNuber equals to DEFAULT_AADHAR_CARD_NUBER
+        defaultUsersShouldBeFound("aadharCardNuber.equals=" + DEFAULT_AADHAR_CARD_NUBER);
+
+        // Get all the usersList where aadharCardNuber equals to UPDATED_AADHAR_CARD_NUBER
+        defaultUsersShouldNotBeFound("aadharCardNuber.equals=" + UPDATED_AADHAR_CARD_NUBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByAadharCardNuberIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where aadharCardNuber not equals to DEFAULT_AADHAR_CARD_NUBER
+        defaultUsersShouldNotBeFound("aadharCardNuber.notEquals=" + DEFAULT_AADHAR_CARD_NUBER);
+
+        // Get all the usersList where aadharCardNuber not equals to UPDATED_AADHAR_CARD_NUBER
+        defaultUsersShouldBeFound("aadharCardNuber.notEquals=" + UPDATED_AADHAR_CARD_NUBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByAadharCardNuberIsInShouldWork() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where aadharCardNuber in DEFAULT_AADHAR_CARD_NUBER or UPDATED_AADHAR_CARD_NUBER
+        defaultUsersShouldBeFound("aadharCardNuber.in=" + DEFAULT_AADHAR_CARD_NUBER + "," + UPDATED_AADHAR_CARD_NUBER);
+
+        // Get all the usersList where aadharCardNuber equals to UPDATED_AADHAR_CARD_NUBER
+        defaultUsersShouldNotBeFound("aadharCardNuber.in=" + UPDATED_AADHAR_CARD_NUBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByAadharCardNuberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where aadharCardNuber is not null
+        defaultUsersShouldBeFound("aadharCardNuber.specified=true");
+
+        // Get all the usersList where aadharCardNuber is null
+        defaultUsersShouldNotBeFound("aadharCardNuber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByAadharCardNuberContainsSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where aadharCardNuber contains DEFAULT_AADHAR_CARD_NUBER
+        defaultUsersShouldBeFound("aadharCardNuber.contains=" + DEFAULT_AADHAR_CARD_NUBER);
+
+        // Get all the usersList where aadharCardNuber contains UPDATED_AADHAR_CARD_NUBER
+        defaultUsersShouldNotBeFound("aadharCardNuber.contains=" + UPDATED_AADHAR_CARD_NUBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByAadharCardNuberNotContainsSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where aadharCardNuber does not contain DEFAULT_AADHAR_CARD_NUBER
+        defaultUsersShouldNotBeFound("aadharCardNuber.doesNotContain=" + DEFAULT_AADHAR_CARD_NUBER);
+
+        // Get all the usersList where aadharCardNuber does not contain UPDATED_AADHAR_CARD_NUBER
+        defaultUsersShouldBeFound("aadharCardNuber.doesNotContain=" + UPDATED_AADHAR_CARD_NUBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByPancardNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where pancardNumber equals to DEFAULT_PANCARD_NUMBER
+        defaultUsersShouldBeFound("pancardNumber.equals=" + DEFAULT_PANCARD_NUMBER);
+
+        // Get all the usersList where pancardNumber equals to UPDATED_PANCARD_NUMBER
+        defaultUsersShouldNotBeFound("pancardNumber.equals=" + UPDATED_PANCARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByPancardNumberIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where pancardNumber not equals to DEFAULT_PANCARD_NUMBER
+        defaultUsersShouldNotBeFound("pancardNumber.notEquals=" + DEFAULT_PANCARD_NUMBER);
+
+        // Get all the usersList where pancardNumber not equals to UPDATED_PANCARD_NUMBER
+        defaultUsersShouldBeFound("pancardNumber.notEquals=" + UPDATED_PANCARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByPancardNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where pancardNumber in DEFAULT_PANCARD_NUMBER or UPDATED_PANCARD_NUMBER
+        defaultUsersShouldBeFound("pancardNumber.in=" + DEFAULT_PANCARD_NUMBER + "," + UPDATED_PANCARD_NUMBER);
+
+        // Get all the usersList where pancardNumber equals to UPDATED_PANCARD_NUMBER
+        defaultUsersShouldNotBeFound("pancardNumber.in=" + UPDATED_PANCARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByPancardNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where pancardNumber is not null
+        defaultUsersShouldBeFound("pancardNumber.specified=true");
+
+        // Get all the usersList where pancardNumber is null
+        defaultUsersShouldNotBeFound("pancardNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByPancardNumberContainsSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where pancardNumber contains DEFAULT_PANCARD_NUMBER
+        defaultUsersShouldBeFound("pancardNumber.contains=" + DEFAULT_PANCARD_NUMBER);
+
+        // Get all the usersList where pancardNumber contains UPDATED_PANCARD_NUMBER
+        defaultUsersShouldNotBeFound("pancardNumber.contains=" + UPDATED_PANCARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByPancardNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where pancardNumber does not contain DEFAULT_PANCARD_NUMBER
+        defaultUsersShouldNotBeFound("pancardNumber.doesNotContain=" + DEFAULT_PANCARD_NUMBER);
+
+        // Get all the usersList where pancardNumber does not contain UPDATED_PANCARD_NUMBER
+        defaultUsersShouldBeFound("pancardNumber.doesNotContain=" + UPDATED_PANCARD_NUMBER);
     }
 
     @Test
@@ -1333,6 +1976,58 @@ class UsersResourceIT {
 
     @Test
     @Transactional
+    void getAllUsersByOtpExpiryTimeIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where otpExpiryTime is greater than or equal to DEFAULT_OTP_EXPIRY_TIME
+        defaultUsersShouldBeFound("otpExpiryTime.greaterThanOrEqual=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the usersList where otpExpiryTime is greater than or equal to UPDATED_OTP_EXPIRY_TIME
+        defaultUsersShouldNotBeFound("otpExpiryTime.greaterThanOrEqual=" + UPDATED_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByOtpExpiryTimeIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where otpExpiryTime is less than or equal to DEFAULT_OTP_EXPIRY_TIME
+        defaultUsersShouldBeFound("otpExpiryTime.lessThanOrEqual=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the usersList where otpExpiryTime is less than or equal to SMALLER_OTP_EXPIRY_TIME
+        defaultUsersShouldNotBeFound("otpExpiryTime.lessThanOrEqual=" + SMALLER_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByOtpExpiryTimeIsLessThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where otpExpiryTime is less than DEFAULT_OTP_EXPIRY_TIME
+        defaultUsersShouldNotBeFound("otpExpiryTime.lessThan=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the usersList where otpExpiryTime is less than UPDATED_OTP_EXPIRY_TIME
+        defaultUsersShouldBeFound("otpExpiryTime.lessThan=" + UPDATED_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByOtpExpiryTimeIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where otpExpiryTime is greater than DEFAULT_OTP_EXPIRY_TIME
+        defaultUsersShouldNotBeFound("otpExpiryTime.greaterThan=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the usersList where otpExpiryTime is greater than SMALLER_OTP_EXPIRY_TIME
+        defaultUsersShouldBeFound("otpExpiryTime.greaterThan=" + SMALLER_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
     void getAllUsersByLastModifiedIsEqualToSomething() throws Exception {
         // Initialize the database
         usersRepository.saveAndFlush(users);
@@ -1381,6 +2076,58 @@ class UsersResourceIT {
 
         // Get all the usersList where lastModified is null
         defaultUsersShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultUsersShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the usersList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultUsersShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultUsersShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the usersList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultUsersShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultUsersShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the usersList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultUsersShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        usersRepository.saveAndFlush(users);
+
+        // Get all the usersList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultUsersShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the usersList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultUsersShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test
@@ -1548,9 +2295,12 @@ class UsersResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(users.getId().intValue())))
+            .andExpect(jsonPath("$.[*].groupCode").value(hasItem(DEFAULT_GROUP_CODE)))
+            .andExpect(jsonPath("$.[*].groupHeadName").value(hasItem(DEFAULT_GROUP_HEAD_NAME)))
             .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
             .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
             .andExpect(jsonPath("$.[*].birthDate").value(hasItem(DEFAULT_BIRTH_DATE.toString())))
+            .andExpect(jsonPath("$.[*].marriageDate").value(hasItem(DEFAULT_MARRIAGE_DATE.toString())))
             .andExpect(jsonPath("$.[*].userTypeId").value(hasItem(DEFAULT_USER_TYPE_ID.intValue())))
             .andExpect(jsonPath("$.[*].username").value(hasItem(DEFAULT_USERNAME)))
             .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD)))
@@ -1558,7 +2308,10 @@ class UsersResourceIT {
             .andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGE_URL)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].activated").value(hasItem(DEFAULT_ACTIVATED.booleanValue())))
+            .andExpect(jsonPath("$.[*].licenceExpiryDate").value(hasItem(DEFAULT_LICENCE_EXPIRY_DATE.toString())))
             .andExpect(jsonPath("$.[*].mobileNo").value(hasItem(DEFAULT_MOBILE_NO)))
+            .andExpect(jsonPath("$.[*].aadharCardNuber").value(hasItem(DEFAULT_AADHAR_CARD_NUBER)))
+            .andExpect(jsonPath("$.[*].pancardNumber").value(hasItem(DEFAULT_PANCARD_NUMBER)))
             .andExpect(jsonPath("$.[*].oneTimePassword").value(hasItem(DEFAULT_ONE_TIME_PASSWORD)))
             .andExpect(jsonPath("$.[*].otpExpiryTime").value(hasItem(DEFAULT_OTP_EXPIRY_TIME.toString())))
             .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
@@ -1611,9 +2364,12 @@ class UsersResourceIT {
         // Disconnect from session so that the updates on updatedUsers are not directly saved in db
         em.detach(updatedUsers);
         updatedUsers
+            .groupCode(UPDATED_GROUP_CODE)
+            .groupHeadName(UPDATED_GROUP_HEAD_NAME)
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .birthDate(UPDATED_BIRTH_DATE)
+            .marriageDate(UPDATED_MARRIAGE_DATE)
             .userTypeId(UPDATED_USER_TYPE_ID)
             .username(UPDATED_USERNAME)
             .password(UPDATED_PASSWORD)
@@ -1621,7 +2377,10 @@ class UsersResourceIT {
             .imageUrl(UPDATED_IMAGE_URL)
             .status(UPDATED_STATUS)
             .activated(UPDATED_ACTIVATED)
+            .licenceExpiryDate(UPDATED_LICENCE_EXPIRY_DATE)
             .mobileNo(UPDATED_MOBILE_NO)
+            .aadharCardNuber(UPDATED_AADHAR_CARD_NUBER)
+            .pancardNumber(UPDATED_PANCARD_NUMBER)
             .oneTimePassword(UPDATED_ONE_TIME_PASSWORD)
             .otpExpiryTime(UPDATED_OTP_EXPIRY_TIME)
             .lastModified(UPDATED_LAST_MODIFIED)
@@ -1640,9 +2399,12 @@ class UsersResourceIT {
         List<Users> usersList = usersRepository.findAll();
         assertThat(usersList).hasSize(databaseSizeBeforeUpdate);
         Users testUsers = usersList.get(usersList.size() - 1);
+        assertThat(testUsers.getGroupCode()).isEqualTo(UPDATED_GROUP_CODE);
+        assertThat(testUsers.getGroupHeadName()).isEqualTo(UPDATED_GROUP_HEAD_NAME);
         assertThat(testUsers.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
         assertThat(testUsers.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testUsers.getBirthDate()).isEqualTo(UPDATED_BIRTH_DATE);
+        assertThat(testUsers.getMarriageDate()).isEqualTo(UPDATED_MARRIAGE_DATE);
         assertThat(testUsers.getUserTypeId()).isEqualTo(UPDATED_USER_TYPE_ID);
         assertThat(testUsers.getUsername()).isEqualTo(UPDATED_USERNAME);
         assertThat(testUsers.getPassword()).isEqualTo(UPDATED_PASSWORD);
@@ -1650,7 +2412,10 @@ class UsersResourceIT {
         assertThat(testUsers.getImageUrl()).isEqualTo(UPDATED_IMAGE_URL);
         assertThat(testUsers.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testUsers.getActivated()).isEqualTo(UPDATED_ACTIVATED);
+        assertThat(testUsers.getLicenceExpiryDate()).isEqualTo(UPDATED_LICENCE_EXPIRY_DATE);
         assertThat(testUsers.getMobileNo()).isEqualTo(UPDATED_MOBILE_NO);
+        assertThat(testUsers.getAadharCardNuber()).isEqualTo(UPDATED_AADHAR_CARD_NUBER);
+        assertThat(testUsers.getPancardNumber()).isEqualTo(UPDATED_PANCARD_NUMBER);
         assertThat(testUsers.getOneTimePassword()).isEqualTo(UPDATED_ONE_TIME_PASSWORD);
         assertThat(testUsers.getOtpExpiryTime()).isEqualTo(UPDATED_OTP_EXPIRY_TIME);
         assertThat(testUsers.getLastModified()).isEqualTo(UPDATED_LAST_MODIFIED);
@@ -1735,13 +2500,17 @@ class UsersResourceIT {
         partialUpdatedUsers.setId(users.getId());
 
         partialUpdatedUsers
+            .groupHeadName(UPDATED_GROUP_HEAD_NAME)
             .lastName(UPDATED_LAST_NAME)
+            .marriageDate(UPDATED_MARRIAGE_DATE)
             .userTypeId(UPDATED_USER_TYPE_ID)
-            .password(UPDATED_PASSWORD)
+            .username(UPDATED_USERNAME)
             .email(UPDATED_EMAIL)
-            .imageUrl(UPDATED_IMAGE_URL)
-            .activated(UPDATED_ACTIVATED)
-            .lastModified(UPDATED_LAST_MODIFIED)
+            .licenceExpiryDate(UPDATED_LICENCE_EXPIRY_DATE)
+            .mobileNo(UPDATED_MOBILE_NO)
+            .aadharCardNuber(UPDATED_AADHAR_CARD_NUBER)
+            .pancardNumber(UPDATED_PANCARD_NUMBER)
+            .otpExpiryTime(UPDATED_OTP_EXPIRY_TIME)
             .lastModifiedBy(UPDATED_LAST_MODIFIED_BY);
 
         restUsersMockMvc
@@ -1756,20 +2525,26 @@ class UsersResourceIT {
         List<Users> usersList = usersRepository.findAll();
         assertThat(usersList).hasSize(databaseSizeBeforeUpdate);
         Users testUsers = usersList.get(usersList.size() - 1);
+        assertThat(testUsers.getGroupCode()).isEqualTo(DEFAULT_GROUP_CODE);
+        assertThat(testUsers.getGroupHeadName()).isEqualTo(UPDATED_GROUP_HEAD_NAME);
         assertThat(testUsers.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
         assertThat(testUsers.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testUsers.getBirthDate()).isEqualTo(DEFAULT_BIRTH_DATE);
+        assertThat(testUsers.getMarriageDate()).isEqualTo(UPDATED_MARRIAGE_DATE);
         assertThat(testUsers.getUserTypeId()).isEqualTo(UPDATED_USER_TYPE_ID);
-        assertThat(testUsers.getUsername()).isEqualTo(DEFAULT_USERNAME);
-        assertThat(testUsers.getPassword()).isEqualTo(UPDATED_PASSWORD);
+        assertThat(testUsers.getUsername()).isEqualTo(UPDATED_USERNAME);
+        assertThat(testUsers.getPassword()).isEqualTo(DEFAULT_PASSWORD);
         assertThat(testUsers.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testUsers.getImageUrl()).isEqualTo(UPDATED_IMAGE_URL);
+        assertThat(testUsers.getImageUrl()).isEqualTo(DEFAULT_IMAGE_URL);
         assertThat(testUsers.getStatus()).isEqualTo(DEFAULT_STATUS);
-        assertThat(testUsers.getActivated()).isEqualTo(UPDATED_ACTIVATED);
-        assertThat(testUsers.getMobileNo()).isEqualTo(DEFAULT_MOBILE_NO);
+        assertThat(testUsers.getActivated()).isEqualTo(DEFAULT_ACTIVATED);
+        assertThat(testUsers.getLicenceExpiryDate()).isEqualTo(UPDATED_LICENCE_EXPIRY_DATE);
+        assertThat(testUsers.getMobileNo()).isEqualTo(UPDATED_MOBILE_NO);
+        assertThat(testUsers.getAadharCardNuber()).isEqualTo(UPDATED_AADHAR_CARD_NUBER);
+        assertThat(testUsers.getPancardNumber()).isEqualTo(UPDATED_PANCARD_NUMBER);
         assertThat(testUsers.getOneTimePassword()).isEqualTo(DEFAULT_ONE_TIME_PASSWORD);
-        assertThat(testUsers.getOtpExpiryTime()).isEqualTo(DEFAULT_OTP_EXPIRY_TIME);
-        assertThat(testUsers.getLastModified()).isEqualTo(UPDATED_LAST_MODIFIED);
+        assertThat(testUsers.getOtpExpiryTime()).isEqualTo(UPDATED_OTP_EXPIRY_TIME);
+        assertThat(testUsers.getLastModified()).isEqualTo(DEFAULT_LAST_MODIFIED);
         assertThat(testUsers.getLastModifiedBy()).isEqualTo(UPDATED_LAST_MODIFIED_BY);
     }
 
@@ -1786,9 +2561,12 @@ class UsersResourceIT {
         partialUpdatedUsers.setId(users.getId());
 
         partialUpdatedUsers
+            .groupCode(UPDATED_GROUP_CODE)
+            .groupHeadName(UPDATED_GROUP_HEAD_NAME)
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .birthDate(UPDATED_BIRTH_DATE)
+            .marriageDate(UPDATED_MARRIAGE_DATE)
             .userTypeId(UPDATED_USER_TYPE_ID)
             .username(UPDATED_USERNAME)
             .password(UPDATED_PASSWORD)
@@ -1796,7 +2574,10 @@ class UsersResourceIT {
             .imageUrl(UPDATED_IMAGE_URL)
             .status(UPDATED_STATUS)
             .activated(UPDATED_ACTIVATED)
+            .licenceExpiryDate(UPDATED_LICENCE_EXPIRY_DATE)
             .mobileNo(UPDATED_MOBILE_NO)
+            .aadharCardNuber(UPDATED_AADHAR_CARD_NUBER)
+            .pancardNumber(UPDATED_PANCARD_NUMBER)
             .oneTimePassword(UPDATED_ONE_TIME_PASSWORD)
             .otpExpiryTime(UPDATED_OTP_EXPIRY_TIME)
             .lastModified(UPDATED_LAST_MODIFIED)
@@ -1814,9 +2595,12 @@ class UsersResourceIT {
         List<Users> usersList = usersRepository.findAll();
         assertThat(usersList).hasSize(databaseSizeBeforeUpdate);
         Users testUsers = usersList.get(usersList.size() - 1);
+        assertThat(testUsers.getGroupCode()).isEqualTo(UPDATED_GROUP_CODE);
+        assertThat(testUsers.getGroupHeadName()).isEqualTo(UPDATED_GROUP_HEAD_NAME);
         assertThat(testUsers.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
         assertThat(testUsers.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testUsers.getBirthDate()).isEqualTo(UPDATED_BIRTH_DATE);
+        assertThat(testUsers.getMarriageDate()).isEqualTo(UPDATED_MARRIAGE_DATE);
         assertThat(testUsers.getUserTypeId()).isEqualTo(UPDATED_USER_TYPE_ID);
         assertThat(testUsers.getUsername()).isEqualTo(UPDATED_USERNAME);
         assertThat(testUsers.getPassword()).isEqualTo(UPDATED_PASSWORD);
@@ -1824,7 +2608,10 @@ class UsersResourceIT {
         assertThat(testUsers.getImageUrl()).isEqualTo(UPDATED_IMAGE_URL);
         assertThat(testUsers.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testUsers.getActivated()).isEqualTo(UPDATED_ACTIVATED);
+        assertThat(testUsers.getLicenceExpiryDate()).isEqualTo(UPDATED_LICENCE_EXPIRY_DATE);
         assertThat(testUsers.getMobileNo()).isEqualTo(UPDATED_MOBILE_NO);
+        assertThat(testUsers.getAadharCardNuber()).isEqualTo(UPDATED_AADHAR_CARD_NUBER);
+        assertThat(testUsers.getPancardNumber()).isEqualTo(UPDATED_PANCARD_NUMBER);
         assertThat(testUsers.getOneTimePassword()).isEqualTo(UPDATED_ONE_TIME_PASSWORD);
         assertThat(testUsers.getOtpExpiryTime()).isEqualTo(UPDATED_OTP_EXPIRY_TIME);
         assertThat(testUsers.getLastModified()).isEqualTo(UPDATED_LAST_MODIFIED);

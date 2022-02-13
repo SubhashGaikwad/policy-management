@@ -105,9 +105,6 @@ public class CompanyQueryService extends QueryService<Company> {
             if (criteria.getEmail() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getEmail(), Company_.email));
             }
-            if (criteria.getCompanyTypeId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getCompanyTypeId(), Company_.companyTypeId));
-            }
             if (criteria.getImageUrl() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getImageUrl(), Company_.imageUrl));
             }
@@ -139,6 +136,12 @@ public class CompanyQueryService extends QueryService<Company> {
                 specification =
                     specification.and(
                         buildSpecification(criteria.getAddressId(), root -> root.join(Company_.addresses, JoinType.LEFT).get(Address_.id))
+                    );
+            }
+            if (criteria.getPolicyId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getPolicyId(), root -> root.join(Company_.policy, JoinType.LEFT).get(Policy_.id))
                     );
             }
         }

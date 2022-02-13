@@ -13,8 +13,8 @@ import com.etho.pm.repository.UserAccessRepository;
 import com.etho.pm.service.criteria.UserAccessCriteria;
 import com.etho.pm.service.dto.UserAccessDTO;
 import com.etho.pm.service.mapper.UserAccessMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -43,8 +43,9 @@ class UserAccessResourceIT {
     private static final Long UPDATED_ACCESS_ID = 2L;
     private static final Long SMALLER_ACCESS_ID = 1L - 1L;
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -439,6 +440,58 @@ class UserAccessResourceIT {
 
         // Get all the userAccessList where lastModified is null
         defaultUserAccessShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUserAccessesByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        userAccessRepository.saveAndFlush(userAccess);
+
+        // Get all the userAccessList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultUserAccessShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the userAccessList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultUserAccessShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUserAccessesByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        userAccessRepository.saveAndFlush(userAccess);
+
+        // Get all the userAccessList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultUserAccessShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the userAccessList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultUserAccessShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUserAccessesByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        userAccessRepository.saveAndFlush(userAccess);
+
+        // Get all the userAccessList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultUserAccessShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the userAccessList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultUserAccessShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUserAccessesByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        userAccessRepository.saveAndFlush(userAccess);
+
+        // Get all the userAccessList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultUserAccessShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the userAccessList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultUserAccessShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test

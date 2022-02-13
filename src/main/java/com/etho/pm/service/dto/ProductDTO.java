@@ -1,7 +1,7 @@
 package com.etho.pm.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -19,7 +19,7 @@ public class ProductDTO implements Serializable {
     private String uinNo;
 
     @NotNull
-    private Instant lastModified;
+    private LocalDate lastModified;
 
     @NotNull
     private String lastModifiedBy;
@@ -60,11 +60,11 @@ public class ProductDTO implements Serializable {
         this.uinNo = uinNo;
     }
 
-    public Instant getLastModified() {
+    public LocalDate getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(LocalDate lastModified) {
         this.lastModified = lastModified;
     }
 

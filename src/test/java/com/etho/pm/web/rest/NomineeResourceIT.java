@@ -12,8 +12,8 @@ import com.etho.pm.repository.NomineeRepository;
 import com.etho.pm.service.criteria.NomineeCriteria;
 import com.etho.pm.service.dto.NomineeDTO;
 import com.etho.pm.service.mapper.NomineeMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -50,8 +50,9 @@ class NomineeResourceIT {
     private static final Long UPDATED_CONTACT_NO = 2L;
     private static final Long SMALLER_CONTACT_NO = 1L - 1L;
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -690,6 +691,58 @@ class NomineeResourceIT {
 
         // Get all the nomineeList where lastModified is null
         defaultNomineeShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllNomineesByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        nomineeRepository.saveAndFlush(nominee);
+
+        // Get all the nomineeList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultNomineeShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the nomineeList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultNomineeShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllNomineesByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        nomineeRepository.saveAndFlush(nominee);
+
+        // Get all the nomineeList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultNomineeShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the nomineeList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultNomineeShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllNomineesByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        nomineeRepository.saveAndFlush(nominee);
+
+        // Get all the nomineeList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultNomineeShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the nomineeList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultNomineeShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllNomineesByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        nomineeRepository.saveAndFlush(nominee);
+
+        // Get all the nomineeList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultNomineeShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the nomineeList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultNomineeShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test

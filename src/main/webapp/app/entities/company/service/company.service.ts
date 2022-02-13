@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ICompany, getCompanyIdentifier } from '../company.model';
@@ -75,7 +76,7 @@ export class CompanyService {
 
   protected convertDateFromClient(company: ICompany): ICompany {
     return Object.assign({}, company, {
-      lastModified: company.lastModified?.isValid() ? company.lastModified.toJSON() : undefined,
+      lastModified: company.lastModified?.isValid() ? company.lastModified.format(DATE_FORMAT) : undefined,
     });
   }
 

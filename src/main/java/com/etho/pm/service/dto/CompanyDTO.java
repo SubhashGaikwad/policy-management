@@ -1,7 +1,7 @@
 package com.etho.pm.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -22,14 +22,12 @@ public class CompanyDTO implements Serializable {
 
     private String email;
 
-    private Long companyTypeId;
-
     private String imageUrl;
 
     private String contactNo;
 
     @NotNull
-    private Instant lastModified;
+    private LocalDate lastModified;
 
     @NotNull
     private String lastModifiedBy;
@@ -84,14 +82,6 @@ public class CompanyDTO implements Serializable {
         this.email = email;
     }
 
-    public Long getCompanyTypeId() {
-        return companyTypeId;
-    }
-
-    public void setCompanyTypeId(Long companyTypeId) {
-        this.companyTypeId = companyTypeId;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -108,11 +98,11 @@ public class CompanyDTO implements Serializable {
         this.contactNo = contactNo;
     }
 
-    public Instant getLastModified() {
+    public LocalDate getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(LocalDate lastModified) {
         this.lastModified = lastModified;
     }
 
@@ -163,7 +153,6 @@ public class CompanyDTO implements Serializable {
             ", branch='" + getBranch() + "'" +
             ", brnachCode='" + getBrnachCode() + "'" +
             ", email='" + getEmail() + "'" +
-            ", companyTypeId=" + getCompanyTypeId() +
             ", imageUrl='" + getImageUrl() + "'" +
             ", contactNo='" + getContactNo() + "'" +
             ", lastModified='" + getLastModified() + "'" +

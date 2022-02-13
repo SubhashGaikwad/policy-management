@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IProductDetails, ProductDetails } from '../product-details.model';
 
 import { ProductDetailsService } from './product-details.service';
@@ -37,8 +37,8 @@ describe('ProductDetails Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          activationDate: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -54,8 +54,8 @@ describe('ProductDetails Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          activationDate: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -81,8 +81,8 @@ describe('ProductDetails Service', () => {
           id: 1,
           details: 'BBBBBB',
           featurs: 'BBBBBB',
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          activationDate: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
@@ -107,7 +107,7 @@ describe('ProductDetails Service', () => {
       const patchObject = Object.assign(
         {
           details: 'BBBBBB',
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
+          activationDate: currentDate.format(DATE_FORMAT),
         },
         new ProductDetails()
       );
@@ -135,8 +135,8 @@ describe('ProductDetails Service', () => {
           id: 1,
           details: 'BBBBBB',
           featurs: 'BBBBBB',
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          activationDate: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault

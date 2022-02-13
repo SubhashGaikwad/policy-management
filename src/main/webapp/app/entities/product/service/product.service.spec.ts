@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IProduct, Product } from '../product.model';
 
 import { ProductService } from './product.service';
@@ -37,7 +37,7 @@ describe('Product Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -53,7 +53,7 @@ describe('Product Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -79,7 +79,7 @@ describe('Product Service', () => {
           name: 'BBBBBB',
           planNo: 1,
           uinNo: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
@@ -132,7 +132,7 @@ describe('Product Service', () => {
           name: 'BBBBBB',
           planNo: 1,
           uinNo: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault

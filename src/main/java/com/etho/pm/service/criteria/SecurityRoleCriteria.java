@@ -7,8 +7,8 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
-import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
+import tech.jhipster.service.filter.LocalDateFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
 
@@ -31,7 +31,7 @@ public class SecurityRoleCriteria implements Serializable, Criteria {
 
     private StringFilter description;
 
-    private InstantFilter lastModified;
+    private LocalDateFilter lastModified;
 
     private StringFilter lastModifiedBy;
 
@@ -104,18 +104,18 @@ public class SecurityRoleCriteria implements Serializable, Criteria {
         this.description = description;
     }
 
-    public InstantFilter getLastModified() {
+    public LocalDateFilter getLastModified() {
         return lastModified;
     }
 
-    public InstantFilter lastModified() {
+    public LocalDateFilter lastModified() {
         if (lastModified == null) {
-            lastModified = new InstantFilter();
+            lastModified = new LocalDateFilter();
         }
         return lastModified;
     }
 
-    public void setLastModified(InstantFilter lastModified) {
+    public void setLastModified(LocalDateFilter lastModified) {
         this.lastModified = lastModified;
     }
 

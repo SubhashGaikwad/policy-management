@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ISecurityUser, getSecurityUserIdentifier } from '../security-user.model';
@@ -80,9 +81,9 @@ export class SecurityUserService {
 
   protected convertDateFromClient(securityUser: ISecurityUser): ISecurityUser {
     return Object.assign({}, securityUser, {
-      resetDate: securityUser.resetDate?.isValid() ? securityUser.resetDate.toJSON() : undefined,
-      otpExpiryTime: securityUser.otpExpiryTime?.isValid() ? securityUser.otpExpiryTime.toJSON() : undefined,
-      lastModified: securityUser.lastModified?.isValid() ? securityUser.lastModified.toJSON() : undefined,
+      resetDate: securityUser.resetDate?.isValid() ? securityUser.resetDate.format(DATE_FORMAT) : undefined,
+      otpExpiryTime: securityUser.otpExpiryTime?.isValid() ? securityUser.otpExpiryTime.format(DATE_FORMAT) : undefined,
+      lastModified: securityUser.lastModified?.isValid() ? securityUser.lastModified.format(DATE_FORMAT) : undefined,
     });
   }
 

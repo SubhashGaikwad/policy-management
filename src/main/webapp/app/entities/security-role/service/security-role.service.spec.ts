@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ISecurityRole, SecurityRole } from '../security-role.model';
 
 import { SecurityRoleService } from './security-role.service';
@@ -36,7 +36,7 @@ describe('SecurityRole Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -52,7 +52,7 @@ describe('SecurityRole Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -77,7 +77,7 @@ describe('SecurityRole Service', () => {
           id: 1,
           name: 'BBBBBB',
           description: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
@@ -101,7 +101,7 @@ describe('SecurityRole Service', () => {
       const patchObject = Object.assign(
         {
           description: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         new SecurityRole()
@@ -129,7 +129,7 @@ describe('SecurityRole Service', () => {
           id: 1,
           name: 'BBBBBB',
           description: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault

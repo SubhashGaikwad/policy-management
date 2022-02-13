@@ -51,7 +51,7 @@
             <a [routerLink]="['/product-type', productType.id, 'view']">{{ productType.id }}</a>
           </td>
           <td>{{ productType.name }}</td>
-          <td>{{ productType.lastModified | formatMediumDatetime }}</td>
+          <td>{{ productType.lastModified | formatMediumDate }}</td>
           <td>{{ productType.lastModifiedBy }}</td>
           <td class="text-right">
             <div class="btn-group">

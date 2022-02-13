@@ -13,8 +13,8 @@ import com.etho.pm.repository.SecurityPermissionRepository;
 import com.etho.pm.service.criteria.SecurityPermissionCriteria;
 import com.etho.pm.service.dto.SecurityPermissionDTO;
 import com.etho.pm.service.mapper.SecurityPermissionMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -42,8 +42,9 @@ class SecurityPermissionResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -476,6 +477,58 @@ class SecurityPermissionResourceIT {
 
         // Get all the securityPermissionList where lastModified is null
         defaultSecurityPermissionShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityPermissionsByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityPermissionRepository.saveAndFlush(securityPermission);
+
+        // Get all the securityPermissionList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultSecurityPermissionShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityPermissionList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultSecurityPermissionShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityPermissionsByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityPermissionRepository.saveAndFlush(securityPermission);
+
+        // Get all the securityPermissionList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultSecurityPermissionShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityPermissionList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultSecurityPermissionShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityPermissionsByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        securityPermissionRepository.saveAndFlush(securityPermission);
+
+        // Get all the securityPermissionList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultSecurityPermissionShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityPermissionList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultSecurityPermissionShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityPermissionsByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        securityPermissionRepository.saveAndFlush(securityPermission);
+
+        // Get all the securityPermissionList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultSecurityPermissionShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityPermissionList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultSecurityPermissionShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test

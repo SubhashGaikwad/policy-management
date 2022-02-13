@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ISecurityPermission, SecurityPermission } from '../security-permission.model';
 
 import { SecurityPermissionService } from './security-permission.service';
@@ -36,7 +36,7 @@ describe('SecurityPermission Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -52,7 +52,7 @@ describe('SecurityPermission Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -77,7 +77,7 @@ describe('SecurityPermission Service', () => {
           id: 1,
           name: 'BBBBBB',
           description: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
@@ -102,7 +102,7 @@ describe('SecurityPermission Service', () => {
         {
           name: 'BBBBBB',
           description: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         new SecurityPermission()
       );
@@ -129,7 +129,7 @@ describe('SecurityPermission Service', () => {
           id: 1,
           name: 'BBBBBB',
           description: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
