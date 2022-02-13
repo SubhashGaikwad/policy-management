@@ -1,4 +1,3 @@
-import * as dayjs from 'dayjs';
 import { ISecurityPermission } from 'app/entities/security-permission/security-permission.model';
 import { ISecurityRole } from 'app/entities/security-role/security-role.model';
 
@@ -15,11 +14,11 @@ export interface ISecurityUser {
   langKey?: string | null;
   activationKey?: string | null;
   resetKey?: string | null;
-  resetDate?: dayjs.Dayjs | null;
+  resetDate?: string | null;
   mobileNo?: string | null;
   oneTimePassword?: string | null;
-  otpExpiryTime?: dayjs.Dayjs | null;
-  lastModified?: dayjs.Dayjs;
+  otpExpiryTime?: string | null;
+  lastModified?: string;
   lastModifiedBy?: string;
   securityPermissions?: ISecurityPermission[] | null;
   securityRoles?: ISecurityRole[] | null;
@@ -39,11 +38,11 @@ export class SecurityUser implements ISecurityUser {
     public langKey?: string | null,
     public activationKey?: string | null,
     public resetKey?: string | null,
-    public resetDate?: dayjs.Dayjs | null,
+    public resetDate?: string | null,
     public mobileNo?: string | null,
     public oneTimePassword?: string | null,
-    public otpExpiryTime?: dayjs.Dayjs | null,
-    public lastModified?: dayjs.Dayjs,
+    public otpExpiryTime?: string | null,
+    public lastModified?: string,
     public lastModifiedBy?: string,
     public securityPermissions?: ISecurityPermission[] | null,
     public securityRoles?: ISecurityRole[] | null

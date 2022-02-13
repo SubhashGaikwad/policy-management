@@ -41,16 +41,16 @@ export class SecurityPermissionComponent implements OnInit {
         size: this.itemsPerPage,
         sort: this.sort(),
       })
-      .subscribe(
-        (res: HttpResponse<ISecurityPermission[]>) => {
+      .subscribe({
+        next: (res: HttpResponse<ISecurityPermission[]>) => {
           this.isLoading = false;
           this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
         },
-        () => {
+        error: () => {
           this.isLoading = false;
           this.onError();
-        }
-      );
+        },
+      });
   }
 
   ngOnInit(): void {

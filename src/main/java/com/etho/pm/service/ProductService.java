@@ -4,7 +4,11 @@ import com.etho.pm.domain.Product;
 import com.etho.pm.repository.ProductRepository;
 import com.etho.pm.service.dto.ProductDTO;
 import com.etho.pm.service.mapper.ProductMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -73,6 +77,20 @@ public class ProductService {
     public Page<ProductDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Products");
         return productRepository.findAll(pageable).map(productMapper::toDto);
+    }
+
+    /**
+     *  Get all the products where Policy is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<ProductDTO> findAllWherePolicyIsNull() {
+        log.debug("Request to get all products where Policy is null");
+        return StreamSupport
+            .stream(productRepository.findAll().spliterator(), false)
+            .filter(product -> product.getPolicy() == null)
+            .map(productMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

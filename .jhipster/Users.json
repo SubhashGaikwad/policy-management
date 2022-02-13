@@ -1,6 +1,18 @@
 {
-  "name": "Users",
+  "applications": "*",
+  "changelogDate": "20211208145810",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "users",
   "fields": [
+    {
+      "fieldName": "groupCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "groupHeadName",
+      "fieldType": "String"
+    },
     {
       "fieldName": "firstName",
       "fieldType": "String"
@@ -11,7 +23,12 @@
     },
     {
       "fieldName": "birthDate",
-      "fieldType": "Instant",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "marriageDate",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
@@ -48,7 +65,19 @@
       "fieldValidateRules": ["required"]
     },
     {
+      "fieldName": "licenceExpiryDate",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadharCardNuber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pancardNumber",
       "fieldType": "String"
     },
     {
@@ -57,11 +86,11 @@
     },
     {
       "fieldName": "otpExpiryTime",
-      "fieldType": "Instant"
+      "fieldType": "String"
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
@@ -70,35 +99,31 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Users",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "usersType",
       "otherEntityRelationshipName": "users",
+      "ownerSide": true,
       "relationshipName": "usersType",
-      "ownerSide": true
+      "relationshipType": "one-to-one"
     },
     {
-      "relationshipType": "one-to-many",
       "otherEntityName": "policy",
       "otherEntityRelationshipName": "users",
-      "relationshipName": "policy"
+      "relationshipName": "policy",
+      "relationshipType": "one-to-many"
     },
     {
-      "relationshipType": "one-to-many",
       "otherEntityName": "address",
       "otherEntityRelationshipName": "users",
-      "relationshipName": "address"
+      "relationshipName": "address",
+      "relationshipType": "one-to-many"
     }
   ],
-  "entityTableName": "users",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145810"
+  "service": "serviceClass"
 }

@@ -3,7 +3,6 @@ package com.etho.pm.domain;
 import com.etho.pm.domain.enumeration.StatusInd;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -26,6 +25,12 @@ public class Users implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "group_code")
+    private String groupCode;
+
+    @Column(name = "group_head_name")
+    private String groupHeadName;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -34,7 +39,11 @@ public class Users implements Serializable {
 
     @NotNull
     @Column(name = "birth_date", nullable = false)
-    private Instant birthDate;
+    private String birthDate;
+
+    @NotNull
+    @Column(name = "marriage_date", nullable = false)
+    private String marriageDate;
 
     @Column(name = "user_type_id")
     private Long userTypeId;
@@ -61,18 +70,27 @@ public class Users implements Serializable {
     @Column(name = "activated", nullable = false)
     private Boolean activated;
 
+    @Column(name = "licence_expiry_date")
+    private String licenceExpiryDate;
+
     @Column(name = "mobile_no")
     private String mobileNo;
+
+    @Column(name = "aadhar_card_nuber")
+    private String aadharCardNuber;
+
+    @Column(name = "pancard_number")
+    private String pancardNumber;
 
     @Column(name = "one_time_password")
     private String oneTimePassword;
 
     @Column(name = "otp_expiry_time")
-    private Instant otpExpiryTime;
+    private String otpExpiryTime;
 
     @NotNull
     @Column(name = "last_modified", nullable = false)
-    private Instant lastModified;
+    private String lastModified;
 
     @NotNull
     @Column(name = "last_modified_by", nullable = false)
@@ -85,7 +103,10 @@ public class Users implements Serializable {
 
     @OneToMany(mappedBy = "users")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "nominees", "users" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "agency", "company", "product", "premiunDetails", "vehicleClass", "bankDetails", "nominees", "members", "users" },
+        allowSetters = true
+    )
     private Set<Policy> policies = new HashSet<>();
 
     @OneToMany(mappedBy = "users")
@@ -106,6 +127,32 @@ public class Users implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getGroupCode() {
+        return this.groupCode;
+    }
+
+    public Users groupCode(String groupCode) {
+        this.setGroupCode(groupCode);
+        return this;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    public String getGroupHeadName() {
+        return this.groupHeadName;
+    }
+
+    public Users groupHeadName(String groupHeadName) {
+        this.setGroupHeadName(groupHeadName);
+        return this;
+    }
+
+    public void setGroupHeadName(String groupHeadName) {
+        this.groupHeadName = groupHeadName;
     }
 
     public String getFirstName() {
@@ -134,17 +181,30 @@ public class Users implements Serializable {
         this.lastName = lastName;
     }
 
-    public Instant getBirthDate() {
+    public String getBirthDate() {
         return this.birthDate;
     }
 
-    public Users birthDate(Instant birthDate) {
+    public Users birthDate(String birthDate) {
         this.setBirthDate(birthDate);
         return this;
     }
 
-    public void setBirthDate(Instant birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getMarriageDate() {
+        return this.marriageDate;
+    }
+
+    public Users marriageDate(String marriageDate) {
+        this.setMarriageDate(marriageDate);
+        return this;
+    }
+
+    public void setMarriageDate(String marriageDate) {
+        this.marriageDate = marriageDate;
     }
 
     public Long getUserTypeId() {
@@ -238,6 +298,19 @@ public class Users implements Serializable {
         this.activated = activated;
     }
 
+    public String getLicenceExpiryDate() {
+        return this.licenceExpiryDate;
+    }
+
+    public Users licenceExpiryDate(String licenceExpiryDate) {
+        this.setLicenceExpiryDate(licenceExpiryDate);
+        return this;
+    }
+
+    public void setLicenceExpiryDate(String licenceExpiryDate) {
+        this.licenceExpiryDate = licenceExpiryDate;
+    }
+
     public String getMobileNo() {
         return this.mobileNo;
     }
@@ -249,6 +322,32 @@ public class Users implements Serializable {
 
     public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
+    }
+
+    public String getAadharCardNuber() {
+        return this.aadharCardNuber;
+    }
+
+    public Users aadharCardNuber(String aadharCardNuber) {
+        this.setAadharCardNuber(aadharCardNuber);
+        return this;
+    }
+
+    public void setAadharCardNuber(String aadharCardNuber) {
+        this.aadharCardNuber = aadharCardNuber;
+    }
+
+    public String getPancardNumber() {
+        return this.pancardNumber;
+    }
+
+    public Users pancardNumber(String pancardNumber) {
+        this.setPancardNumber(pancardNumber);
+        return this;
+    }
+
+    public void setPancardNumber(String pancardNumber) {
+        this.pancardNumber = pancardNumber;
     }
 
     public String getOneTimePassword() {
@@ -264,29 +363,29 @@ public class Users implements Serializable {
         this.oneTimePassword = oneTimePassword;
     }
 
-    public Instant getOtpExpiryTime() {
+    public String getOtpExpiryTime() {
         return this.otpExpiryTime;
     }
 
-    public Users otpExpiryTime(Instant otpExpiryTime) {
+    public Users otpExpiryTime(String otpExpiryTime) {
         this.setOtpExpiryTime(otpExpiryTime);
         return this;
     }
 
-    public void setOtpExpiryTime(Instant otpExpiryTime) {
+    public void setOtpExpiryTime(String otpExpiryTime) {
         this.otpExpiryTime = otpExpiryTime;
     }
 
-    public Instant getLastModified() {
+    public String getLastModified() {
         return this.lastModified;
     }
 
-    public Users lastModified(Instant lastModified) {
+    public Users lastModified(String lastModified) {
         this.setLastModified(lastModified);
         return this;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
     }
 
@@ -402,9 +501,12 @@ public class Users implements Serializable {
     public String toString() {
         return "Users{" +
             "id=" + getId() +
+            ", groupCode='" + getGroupCode() + "'" +
+            ", groupHeadName='" + getGroupHeadName() + "'" +
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
             ", birthDate='" + getBirthDate() + "'" +
+            ", marriageDate='" + getMarriageDate() + "'" +
             ", userTypeId=" + getUserTypeId() +
             ", username='" + getUsername() + "'" +
             ", password='" + getPassword() + "'" +
@@ -412,7 +514,10 @@ public class Users implements Serializable {
             ", imageUrl='" + getImageUrl() + "'" +
             ", status='" + getStatus() + "'" +
             ", activated='" + getActivated() + "'" +
+            ", licenceExpiryDate='" + getLicenceExpiryDate() + "'" +
             ", mobileNo='" + getMobileNo() + "'" +
+            ", aadharCardNuber='" + getAadharCardNuber() + "'" +
+            ", pancardNumber='" + getPancardNumber() + "'" +
             ", oneTimePassword='" + getOneTimePassword() + "'" +
             ", otpExpiryTime='" + getOtpExpiryTime() + "'" +
             ", lastModified='" + getLastModified() + "'" +

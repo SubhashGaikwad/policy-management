@@ -90,6 +90,12 @@ public class UsersQueryService extends QueryService<Users> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Users_.id));
             }
+            if (criteria.getGroupCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGroupCode(), Users_.groupCode));
+            }
+            if (criteria.getGroupHeadName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGroupHeadName(), Users_.groupHeadName));
+            }
             if (criteria.getFirstName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFirstName(), Users_.firstName));
             }
@@ -97,7 +103,10 @@ public class UsersQueryService extends QueryService<Users> {
                 specification = specification.and(buildStringSpecification(criteria.getLastName(), Users_.lastName));
             }
             if (criteria.getBirthDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBirthDate(), Users_.birthDate));
+                specification = specification.and(buildStringSpecification(criteria.getBirthDate(), Users_.birthDate));
+            }
+            if (criteria.getMarriageDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMarriageDate(), Users_.marriageDate));
             }
             if (criteria.getUserTypeId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUserTypeId(), Users_.userTypeId));
@@ -120,17 +129,26 @@ public class UsersQueryService extends QueryService<Users> {
             if (criteria.getActivated() != null) {
                 specification = specification.and(buildSpecification(criteria.getActivated(), Users_.activated));
             }
+            if (criteria.getLicenceExpiryDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLicenceExpiryDate(), Users_.licenceExpiryDate));
+            }
             if (criteria.getMobileNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getMobileNo(), Users_.mobileNo));
+            }
+            if (criteria.getAadharCardNuber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAadharCardNuber(), Users_.aadharCardNuber));
+            }
+            if (criteria.getPancardNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPancardNumber(), Users_.pancardNumber));
             }
             if (criteria.getOneTimePassword() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOneTimePassword(), Users_.oneTimePassword));
             }
             if (criteria.getOtpExpiryTime() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getOtpExpiryTime(), Users_.otpExpiryTime));
+                specification = specification.and(buildStringSpecification(criteria.getOtpExpiryTime(), Users_.otpExpiryTime));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), Users_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), Users_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Users_.lastModifiedBy));

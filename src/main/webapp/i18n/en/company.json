@@ -23,14 +23,14 @@
       "branch": "Branch",
       "brnachCode": "Brnach Code",
       "email": "Email",
-      "companyTypeId": "Company Type Id",
       "imageUrl": "Image Url",
       "contactNo": "Contact No",
       "lastModified": "Last Modified",
       "lastModifiedBy": "Last Modified By",
       "companyType": "Company Type",
       "product": "Product",
-      "address": "Address"
+      "address": "Address",
+      "policy": "Policy"
     }
   }
 }

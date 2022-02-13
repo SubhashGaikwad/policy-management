@@ -1,5 +1,9 @@
 {
-  "name": "Address",
+  "applications": "*",
+  "changelogDate": "20211208145811",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "address",
   "fields": [
     {
       "fieldName": "area",
@@ -27,7 +31,7 @@
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
@@ -36,28 +40,24 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Address",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-one",
       "otherEntityName": "users",
       "otherEntityRelationshipName": "address",
-      "relationshipName": "users"
+      "relationshipName": "users",
+      "relationshipType": "many-to-one"
     },
     {
-      "relationshipType": "many-to-one",
       "otherEntityName": "company",
       "otherEntityRelationshipName": "address",
-      "relationshipName": "company"
+      "relationshipName": "company",
+      "relationshipType": "many-to-one"
     }
   ],
-  "entityTableName": "address",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145811"
+  "service": "serviceClass"
 }

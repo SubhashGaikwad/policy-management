@@ -5,9 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { ICompanyType, CompanyType } from '../company-type.model';
 import { CompanyTypeService } from '../service/company-type.service';
 
@@ -29,11 +26,6 @@ export class CompanyTypeUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ companyType }) => {
-      if (companyType.id === undefined) {
-        const today = dayjs().startOf('day');
-        companyType.lastModified = today;
-      }
-
       this.updateForm(companyType);
     });
   }
@@ -53,10 +45,10 @@ export class CompanyTypeUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ICompanyType>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
   }
 
   protected onSaveSuccess(): void {
@@ -75,7 +67,7 @@ export class CompanyTypeUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: companyType.id,
       name: companyType.name,
-      lastModified: companyType.lastModified ? companyType.lastModified.format(DATE_TIME_FORMAT) : null,
+      lastModified: companyType.lastModified,
       lastModifiedBy: companyType.lastModifiedBy,
     });
   }
@@ -85,9 +77,7 @@ export class CompanyTypeUpdateComponent implements OnInit {
       ...new CompanyType(),
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
-      lastModified: this.editForm.get(['lastModified'])!.value
-        ? dayjs(this.editForm.get(['lastModified'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      lastModified: this.editForm.get(['lastModified'])!.value,
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
     };
   }

@@ -94,7 +94,7 @@ public class ProductTypeQueryService extends QueryService<ProductType> {
                 specification = specification.and(buildStringSpecification(criteria.getName(), ProductType_.name));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), ProductType_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), ProductType_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), ProductType_.lastModifiedBy));

@@ -109,7 +109,7 @@ public class AddressQueryService extends QueryService<Address> {
                 specification = specification.and(buildRangeSpecification(criteria.getPincode(), Address_.pincode));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), Address_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), Address_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Address_.lastModifiedBy));

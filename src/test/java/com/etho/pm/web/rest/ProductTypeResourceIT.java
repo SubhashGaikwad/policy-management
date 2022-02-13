@@ -12,8 +12,6 @@ import com.etho.pm.repository.ProductTypeRepository;
 import com.etho.pm.service.criteria.ProductTypeCriteria;
 import com.etho.pm.service.dto.ProductTypeDTO;
 import com.etho.pm.service.mapper.ProductTypeMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,8 +36,8 @@ class ProductTypeResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_LAST_MODIFIED = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED = "BBBBBBBBBB";
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -192,7 +190,7 @@ class ProductTypeResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(productType.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
 
@@ -209,7 +207,7 @@ class ProductTypeResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(productType.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
 
@@ -363,6 +361,32 @@ class ProductTypeResourceIT {
 
     @Test
     @Transactional
+    void getAllProductTypesByLastModifiedContainsSomething() throws Exception {
+        // Initialize the database
+        productTypeRepository.saveAndFlush(productType);
+
+        // Get all the productTypeList where lastModified contains DEFAULT_LAST_MODIFIED
+        defaultProductTypeShouldBeFound("lastModified.contains=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productTypeList where lastModified contains UPDATED_LAST_MODIFIED
+        defaultProductTypeShouldNotBeFound("lastModified.contains=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductTypesByLastModifiedNotContainsSomething() throws Exception {
+        // Initialize the database
+        productTypeRepository.saveAndFlush(productType);
+
+        // Get all the productTypeList where lastModified does not contain DEFAULT_LAST_MODIFIED
+        defaultProductTypeShouldNotBeFound("lastModified.doesNotContain=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productTypeList where lastModified does not contain UPDATED_LAST_MODIFIED
+        defaultProductTypeShouldBeFound("lastModified.doesNotContain=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
     void getAllProductTypesByLastModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         productTypeRepository.saveAndFlush(productType);
@@ -476,7 +500,7 @@ class ProductTypeResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(productType.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
 
         // Check, that the count call also returns 1

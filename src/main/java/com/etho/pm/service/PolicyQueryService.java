@@ -93,43 +93,190 @@ public class PolicyQueryService extends QueryService<Policy> {
             if (criteria.getPolicyAmount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPolicyAmount(), Policy_.policyAmount));
             }
-            if (criteria.getInstalmentAmount() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInstalmentAmount(), Policy_.instalmentAmount));
+            if (criteria.getPolicyNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPolicyNumber(), Policy_.policyNumber));
             }
             if (criteria.getTerm() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTerm(), Policy_.term));
             }
-            if (criteria.getInstalmentPeriod() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInstalmentPeriod(), Policy_.instalmentPeriod));
+            if (criteria.getPpt() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPpt(), Policy_.ppt));
             }
-            if (criteria.getInstalmentDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInstalmentDate(), Policy_.instalmentDate));
+            if (criteria.getCommDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCommDate(), Policy_.commDate));
+            }
+            if (criteria.getProposerName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getProposerName(), Policy_.proposerName));
+            }
+            if (criteria.getSumAssuredAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSumAssuredAmount(), Policy_.sumAssuredAmount));
+            }
+            if (criteria.getPremiumMode() != null) {
+                specification = specification.and(buildSpecification(criteria.getPremiumMode(), Policy_.premiumMode));
+            }
+            if (criteria.getBasicPremium() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBasicPremium(), Policy_.basicPremium));
+            }
+            if (criteria.getExtraPremium() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getExtraPremium(), Policy_.extraPremium));
+            }
+            if (criteria.getGst() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGst(), Policy_.gst));
             }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Policy_.status));
             }
-            if (criteria.getDateStart() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDateStart(), Policy_.dateStart));
+            if (criteria.getTotalPremiun() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTotalPremiun(), Policy_.totalPremiun));
             }
-            if (criteria.getDateEnd() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDateEnd(), Policy_.dateEnd));
+            if (criteria.getGstFirstYear() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGstFirstYear(), Policy_.gstFirstYear));
+            }
+            if (criteria.getNetPremium() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getNetPremium(), Policy_.netPremium));
+            }
+            if (criteria.getTaxBeneficiary() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTaxBeneficiary(), Policy_.taxBeneficiary));
+            }
+            if (criteria.getPolicyReceived() != null) {
+                specification = specification.and(buildSpecification(criteria.getPolicyReceived(), Policy_.policyReceived));
+            }
+            if (criteria.getPreviousPolicy() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPreviousPolicy(), Policy_.previousPolicy));
+            }
+            if (criteria.getPolicyStartDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPolicyStartDate(), Policy_.policyStartDate));
+            }
+            if (criteria.getPolicyEndDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPolicyEndDate(), Policy_.policyEndDate));
+            }
+            if (criteria.getPeriod() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPeriod(), Policy_.period));
+            }
+            if (criteria.getClaimDone() != null) {
+                specification = specification.and(buildSpecification(criteria.getClaimDone(), Policy_.claimDone));
+            }
+            if (criteria.getFreeHeathCheckup() != null) {
+                specification = specification.and(buildSpecification(criteria.getFreeHeathCheckup(), Policy_.freeHeathCheckup));
+            }
+            if (criteria.getZone() != null) {
+                specification = specification.and(buildSpecification(criteria.getZone(), Policy_.zone));
+            }
+            if (criteria.getNoOfYear() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getNoOfYear(), Policy_.noOfYear));
+            }
+            if (criteria.getFloaterSum() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFloaterSum(), Policy_.floaterSum));
+            }
+            if (criteria.getTpa() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTpa(), Policy_.tpa));
+            }
+            if (criteria.getPaymentDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPaymentDate(), Policy_.paymentDate));
+            }
+            if (criteria.getPolicyType() != null) {
+                specification = specification.and(buildSpecification(criteria.getPolicyType(), Policy_.policyType));
+            }
+            if (criteria.getPaToOwner() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPaToOwner(), Policy_.paToOwner));
+            }
+            if (criteria.getPaToOther() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPaToOther(), Policy_.paToOther));
+            }
+            if (criteria.getLoading() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLoading(), Policy_.loading));
+            }
+            if (criteria.getRiskCoveredFrom() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getRiskCoveredFrom(), Policy_.riskCoveredFrom));
+            }
+            if (criteria.getRiskCoveredTo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getRiskCoveredTo(), Policy_.riskCoveredTo));
+            }
+            if (criteria.getNotes() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getNotes(), Policy_.notes));
+            }
+            if (criteria.getFreeField1() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFreeField1(), Policy_.freeField1));
+            }
+            if (criteria.getFreeField2() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFreeField2(), Policy_.freeField2));
+            }
+            if (criteria.getFreeField3() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFreeField3(), Policy_.freeField3));
+            }
+            if (criteria.getFreeField4() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFreeField4(), Policy_.freeField4));
+            }
+            if (criteria.getFreeField5() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFreeField5(), Policy_.freeField5));
             }
             if (criteria.getMaturityDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMaturityDate(), Policy_.maturityDate));
+                specification = specification.and(buildStringSpecification(criteria.getMaturityDate(), Policy_.maturityDate));
             }
             if (criteria.getUinNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getUinNo(), Policy_.uinNo));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), Policy_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), Policy_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Policy_.lastModifiedBy));
+            }
+            if (criteria.getAgencyId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getAgencyId(), root -> root.join(Policy_.agency, JoinType.LEFT).get(Agency_.id))
+                    );
+            }
+            if (criteria.getCompanyId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getCompanyId(), root -> root.join(Policy_.company, JoinType.LEFT).get(Company_.id))
+                    );
+            }
+            if (criteria.getProductId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getProductId(), root -> root.join(Policy_.product, JoinType.LEFT).get(Product_.id))
+                    );
+            }
+            if (criteria.getPremiunDetailsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getPremiunDetailsId(),
+                            root -> root.join(Policy_.premiunDetails, JoinType.LEFT).get(PremiunDetails_.id)
+                        )
+                    );
+            }
+            if (criteria.getVehicleClassId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getVehicleClassId(),
+                            root -> root.join(Policy_.vehicleClass, JoinType.LEFT).get(VehicleClass_.id)
+                        )
+                    );
+            }
+            if (criteria.getBankDetailsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getBankDetailsId(),
+                            root -> root.join(Policy_.bankDetails, JoinType.LEFT).get(BankDetails_.id)
+                        )
+                    );
             }
             if (criteria.getNomineeId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(criteria.getNomineeId(), root -> root.join(Policy_.nominees, JoinType.LEFT).get(Nominee_.id))
+                    );
+            }
+            if (criteria.getMemberId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getMemberId(), root -> root.join(Policy_.members, JoinType.LEFT).get(Member_.id))
                     );
             }
             if (criteria.getUsersId() != null) {

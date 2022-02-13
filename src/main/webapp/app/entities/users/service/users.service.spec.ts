@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { StatusInd } from 'app/entities/enumerations/status-ind.model';
 import { IUsers, Users } from '../users.model';
 
@@ -13,7 +11,6 @@ describe('Users Service', () => {
   let httpMock: HttpTestingController;
   let elemDefault: IUsers;
   let expectedResult: IUsers | IUsers[] | boolean | null;
-  let currentDate: dayjs.Dayjs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,13 +19,15 @@ describe('Users Service', () => {
     expectedResult = null;
     service = TestBed.inject(UsersService);
     httpMock = TestBed.inject(HttpTestingController);
-    currentDate = dayjs();
 
     elemDefault = {
       id: 0,
+      groupCode: 'AAAAAAA',
+      groupHeadName: 'AAAAAAA',
       firstName: 'AAAAAAA',
       lastName: 'AAAAAAA',
-      birthDate: currentDate,
+      birthDate: 'AAAAAAA',
+      marriageDate: 'AAAAAAA',
       userTypeId: 0,
       username: 'AAAAAAA',
       password: 'AAAAAAA',
@@ -36,24 +35,20 @@ describe('Users Service', () => {
       imageUrl: 'AAAAAAA',
       status: StatusInd.A,
       activated: false,
+      licenceExpiryDate: 'AAAAAAA',
       mobileNo: 'AAAAAAA',
+      aadharCardNuber: 'AAAAAAA',
+      pancardNumber: 'AAAAAAA',
       oneTimePassword: 'AAAAAAA',
-      otpExpiryTime: currentDate,
-      lastModified: currentDate,
+      otpExpiryTime: 'AAAAAAA',
+      lastModified: 'AAAAAAA',
       lastModifiedBy: 'AAAAAAA',
     };
   });
 
   describe('Service methods', () => {
     it('should find an element', () => {
-      const returnedFromService = Object.assign(
-        {
-          birthDate: currentDate.format(DATE_TIME_FORMAT),
-          otpExpiryTime: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
-        },
-        elemDefault
-      );
+      const returnedFromService = Object.assign({}, elemDefault);
 
       service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -66,21 +61,11 @@ describe('Users Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          birthDate: currentDate.format(DATE_TIME_FORMAT),
-          otpExpiryTime: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          birthDate: currentDate,
-          otpExpiryTime: currentDate,
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.create(new Users()).subscribe(resp => (expectedResult = resp.body));
 
@@ -93,9 +78,12 @@ describe('Users Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
+          groupCode: 'BBBBBB',
+          groupHeadName: 'BBBBBB',
           firstName: 'BBBBBB',
           lastName: 'BBBBBB',
-          birthDate: currentDate.format(DATE_TIME_FORMAT),
+          birthDate: 'BBBBBB',
+          marriageDate: 'BBBBBB',
           userTypeId: 1,
           username: 'BBBBBB',
           password: 'BBBBBB',
@@ -103,23 +91,19 @@ describe('Users Service', () => {
           imageUrl: 'BBBBBB',
           status: 'BBBBBB',
           activated: true,
+          licenceExpiryDate: 'BBBBBB',
           mobileNo: 'BBBBBB',
+          aadharCardNuber: 'BBBBBB',
+          pancardNumber: 'BBBBBB',
           oneTimePassword: 'BBBBBB',
-          otpExpiryTime: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          otpExpiryTime: 'BBBBBB',
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          birthDate: currentDate,
-          otpExpiryTime: currentDate,
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -131,24 +115,20 @@ describe('Users Service', () => {
     it('should partial update a Users', () => {
       const patchObject = Object.assign(
         {
-          lastName: 'BBBBBB',
-          birthDate: currentDate.format(DATE_TIME_FORMAT),
+          groupHeadName: 'BBBBBB',
+          firstName: 'BBBBBB',
+          userTypeId: 1,
           email: 'BBBBBB',
-          activated: true,
+          pancardNumber: 'BBBBBB',
+          oneTimePassword: 'BBBBBB',
+          lastModified: 'BBBBBB',
         },
         new Users()
       );
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
-      const expected = Object.assign(
-        {
-          birthDate: currentDate,
-          otpExpiryTime: currentDate,
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -161,9 +141,12 @@ describe('Users Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
+          groupCode: 'BBBBBB',
+          groupHeadName: 'BBBBBB',
           firstName: 'BBBBBB',
           lastName: 'BBBBBB',
-          birthDate: currentDate.format(DATE_TIME_FORMAT),
+          birthDate: 'BBBBBB',
+          marriageDate: 'BBBBBB',
           userTypeId: 1,
           username: 'BBBBBB',
           password: 'BBBBBB',
@@ -171,23 +154,19 @@ describe('Users Service', () => {
           imageUrl: 'BBBBBB',
           status: 'BBBBBB',
           activated: true,
+          licenceExpiryDate: 'BBBBBB',
           mobileNo: 'BBBBBB',
+          aadharCardNuber: 'BBBBBB',
+          pancardNumber: 'BBBBBB',
           oneTimePassword: 'BBBBBB',
-          otpExpiryTime: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          otpExpiryTime: 'BBBBBB',
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          birthDate: currentDate,
-          otpExpiryTime: currentDate,
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -234,7 +213,7 @@ describe('Users Service', () => {
       });
 
       it('should add only unique Users to an array', () => {
-        const usersArray: IUsers[] = [{ id: 123 }, { id: 456 }, { id: 47036 }];
+        const usersArray: IUsers[] = [{ id: 123 }, { id: 456 }, { id: 49414 }];
         const usersCollection: IUsers[] = [{ id: 123 }];
         expectedResult = service.addUsersToCollectionIfMissing(usersCollection, ...usersArray);
         expect(expectedResult).toHaveLength(3);

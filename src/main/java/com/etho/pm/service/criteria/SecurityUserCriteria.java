@@ -7,7 +7,6 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
-import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
@@ -49,15 +48,15 @@ public class SecurityUserCriteria implements Serializable, Criteria {
 
     private StringFilter resetKey;
 
-    private InstantFilter resetDate;
+    private StringFilter resetDate;
 
     private StringFilter mobileNo;
 
     private StringFilter oneTimePassword;
 
-    private InstantFilter otpExpiryTime;
+    private StringFilter otpExpiryTime;
 
-    private InstantFilter lastModified;
+    private StringFilter lastModified;
 
     private StringFilter lastModifiedBy;
 
@@ -278,18 +277,18 @@ public class SecurityUserCriteria implements Serializable, Criteria {
         this.resetKey = resetKey;
     }
 
-    public InstantFilter getResetDate() {
+    public StringFilter getResetDate() {
         return resetDate;
     }
 
-    public InstantFilter resetDate() {
+    public StringFilter resetDate() {
         if (resetDate == null) {
-            resetDate = new InstantFilter();
+            resetDate = new StringFilter();
         }
         return resetDate;
     }
 
-    public void setResetDate(InstantFilter resetDate) {
+    public void setResetDate(StringFilter resetDate) {
         this.resetDate = resetDate;
     }
 
@@ -323,33 +322,33 @@ public class SecurityUserCriteria implements Serializable, Criteria {
         this.oneTimePassword = oneTimePassword;
     }
 
-    public InstantFilter getOtpExpiryTime() {
+    public StringFilter getOtpExpiryTime() {
         return otpExpiryTime;
     }
 
-    public InstantFilter otpExpiryTime() {
+    public StringFilter otpExpiryTime() {
         if (otpExpiryTime == null) {
-            otpExpiryTime = new InstantFilter();
+            otpExpiryTime = new StringFilter();
         }
         return otpExpiryTime;
     }
 
-    public void setOtpExpiryTime(InstantFilter otpExpiryTime) {
+    public void setOtpExpiryTime(StringFilter otpExpiryTime) {
         this.otpExpiryTime = otpExpiryTime;
     }
 
-    public InstantFilter getLastModified() {
+    public StringFilter getLastModified() {
         return lastModified;
     }
 
-    public InstantFilter lastModified() {
+    public StringFilter lastModified() {
         if (lastModified == null) {
-            lastModified = new InstantFilter();
+            lastModified = new StringFilter();
         }
         return lastModified;
     }
 
-    public void setLastModified(InstantFilter lastModified) {
+    public void setLastModified(StringFilter lastModified) {
         this.lastModified = lastModified;
     }
 

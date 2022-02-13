@@ -103,7 +103,7 @@ public class NomineeQueryService extends QueryService<Nominee> {
                 specification = specification.and(buildRangeSpecification(criteria.getContactNo(), Nominee_.contactNo));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), Nominee_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), Nominee_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Nominee_.lastModifiedBy));

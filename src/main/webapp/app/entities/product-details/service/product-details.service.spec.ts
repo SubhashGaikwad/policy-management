@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IProductDetails, ProductDetails } from '../product-details.model';
 
 import { ProductDetailsService } from './product-details.service';
@@ -12,7 +10,6 @@ describe('ProductDetails Service', () => {
   let httpMock: HttpTestingController;
   let elemDefault: IProductDetails;
   let expectedResult: IProductDetails | IProductDetails[] | boolean | null;
-  let currentDate: dayjs.Dayjs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,27 +18,20 @@ describe('ProductDetails Service', () => {
     expectedResult = null;
     service = TestBed.inject(ProductDetailsService);
     httpMock = TestBed.inject(HttpTestingController);
-    currentDate = dayjs();
 
     elemDefault = {
       id: 0,
       details: 'AAAAAAA',
       featurs: 'AAAAAAA',
-      activationDate: currentDate,
-      lastModified: currentDate,
+      activationDate: 'AAAAAAA',
+      lastModified: 'AAAAAAA',
       lastModifiedBy: 'AAAAAAA',
     };
   });
 
   describe('Service methods', () => {
     it('should find an element', () => {
-      const returnedFromService = Object.assign(
-        {
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
-        },
-        elemDefault
-      );
+      const returnedFromService = Object.assign({}, elemDefault);
 
       service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -54,19 +44,11 @@ describe('ProductDetails Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          activationDate: currentDate,
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.create(new ProductDetails()).subscribe(resp => (expectedResult = resp.body));
 
@@ -81,20 +63,14 @@ describe('ProductDetails Service', () => {
           id: 1,
           details: 'BBBBBB',
           featurs: 'BBBBBB',
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          activationDate: 'BBBBBB',
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          activationDate: currentDate,
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -107,20 +83,14 @@ describe('ProductDetails Service', () => {
       const patchObject = Object.assign(
         {
           details: 'BBBBBB',
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
+          activationDate: 'BBBBBB',
         },
         new ProductDetails()
       );
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
-      const expected = Object.assign(
-        {
-          activationDate: currentDate,
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -135,20 +105,14 @@ describe('ProductDetails Service', () => {
           id: 1,
           details: 'BBBBBB',
           featurs: 'BBBBBB',
-          activationDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          activationDate: 'BBBBBB',
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          activationDate: currentDate,
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.query().subscribe(resp => (expectedResult = resp.body));
 

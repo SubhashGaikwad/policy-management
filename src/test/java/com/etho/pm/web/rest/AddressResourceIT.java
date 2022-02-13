@@ -13,8 +13,6 @@ import com.etho.pm.repository.AddressRepository;
 import com.etho.pm.service.criteria.AddressCriteria;
 import com.etho.pm.service.dto.AddressDTO;
 import com.etho.pm.service.mapper.AddressMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -55,8 +53,8 @@ class AddressResourceIT {
     private static final Long UPDATED_PINCODE = 2L;
     private static final Long SMALLER_PINCODE = 1L - 1L;
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_LAST_MODIFIED = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED = "BBBBBBBBBB";
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -221,7 +219,7 @@ class AddressResourceIT {
             .andExpect(jsonPath("$.[*].district").value(hasItem(DEFAULT_DISTRICT)))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
             .andExpect(jsonPath("$.[*].pincode").value(hasItem(DEFAULT_PINCODE.intValue())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
 
@@ -243,7 +241,7 @@ class AddressResourceIT {
             .andExpect(jsonPath("$.district").value(DEFAULT_DISTRICT))
             .andExpect(jsonPath("$.state").value(DEFAULT_STATE))
             .andExpect(jsonPath("$.pincode").value(DEFAULT_PINCODE.intValue()))
-            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
 
@@ -813,6 +811,32 @@ class AddressResourceIT {
 
     @Test
     @Transactional
+    void getAllAddressesByLastModifiedContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where lastModified contains DEFAULT_LAST_MODIFIED
+        defaultAddressShouldBeFound("lastModified.contains=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the addressList where lastModified contains UPDATED_LAST_MODIFIED
+        defaultAddressShouldNotBeFound("lastModified.contains=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllAddressesByLastModifiedNotContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where lastModified does not contain DEFAULT_LAST_MODIFIED
+        defaultAddressShouldNotBeFound("lastModified.doesNotContain=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the addressList where lastModified does not contain UPDATED_LAST_MODIFIED
+        defaultAddressShouldBeFound("lastModified.doesNotContain=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
     void getAllAddressesByLastModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         addressRepository.saveAndFlush(address);
@@ -956,7 +980,7 @@ class AddressResourceIT {
             .andExpect(jsonPath("$.[*].district").value(hasItem(DEFAULT_DISTRICT)))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
             .andExpect(jsonPath("$.[*].pincode").value(hasItem(DEFAULT_PINCODE.intValue())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
 
         // Check, that the count call also returns 1

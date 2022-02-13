@@ -8,7 +8,6 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
-import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
@@ -49,7 +48,7 @@ public class UserAccessCriteria implements Serializable, Criteria {
 
     private LongFilter accessId;
 
-    private InstantFilter lastModified;
+    private StringFilter lastModified;
 
     private StringFilter lastModifiedBy;
 
@@ -119,18 +118,18 @@ public class UserAccessCriteria implements Serializable, Criteria {
         this.accessId = accessId;
     }
 
-    public InstantFilter getLastModified() {
+    public StringFilter getLastModified() {
         return lastModified;
     }
 
-    public InstantFilter lastModified() {
+    public StringFilter lastModified() {
         if (lastModified == null) {
-            lastModified = new InstantFilter();
+            lastModified = new StringFilter();
         }
         return lastModified;
     }
 
-    public void setLastModified(InstantFilter lastModified) {
+    public void setLastModified(StringFilter lastModified) {
         this.lastModified = lastModified;
     }
 

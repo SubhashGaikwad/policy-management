@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -19,37 +17,28 @@ export class CompanyTypeService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(companyType: ICompanyType): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(companyType);
-    return this.http
-      .post<ICompanyType>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.post<ICompanyType>(this.resourceUrl, companyType, { observe: 'response' });
   }
 
   update(companyType: ICompanyType): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(companyType);
-    return this.http
-      .put<ICompanyType>(`${this.resourceUrl}/${getCompanyTypeIdentifier(companyType) as number}`, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.put<ICompanyType>(`${this.resourceUrl}/${getCompanyTypeIdentifier(companyType) as number}`, companyType, {
+      observe: 'response',
+    });
   }
 
   partialUpdate(companyType: ICompanyType): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(companyType);
-    return this.http
-      .patch<ICompanyType>(`${this.resourceUrl}/${getCompanyTypeIdentifier(companyType) as number}`, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.patch<ICompanyType>(`${this.resourceUrl}/${getCompanyTypeIdentifier(companyType) as number}`, companyType, {
+      observe: 'response',
+    });
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http
-      .get<ICompanyType>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.get<ICompanyType>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http
-      .get<ICompanyType[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    return this.http.get<ICompanyType[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -74,27 +63,5 @@ export class CompanyTypeService {
       return [...companyTypesToAdd, ...companyTypeCollection];
     }
     return companyTypeCollection;
-  }
-
-  protected convertDateFromClient(companyType: ICompanyType): ICompanyType {
-    return Object.assign({}, companyType, {
-      lastModified: companyType.lastModified?.isValid() ? companyType.lastModified.toJSON() : undefined,
-    });
-  }
-
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
-    if (res.body) {
-      res.body.lastModified = res.body.lastModified ? dayjs(res.body.lastModified) : undefined;
-    }
-    return res;
-  }
-
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-    if (res.body) {
-      res.body.forEach((companyType: ICompanyType) => {
-        companyType.lastModified = companyType.lastModified ? dayjs(companyType.lastModified) : undefined;
-      });
-    }
-    return res;
   }
 }

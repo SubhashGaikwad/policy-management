@@ -13,8 +13,6 @@ import com.etho.pm.repository.ProductDetailsRepository;
 import com.etho.pm.service.criteria.ProductDetailsCriteria;
 import com.etho.pm.service.dto.ProductDetailsDTO;
 import com.etho.pm.service.mapper.ProductDetailsMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -42,11 +40,11 @@ class ProductDetailsResourceIT {
     private static final String DEFAULT_FEATURS = "AAAAAAAAAA";
     private static final String UPDATED_FEATURS = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_ACTIVATION_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_ACTIVATION_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_ACTIVATION_DATE = "AAAAAAAAAA";
+    private static final String UPDATED_ACTIVATION_DATE = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_LAST_MODIFIED = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED = "BBBBBBBBBB";
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -226,8 +224,8 @@ class ProductDetailsResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(productDetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].details").value(hasItem(DEFAULT_DETAILS)))
             .andExpect(jsonPath("$.[*].featurs").value(hasItem(DEFAULT_FEATURS)))
-            .andExpect(jsonPath("$.[*].activationDate").value(hasItem(DEFAULT_ACTIVATION_DATE.toString())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].activationDate").value(hasItem(DEFAULT_ACTIVATION_DATE)))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
 
@@ -245,8 +243,8 @@ class ProductDetailsResourceIT {
             .andExpect(jsonPath("$.id").value(productDetails.getId().intValue()))
             .andExpect(jsonPath("$.details").value(DEFAULT_DETAILS))
             .andExpect(jsonPath("$.featurs").value(DEFAULT_FEATURS))
-            .andExpect(jsonPath("$.activationDate").value(DEFAULT_ACTIVATION_DATE.toString()))
-            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.activationDate").value(DEFAULT_ACTIVATION_DATE))
+            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
 
@@ -478,6 +476,32 @@ class ProductDetailsResourceIT {
 
     @Test
     @Transactional
+    void getAllProductDetailsByActivationDateContainsSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where activationDate contains DEFAULT_ACTIVATION_DATE
+        defaultProductDetailsShouldBeFound("activationDate.contains=" + DEFAULT_ACTIVATION_DATE);
+
+        // Get all the productDetailsList where activationDate contains UPDATED_ACTIVATION_DATE
+        defaultProductDetailsShouldNotBeFound("activationDate.contains=" + UPDATED_ACTIVATION_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByActivationDateNotContainsSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where activationDate does not contain DEFAULT_ACTIVATION_DATE
+        defaultProductDetailsShouldNotBeFound("activationDate.doesNotContain=" + DEFAULT_ACTIVATION_DATE);
+
+        // Get all the productDetailsList where activationDate does not contain UPDATED_ACTIVATION_DATE
+        defaultProductDetailsShouldBeFound("activationDate.doesNotContain=" + UPDATED_ACTIVATION_DATE);
+    }
+
+    @Test
+    @Transactional
     void getAllProductDetailsByLastModifiedIsEqualToSomething() throws Exception {
         // Initialize the database
         productDetailsRepository.saveAndFlush(productDetails);
@@ -526,6 +550,32 @@ class ProductDetailsResourceIT {
 
         // Get all the productDetailsList where lastModified is null
         defaultProductDetailsShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByLastModifiedContainsSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where lastModified contains DEFAULT_LAST_MODIFIED
+        defaultProductDetailsShouldBeFound("lastModified.contains=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productDetailsList where lastModified contains UPDATED_LAST_MODIFIED
+        defaultProductDetailsShouldNotBeFound("lastModified.contains=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByLastModifiedNotContainsSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where lastModified does not contain DEFAULT_LAST_MODIFIED
+        defaultProductDetailsShouldNotBeFound("lastModified.doesNotContain=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productDetailsList where lastModified does not contain UPDATED_LAST_MODIFIED
+        defaultProductDetailsShouldBeFound("lastModified.doesNotContain=" + UPDATED_LAST_MODIFIED);
     }
 
     @Test
@@ -670,8 +720,8 @@ class ProductDetailsResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(productDetails.getId().intValue())))
             .andExpect(jsonPath("$.[*].details").value(hasItem(DEFAULT_DETAILS)))
             .andExpect(jsonPath("$.[*].featurs").value(hasItem(DEFAULT_FEATURS)))
-            .andExpect(jsonPath("$.[*].activationDate").value(hasItem(DEFAULT_ACTIVATION_DATE.toString())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].activationDate").value(hasItem(DEFAULT_ACTIVATION_DATE)))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
 
         // Check, that the count call also returns 1

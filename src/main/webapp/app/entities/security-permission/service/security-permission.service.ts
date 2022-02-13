@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -19,41 +17,32 @@ export class SecurityPermissionService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(securityPermission: ISecurityPermission): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(securityPermission);
-    return this.http
-      .post<ISecurityPermission>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.post<ISecurityPermission>(this.resourceUrl, securityPermission, { observe: 'response' });
   }
 
   update(securityPermission: ISecurityPermission): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(securityPermission);
-    return this.http
-      .put<ISecurityPermission>(`${this.resourceUrl}/${getSecurityPermissionIdentifier(securityPermission) as number}`, copy, {
-        observe: 'response',
-      })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.put<ISecurityPermission>(
+      `${this.resourceUrl}/${getSecurityPermissionIdentifier(securityPermission) as number}`,
+      securityPermission,
+      { observe: 'response' }
+    );
   }
 
   partialUpdate(securityPermission: ISecurityPermission): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(securityPermission);
-    return this.http
-      .patch<ISecurityPermission>(`${this.resourceUrl}/${getSecurityPermissionIdentifier(securityPermission) as number}`, copy, {
-        observe: 'response',
-      })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.patch<ISecurityPermission>(
+      `${this.resourceUrl}/${getSecurityPermissionIdentifier(securityPermission) as number}`,
+      securityPermission,
+      { observe: 'response' }
+    );
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http
-      .get<ISecurityPermission>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.get<ISecurityPermission>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http
-      .get<ISecurityPermission[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    return this.http.get<ISecurityPermission[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -80,27 +69,5 @@ export class SecurityPermissionService {
       return [...securityPermissionsToAdd, ...securityPermissionCollection];
     }
     return securityPermissionCollection;
-  }
-
-  protected convertDateFromClient(securityPermission: ISecurityPermission): ISecurityPermission {
-    return Object.assign({}, securityPermission, {
-      lastModified: securityPermission.lastModified?.isValid() ? securityPermission.lastModified.toJSON() : undefined,
-    });
-  }
-
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
-    if (res.body) {
-      res.body.lastModified = res.body.lastModified ? dayjs(res.body.lastModified) : undefined;
-    }
-    return res;
-  }
-
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-    if (res.body) {
-      res.body.forEach((securityPermission: ISecurityPermission) => {
-        securityPermission.lastModified = securityPermission.lastModified ? dayjs(securityPermission.lastModified) : undefined;
-      });
-    }
-    return res;
   }
 }

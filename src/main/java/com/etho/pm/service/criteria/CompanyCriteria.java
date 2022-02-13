@@ -7,7 +7,6 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
-import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
@@ -37,13 +36,11 @@ public class CompanyCriteria implements Serializable, Criteria {
 
     private StringFilter email;
 
-    private LongFilter companyTypeId;
-
     private StringFilter imageUrl;
 
     private StringFilter contactNo;
 
-    private InstantFilter lastModified;
+    private StringFilter lastModified;
 
     private StringFilter lastModifiedBy;
 
@@ -52,6 +49,8 @@ public class CompanyCriteria implements Serializable, Criteria {
     private LongFilter productId;
 
     private LongFilter addressId;
+
+    private LongFilter policyId;
 
     private Boolean distinct;
 
@@ -64,7 +63,6 @@ public class CompanyCriteria implements Serializable, Criteria {
         this.branch = other.branch == null ? null : other.branch.copy();
         this.brnachCode = other.brnachCode == null ? null : other.brnachCode.copy();
         this.email = other.email == null ? null : other.email.copy();
-        this.companyTypeId = other.companyTypeId == null ? null : other.companyTypeId.copy();
         this.imageUrl = other.imageUrl == null ? null : other.imageUrl.copy();
         this.contactNo = other.contactNo == null ? null : other.contactNo.copy();
         this.lastModified = other.lastModified == null ? null : other.lastModified.copy();
@@ -72,6 +70,7 @@ public class CompanyCriteria implements Serializable, Criteria {
         this.companyTypeId = other.companyTypeId == null ? null : other.companyTypeId.copy();
         this.productId = other.productId == null ? null : other.productId.copy();
         this.addressId = other.addressId == null ? null : other.addressId.copy();
+        this.policyId = other.policyId == null ? null : other.policyId.copy();
         this.distinct = other.distinct;
     }
 
@@ -170,21 +169,6 @@ public class CompanyCriteria implements Serializable, Criteria {
         this.email = email;
     }
 
-    public LongFilter getCompanyTypeId() {
-        return companyTypeId;
-    }
-
-    public LongFilter companyTypeId() {
-        if (companyTypeId == null) {
-            companyTypeId = new LongFilter();
-        }
-        return companyTypeId;
-    }
-
-    public void setCompanyTypeId(LongFilter companyTypeId) {
-        this.companyTypeId = companyTypeId;
-    }
-
     public StringFilter getImageUrl() {
         return imageUrl;
     }
@@ -215,18 +199,18 @@ public class CompanyCriteria implements Serializable, Criteria {
         this.contactNo = contactNo;
     }
 
-    public InstantFilter getLastModified() {
+    public StringFilter getLastModified() {
         return lastModified;
     }
 
-    public InstantFilter lastModified() {
+    public StringFilter lastModified() {
         if (lastModified == null) {
-            lastModified = new InstantFilter();
+            lastModified = new StringFilter();
         }
         return lastModified;
     }
 
-    public void setLastModified(InstantFilter lastModified) {
+    public void setLastModified(StringFilter lastModified) {
         this.lastModified = lastModified;
     }
 
@@ -290,6 +274,21 @@ public class CompanyCriteria implements Serializable, Criteria {
         this.addressId = addressId;
     }
 
+    public LongFilter getPolicyId() {
+        return policyId;
+    }
+
+    public LongFilter policyId() {
+        if (policyId == null) {
+            policyId = new LongFilter();
+        }
+        return policyId;
+    }
+
+    public void setPolicyId(LongFilter policyId) {
+        this.policyId = policyId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -314,7 +313,6 @@ public class CompanyCriteria implements Serializable, Criteria {
             Objects.equals(branch, that.branch) &&
             Objects.equals(brnachCode, that.brnachCode) &&
             Objects.equals(email, that.email) &&
-            Objects.equals(companyTypeId, that.companyTypeId) &&
             Objects.equals(imageUrl, that.imageUrl) &&
             Objects.equals(contactNo, that.contactNo) &&
             Objects.equals(lastModified, that.lastModified) &&
@@ -322,6 +320,7 @@ public class CompanyCriteria implements Serializable, Criteria {
             Objects.equals(companyTypeId, that.companyTypeId) &&
             Objects.equals(productId, that.productId) &&
             Objects.equals(addressId, that.addressId) &&
+            Objects.equals(policyId, that.policyId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -335,7 +334,6 @@ public class CompanyCriteria implements Serializable, Criteria {
             branch,
             brnachCode,
             email,
-            companyTypeId,
             imageUrl,
             contactNo,
             lastModified,
@@ -343,6 +341,7 @@ public class CompanyCriteria implements Serializable, Criteria {
             companyTypeId,
             productId,
             addressId,
+            policyId,
             distinct
         );
     }
@@ -357,7 +356,6 @@ public class CompanyCriteria implements Serializable, Criteria {
             (branch != null ? "branch=" + branch + ", " : "") +
             (brnachCode != null ? "brnachCode=" + brnachCode + ", " : "") +
             (email != null ? "email=" + email + ", " : "") +
-            (companyTypeId != null ? "companyTypeId=" + companyTypeId + ", " : "") +
             (imageUrl != null ? "imageUrl=" + imageUrl + ", " : "") +
             (contactNo != null ? "contactNo=" + contactNo + ", " : "") +
             (lastModified != null ? "lastModified=" + lastModified + ", " : "") +
@@ -365,6 +363,7 @@ public class CompanyCriteria implements Serializable, Criteria {
             (companyTypeId != null ? "companyTypeId=" + companyTypeId + ", " : "") +
             (productId != null ? "productId=" + productId + ", " : "") +
             (addressId != null ? "addressId=" + addressId + ", " : "") +
+            (policyId != null ? "policyId=" + policyId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

@@ -2,7 +2,6 @@ package com.etho.pm.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -34,7 +33,7 @@ public class SecurityRole implements Serializable {
 
     @NotNull
     @Column(name = "last_modified", nullable = false)
-    private Instant lastModified;
+    private String lastModified;
 
     @NotNull
     @Column(name = "last_modified_by", nullable = false)
@@ -96,16 +95,16 @@ public class SecurityRole implements Serializable {
         this.description = description;
     }
 
-    public Instant getLastModified() {
+    public String getLastModified() {
         return this.lastModified;
     }
 
-    public SecurityRole lastModified(Instant lastModified) {
+    public SecurityRole lastModified(String lastModified) {
         this.setLastModified(lastModified);
         return this;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
     }
 

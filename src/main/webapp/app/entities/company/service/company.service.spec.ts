@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { ICompany, Company } from '../company.model';
 
 import { CompanyService } from './company.service';
@@ -12,7 +10,6 @@ describe('Company Service', () => {
   let httpMock: HttpTestingController;
   let elemDefault: ICompany;
   let expectedResult: ICompany | ICompany[] | boolean | null;
-  let currentDate: dayjs.Dayjs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,7 +18,6 @@ describe('Company Service', () => {
     expectedResult = null;
     service = TestBed.inject(CompanyService);
     httpMock = TestBed.inject(HttpTestingController);
-    currentDate = dayjs();
 
     elemDefault = {
       id: 0,
@@ -30,22 +26,16 @@ describe('Company Service', () => {
       branch: 'AAAAAAA',
       brnachCode: 'AAAAAAA',
       email: 'AAAAAAA',
-      companyTypeId: 0,
       imageUrl: 'AAAAAAA',
       contactNo: 'AAAAAAA',
-      lastModified: currentDate,
+      lastModified: 'AAAAAAA',
       lastModifiedBy: 'AAAAAAA',
     };
   });
 
   describe('Service methods', () => {
     it('should find an element', () => {
-      const returnedFromService = Object.assign(
-        {
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
-        },
-        elemDefault
-      );
+      const returnedFromService = Object.assign({}, elemDefault);
 
       service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -58,17 +48,11 @@ describe('Company Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.create(new Company()).subscribe(resp => (expectedResult = resp.body));
 
@@ -86,21 +70,15 @@ describe('Company Service', () => {
           branch: 'BBBBBB',
           brnachCode: 'BBBBBB',
           email: 'BBBBBB',
-          companyTypeId: 1,
           imageUrl: 'BBBBBB',
           contactNo: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -114,8 +92,7 @@ describe('Company Service', () => {
         {
           address: 'BBBBBB',
           email: 'BBBBBB',
-          contactNo: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         new Company()
@@ -123,12 +100,7 @@ describe('Company Service', () => {
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
-      const expected = Object.assign(
-        {
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -146,21 +118,15 @@ describe('Company Service', () => {
           branch: 'BBBBBB',
           brnachCode: 'BBBBBB',
           email: 'BBBBBB',
-          companyTypeId: 1,
           imageUrl: 'BBBBBB',
           contactNo: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -207,7 +173,7 @@ describe('Company Service', () => {
       });
 
       it('should add only unique Company to an array', () => {
-        const companyArray: ICompany[] = [{ id: 123 }, { id: 456 }, { id: 8509 }];
+        const companyArray: ICompany[] = [{ id: 123 }, { id: 456 }, { id: 97190 }];
         const companyCollection: ICompany[] = [{ id: 123 }];
         expectedResult = service.addCompanyToCollectionIfMissing(companyCollection, ...companyArray);
         expect(expectedResult).toHaveLength(3);

@@ -94,7 +94,7 @@ public class CompanyTypeQueryService extends QueryService<CompanyType> {
                 specification = specification.and(buildStringSpecification(criteria.getName(), CompanyType_.name));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), CompanyType_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), CompanyType_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), CompanyType_.lastModifiedBy));

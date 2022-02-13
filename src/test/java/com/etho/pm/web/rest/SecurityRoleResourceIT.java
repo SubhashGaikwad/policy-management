@@ -15,8 +15,6 @@ import com.etho.pm.service.SecurityRoleService;
 import com.etho.pm.service.criteria.SecurityRoleCriteria;
 import com.etho.pm.service.dto.SecurityRoleDTO;
 import com.etho.pm.service.mapper.SecurityRoleMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -51,8 +49,8 @@ class SecurityRoleResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_LAST_MODIFIED = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED = "BBBBBBBBBB";
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -235,7 +233,7 @@ class SecurityRoleResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(securityRole.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
 
@@ -271,7 +269,7 @@ class SecurityRoleResourceIT {
             .andExpect(jsonPath("$.id").value(securityRole.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
 
@@ -503,6 +501,32 @@ class SecurityRoleResourceIT {
 
     @Test
     @Transactional
+    void getAllSecurityRolesByLastModifiedContainsSomething() throws Exception {
+        // Initialize the database
+        securityRoleRepository.saveAndFlush(securityRole);
+
+        // Get all the securityRoleList where lastModified contains DEFAULT_LAST_MODIFIED
+        defaultSecurityRoleShouldBeFound("lastModified.contains=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityRoleList where lastModified contains UPDATED_LAST_MODIFIED
+        defaultSecurityRoleShouldNotBeFound("lastModified.contains=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityRolesByLastModifiedNotContainsSomething() throws Exception {
+        // Initialize the database
+        securityRoleRepository.saveAndFlush(securityRole);
+
+        // Get all the securityRoleList where lastModified does not contain DEFAULT_LAST_MODIFIED
+        defaultSecurityRoleShouldNotBeFound("lastModified.doesNotContain=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityRoleList where lastModified does not contain UPDATED_LAST_MODIFIED
+        defaultSecurityRoleShouldBeFound("lastModified.doesNotContain=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
     void getAllSecurityRolesByLastModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         securityRoleRepository.saveAndFlush(securityRole);
@@ -642,7 +666,7 @@ class SecurityRoleResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(securityRole.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
 
         // Check, that the count call also returns 1

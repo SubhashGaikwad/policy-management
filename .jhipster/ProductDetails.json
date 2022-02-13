@@ -1,5 +1,9 @@
 {
-  "name": "ProductDetails",
+  "applications": "*",
+  "changelogDate": "20211208145806",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "product_details",
   "fields": [
     {
       "fieldName": "details",
@@ -11,12 +15,12 @@
     },
     {
       "fieldName": "activationDate",
-      "fieldType": "Instant",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
@@ -25,30 +29,26 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "ProductDetails",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "productType",
       "otherEntityRelationshipName": "productDetails",
+      "ownerSide": true,
       "relationshipName": "productType",
-      "ownerSide": true
+      "relationshipType": "one-to-one"
     },
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "product",
       "otherEntityRelationshipName": "productDetails",
+      "ownerSide": false,
       "relationshipName": "product",
-      "ownerSide": false
+      "relationshipType": "one-to-one"
     }
   ],
-  "entityTableName": "product_details",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145806"
+  "service": "serviceClass"
 }

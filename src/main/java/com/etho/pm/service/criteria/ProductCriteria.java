@@ -7,7 +7,6 @@ import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.FloatFilter;
-import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
@@ -33,11 +32,13 @@ public class ProductCriteria implements Serializable, Criteria {
 
     private StringFilter uinNo;
 
-    private InstantFilter lastModified;
+    private StringFilter lastModified;
 
     private StringFilter lastModifiedBy;
 
     private LongFilter productDetailsId;
+
+    private LongFilter policyId;
 
     private LongFilter companyId;
 
@@ -53,6 +54,7 @@ public class ProductCriteria implements Serializable, Criteria {
         this.lastModified = other.lastModified == null ? null : other.lastModified.copy();
         this.lastModifiedBy = other.lastModifiedBy == null ? null : other.lastModifiedBy.copy();
         this.productDetailsId = other.productDetailsId == null ? null : other.productDetailsId.copy();
+        this.policyId = other.policyId == null ? null : other.policyId.copy();
         this.companyId = other.companyId == null ? null : other.companyId.copy();
         this.distinct = other.distinct;
     }
@@ -122,18 +124,18 @@ public class ProductCriteria implements Serializable, Criteria {
         this.uinNo = uinNo;
     }
 
-    public InstantFilter getLastModified() {
+    public StringFilter getLastModified() {
         return lastModified;
     }
 
-    public InstantFilter lastModified() {
+    public StringFilter lastModified() {
         if (lastModified == null) {
-            lastModified = new InstantFilter();
+            lastModified = new StringFilter();
         }
         return lastModified;
     }
 
-    public void setLastModified(InstantFilter lastModified) {
+    public void setLastModified(StringFilter lastModified) {
         this.lastModified = lastModified;
     }
 
@@ -165,6 +167,21 @@ public class ProductCriteria implements Serializable, Criteria {
 
     public void setProductDetailsId(LongFilter productDetailsId) {
         this.productDetailsId = productDetailsId;
+    }
+
+    public LongFilter getPolicyId() {
+        return policyId;
+    }
+
+    public LongFilter policyId() {
+        if (policyId == null) {
+            policyId = new LongFilter();
+        }
+        return policyId;
+    }
+
+    public void setPolicyId(LongFilter policyId) {
+        this.policyId = policyId;
     }
 
     public LongFilter getCompanyId() {
@@ -207,6 +224,7 @@ public class ProductCriteria implements Serializable, Criteria {
             Objects.equals(lastModified, that.lastModified) &&
             Objects.equals(lastModifiedBy, that.lastModifiedBy) &&
             Objects.equals(productDetailsId, that.productDetailsId) &&
+            Objects.equals(policyId, that.policyId) &&
             Objects.equals(companyId, that.companyId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -214,7 +232,7 @@ public class ProductCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, planNo, uinNo, lastModified, lastModifiedBy, productDetailsId, companyId, distinct);
+        return Objects.hash(id, name, planNo, uinNo, lastModified, lastModifiedBy, productDetailsId, policyId, companyId, distinct);
     }
 
     // prettier-ignore
@@ -228,6 +246,7 @@ public class ProductCriteria implements Serializable, Criteria {
             (lastModified != null ? "lastModified=" + lastModified + ", " : "") +
             (lastModifiedBy != null ? "lastModifiedBy=" + lastModifiedBy + ", " : "") +
             (productDetailsId != null ? "productDetailsId=" + productDetailsId + ", " : "") +
+            (policyId != null ? "policyId=" + policyId + ", " : "") +
             (companyId != null ? "companyId=" + companyId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

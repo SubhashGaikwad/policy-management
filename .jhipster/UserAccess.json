@@ -1,5 +1,9 @@
 {
-  "name": "UserAccess",
+  "applications": "*",
+  "changelogDate": "20211208145814",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "user_access",
   "fields": [
     {
       "fieldName": "level",
@@ -12,7 +16,7 @@
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
@@ -21,23 +25,19 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "UserAccess",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-one",
+      "otherEntityField": "login",
       "otherEntityName": "securityUser",
       "otherEntityRelationshipName": "userAccess",
       "relationshipName": "securityUser",
-      "otherEntityField": "login"
+      "relationshipType": "many-to-one"
     }
   ],
-  "entityTableName": "user_access",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145814"
+  "service": "serviceClass"
 }

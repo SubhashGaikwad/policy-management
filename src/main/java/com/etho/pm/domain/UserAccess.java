@@ -3,7 +3,6 @@ package com.etho.pm.domain;
 import com.etho.pm.domain.enumeration.AccessLevel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -33,7 +32,7 @@ public class UserAccess implements Serializable {
 
     @NotNull
     @Column(name = "last_modified", nullable = false)
-    private Instant lastModified;
+    private String lastModified;
 
     @NotNull
     @Column(name = "last_modified_by", nullable = false)
@@ -84,16 +83,16 @@ public class UserAccess implements Serializable {
         this.accessId = accessId;
     }
 
-    public Instant getLastModified() {
+    public String getLastModified() {
         return this.lastModified;
     }
 
-    public UserAccess lastModified(Instant lastModified) {
+    public UserAccess lastModified(String lastModified) {
         this.setLastModified(lastModified);
         return this;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
     }
 

@@ -94,7 +94,7 @@ public class UsersTypeQueryService extends QueryService<UsersType> {
                 specification = specification.and(buildStringSpecification(criteria.getName(), UsersType_.name));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), UsersType_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), UsersType_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), UsersType_.lastModifiedBy));

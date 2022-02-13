@@ -97,10 +97,10 @@ public class ProductDetailsQueryService extends QueryService<ProductDetails> {
                 specification = specification.and(buildStringSpecification(criteria.getFeaturs(), ProductDetails_.featurs));
             }
             if (criteria.getActivationDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getActivationDate(), ProductDetails_.activationDate));
+                specification = specification.and(buildStringSpecification(criteria.getActivationDate(), ProductDetails_.activationDate));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), ProductDetails_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), ProductDetails_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), ProductDetails_.lastModifiedBy));

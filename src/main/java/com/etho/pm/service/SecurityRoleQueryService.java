@@ -97,7 +97,7 @@ public class SecurityRoleQueryService extends QueryService<SecurityRole> {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), SecurityRole_.description));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), SecurityRole_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), SecurityRole_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), SecurityRole_.lastModifiedBy));

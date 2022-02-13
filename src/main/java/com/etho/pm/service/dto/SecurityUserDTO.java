@@ -1,7 +1,6 @@
 package com.etho.pm.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -39,16 +38,16 @@ public class SecurityUserDTO implements Serializable {
 
     private String resetKey;
 
-    private Instant resetDate;
+    private String resetDate;
 
     private String mobileNo;
 
     private String oneTimePassword;
 
-    private Instant otpExpiryTime;
+    private String otpExpiryTime;
 
     @NotNull
-    private Instant lastModified;
+    private String lastModified;
 
     @NotNull
     private String lastModifiedBy;
@@ -153,11 +152,11 @@ public class SecurityUserDTO implements Serializable {
         this.resetKey = resetKey;
     }
 
-    public Instant getResetDate() {
+    public String getResetDate() {
         return resetDate;
     }
 
-    public void setResetDate(Instant resetDate) {
+    public void setResetDate(String resetDate) {
         this.resetDate = resetDate;
     }
 
@@ -177,19 +176,19 @@ public class SecurityUserDTO implements Serializable {
         this.oneTimePassword = oneTimePassword;
     }
 
-    public Instant getOtpExpiryTime() {
+    public String getOtpExpiryTime() {
         return otpExpiryTime;
     }
 
-    public void setOtpExpiryTime(Instant otpExpiryTime) {
+    public void setOtpExpiryTime(String otpExpiryTime) {
         this.otpExpiryTime = otpExpiryTime;
     }
 
-    public Instant getLastModified() {
+    public String getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
     }
 

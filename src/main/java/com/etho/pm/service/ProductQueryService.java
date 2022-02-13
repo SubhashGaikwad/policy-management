@@ -100,7 +100,7 @@ public class ProductQueryService extends QueryService<Product> {
                 specification = specification.and(buildStringSpecification(criteria.getUinNo(), Product_.uinNo));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), Product_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), Product_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), Product_.lastModifiedBy));
@@ -112,6 +112,12 @@ public class ProductQueryService extends QueryService<Product> {
                             criteria.getProductDetailsId(),
                             root -> root.join(Product_.productDetails, JoinType.LEFT).get(ProductDetails_.id)
                         )
+                    );
+            }
+            if (criteria.getPolicyId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getPolicyId(), root -> root.join(Product_.policy, JoinType.LEFT).get(Policy_.id))
                     );
             }
             if (criteria.getCompanyId() != null) {
