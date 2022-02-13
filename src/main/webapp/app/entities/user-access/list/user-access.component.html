@@ -58,7 +58,7 @@
           </td>
           <td jhiTranslate="{{ 'policyManagementApp.AccessLevel.' + userAccess.level }}">{{ userAccess.level }}</td>
           <td>{{ userAccess.accessId }}</td>
-          <td>{{ userAccess.lastModified | formatMediumDatetime }}</td>
+          <td>{{ userAccess.lastModified | formatMediumDate }}</td>
           <td>{{ userAccess.lastModifiedBy }}</td>
           <td>
             <div *ngIf="userAccess.securityUser">

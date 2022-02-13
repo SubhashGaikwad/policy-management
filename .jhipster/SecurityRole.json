@@ -1,5 +1,9 @@
 {
-  "name": "SecurityRole",
+  "applications": "*",
+  "changelogDate": "20211208145815",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "security_role",
   "fields": [
     {
       "fieldName": "name",
@@ -12,7 +16,7 @@
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
     },
     {
@@ -21,32 +25,28 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "SecurityRole",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-many",
+      "otherEntityField": "name",
       "otherEntityName": "securityPermission",
       "otherEntityRelationshipName": "securityRole",
+      "ownerSide": true,
       "relationshipName": "securityPermission",
-      "otherEntityField": "name",
-      "ownerSide": true
+      "relationshipType": "many-to-many"
     },
     {
-      "relationshipType": "many-to-many",
+      "otherEntityField": "login",
       "otherEntityName": "securityUser",
       "otherEntityRelationshipName": "securityRole",
+      "ownerSide": false,
       "relationshipName": "securityUser",
-      "otherEntityField": "login",
-      "ownerSide": false
+      "relationshipType": "many-to-many"
     }
   ],
-  "entityTableName": "security_role",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145815"
+  "service": "serviceClass"
 }

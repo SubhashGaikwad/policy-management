@@ -5,9 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { IProductDetails, ProductDetails } from '../product-details.model';
 import { ProductDetailsService } from '../service/product-details.service';
 import { IProductType } from 'app/entities/product-type/product-type.model';
@@ -41,12 +38,6 @@ export class ProductDetailsUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ productDetails }) => {
-      if (productDetails.id === undefined) {
-        const today = dayjs().startOf('day');
-        productDetails.activationDate = today;
-        productDetails.lastModified = today;
-      }
-
       this.updateForm(productDetails);
 
       this.loadRelationshipsOptions();
@@ -72,10 +63,10 @@ export class ProductDetailsUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IProductDetails>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
   }
 
   protected onSaveSuccess(): void {
@@ -95,8 +86,8 @@ export class ProductDetailsUpdateComponent implements OnInit {
       id: productDetails.id,
       details: productDetails.details,
       featurs: productDetails.featurs,
-      activationDate: productDetails.activationDate ? productDetails.activationDate.format(DATE_TIME_FORMAT) : null,
-      lastModified: productDetails.lastModified ? productDetails.lastModified.format(DATE_TIME_FORMAT) : null,
+      activationDate: productDetails.activationDate,
+      lastModified: productDetails.lastModified,
       lastModifiedBy: productDetails.lastModifiedBy,
       productType: productDetails.productType,
     });
@@ -125,12 +116,8 @@ export class ProductDetailsUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       details: this.editForm.get(['details'])!.value,
       featurs: this.editForm.get(['featurs'])!.value,
-      activationDate: this.editForm.get(['activationDate'])!.value
-        ? dayjs(this.editForm.get(['activationDate'])!.value, DATE_TIME_FORMAT)
-        : undefined,
-      lastModified: this.editForm.get(['lastModified'])!.value
-        ? dayjs(this.editForm.get(['lastModified'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      activationDate: this.editForm.get(['activationDate'])!.value,
+      lastModified: this.editForm.get(['lastModified'])!.value,
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
       productType: this.editForm.get(['productType'])!.value,
     };

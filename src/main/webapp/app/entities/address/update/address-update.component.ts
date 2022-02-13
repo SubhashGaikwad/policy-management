@@ -5,9 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { IAddress, Address } from '../address.model';
 import { AddressService } from '../service/address.service';
 import { IUsers } from 'app/entities/users/users.model';
@@ -49,11 +46,6 @@ export class AddressUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ address }) => {
-      if (address.id === undefined) {
-        const today = dayjs().startOf('day');
-        address.lastModified = today;
-      }
-
       this.updateForm(address);
 
       this.loadRelationshipsOptions();
@@ -83,10 +75,10 @@ export class AddressUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IAddress>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
   }
 
   protected onSaveSuccess(): void {
@@ -110,7 +102,7 @@ export class AddressUpdateComponent implements OnInit {
       district: address.district,
       state: address.state,
       pincode: address.pincode,
-      lastModified: address.lastModified ? address.lastModified.format(DATE_TIME_FORMAT) : null,
+      lastModified: address.lastModified,
       lastModifiedBy: address.lastModifiedBy,
       users: address.users,
       company: address.company,
@@ -146,9 +138,7 @@ export class AddressUpdateComponent implements OnInit {
       district: this.editForm.get(['district'])!.value,
       state: this.editForm.get(['state'])!.value,
       pincode: this.editForm.get(['pincode'])!.value,
-      lastModified: this.editForm.get(['lastModified'])!.value
-        ? dayjs(this.editForm.get(['lastModified'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      lastModified: this.editForm.get(['lastModified'])!.value,
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
       users: this.editForm.get(['users'])!.value,
       company: this.editForm.get(['company'])!.value,

@@ -12,8 +12,8 @@ import com.etho.pm.repository.UsersTypeRepository;
 import com.etho.pm.service.criteria.UsersTypeCriteria;
 import com.etho.pm.service.dto.UsersTypeDTO;
 import com.etho.pm.service.mapper.UsersTypeMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,8 +38,9 @@ class UsersTypeResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -351,6 +352,58 @@ class UsersTypeResourceIT {
 
         // Get all the usersTypeList where lastModified is null
         defaultUsersTypeShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersTypesByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersTypeRepository.saveAndFlush(usersType);
+
+        // Get all the usersTypeList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultUsersTypeShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the usersTypeList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultUsersTypeShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersTypesByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        usersTypeRepository.saveAndFlush(usersType);
+
+        // Get all the usersTypeList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultUsersTypeShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the usersTypeList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultUsersTypeShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersTypesByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        usersTypeRepository.saveAndFlush(usersType);
+
+        // Get all the usersTypeList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultUsersTypeShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the usersTypeList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultUsersTypeShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsersTypesByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        usersTypeRepository.saveAndFlush(usersType);
+
+        // Get all the usersTypeList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultUsersTypeShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the usersTypeList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultUsersTypeShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test

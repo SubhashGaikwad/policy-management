@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IUserAccess, getUserAccessIdentifier } from '../user-access.model';
@@ -78,7 +79,7 @@ export class UserAccessService {
 
   protected convertDateFromClient(userAccess: IUserAccess): IUserAccess {
     return Object.assign({}, userAccess, {
-      lastModified: userAccess.lastModified?.isValid() ? userAccess.lastModified.toJSON() : undefined,
+      lastModified: userAccess.lastModified?.isValid() ? userAccess.lastModified.format(DATE_FORMAT) : undefined,
     });
   }
 

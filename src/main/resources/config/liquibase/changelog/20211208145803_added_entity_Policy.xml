@@ -17,48 +17,158 @@
             <column name="policy_amount" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="instalment_amount" type="bigint">
+            <column name="policy_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="term" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="instalment_period" type="bigint">
+            <column name="ppt" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="instalment_date" type="bigint">
+            <column name="comm_date" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="proposer_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sum_assured_amount" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="premium_mode" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="basic_premium" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="extra_premium" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="gst" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="date_start" type="${datetimeType}">
-                <constraints nullable="false" />
+            <column name="total_premiun" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
-            <column name="date_end" type="${datetimeType}">
-                <constraints nullable="false" />
+            <column name="gst_first_year" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
-            <column name="maturity_date" type="${datetimeType}">
+            <column name="net_premium" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="tax_beneficiary" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="policy_received" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="previous_policy" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="policy_start_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="policy_end_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="period" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="claim_done" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="free_heath_checkup" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="zone" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="no_of_year" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="floater_sum" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="tpa" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="payment_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="policy_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pa_to_owner" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pa_to_other" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="loading" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="risk_covered_from" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="risk_covered_to" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="notes" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="free_field_1" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="free_field_2" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="free_field_3" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="free_field_4" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="free_field_5" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="maturity_date" type="date">
                 <constraints nullable="false" />
             </column>
             <column name="uin_no" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="last_modified" type="${datetimeType}">
+            <column name="last_modified" type="date">
                 <constraints nullable="false" />
             </column>
             <column name="last_modified_by" type="varchar(255)">
                 <constraints nullable="false" />
+            </column>
+            <column name="agency_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_policy__agency_id" />
+            </column>
+            <column name="company_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_policy__company_id" />
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_policy__product_id" />
+            </column>
+            <column name="premiun_details_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_policy__premiun_details_id" />
+            </column>
+            <column name="vehicle_class_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_policy__vehicle_class_id" />
+            </column>
+            <column name="bank_details_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_policy__bank_details_id" />
             </column>
             <column name="users_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="policy" columnName="date_start" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="policy" columnName="date_end" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="policy" columnName="maturity_date" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="policy" columnName="last_modified" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -79,13 +189,45 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="policy_amount" type="numeric"/>
-            <column name="instalment_amount" type="numeric"/>
+            <column name="policy_number" type="string"/>
             <column name="term" type="numeric"/>
-            <column name="instalment_period" type="numeric"/>
-            <column name="instalment_date" type="numeric"/>
+            <column name="ppt" type="numeric"/>
+            <column name="comm_date" type="date"/>
+            <column name="proposer_name" type="string"/>
+            <column name="sum_assured_amount" type="numeric"/>
+            <column name="premium_mode" type="string"/>
+            <column name="basic_premium" type="numeric"/>
+            <column name="extra_premium" type="numeric"/>
+            <column name="gst" type="string"/>
             <column name="status" type="string"/>
-            <column name="date_start" type="date"/>
-            <column name="date_end" type="date"/>
+            <column name="total_premiun" type="string"/>
+            <column name="gst_first_year" type="string"/>
+            <column name="net_premium" type="string"/>
+            <column name="tax_beneficiary" type="string"/>
+            <column name="policy_received" type="boolean"/>
+            <column name="previous_policy" type="numeric"/>
+            <column name="policy_start_date" type="date"/>
+            <column name="policy_end_date" type="date"/>
+            <column name="period" type="string"/>
+            <column name="claim_done" type="boolean"/>
+            <column name="free_heath_checkup" type="boolean"/>
+            <column name="zone" type="string"/>
+            <column name="no_of_year" type="numeric"/>
+            <column name="floater_sum" type="string"/>
+            <column name="tpa" type="string"/>
+            <column name="payment_date" type="date"/>
+            <column name="policy_type" type="string"/>
+            <column name="pa_to_owner" type="string"/>
+            <column name="pa_to_other" type="string"/>
+            <column name="loading" type="numeric"/>
+            <column name="risk_covered_from" type="date"/>
+            <column name="risk_covered_to" type="date"/>
+            <column name="notes" type="string"/>
+            <column name="free_field_1" type="string"/>
+            <column name="free_field_2" type="string"/>
+            <column name="free_field_3" type="string"/>
+            <column name="free_field_4" type="string"/>
+            <column name="free_field_5" type="string"/>
             <column name="maturity_date" type="date"/>
             <column name="uin_no" type="string"/>
             <column name="last_modified" type="date"/>

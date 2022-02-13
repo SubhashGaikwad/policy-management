@@ -15,8 +15,8 @@ import com.etho.pm.service.SecurityRoleService;
 import com.etho.pm.service.criteria.SecurityRoleCriteria;
 import com.etho.pm.service.dto.SecurityRoleDTO;
 import com.etho.pm.service.mapper.SecurityRoleMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -51,8 +51,9 @@ class SecurityRoleResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -499,6 +500,58 @@ class SecurityRoleResourceIT {
 
         // Get all the securityRoleList where lastModified is null
         defaultSecurityRoleShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityRolesByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityRoleRepository.saveAndFlush(securityRole);
+
+        // Get all the securityRoleList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultSecurityRoleShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityRoleList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultSecurityRoleShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityRolesByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityRoleRepository.saveAndFlush(securityRole);
+
+        // Get all the securityRoleList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultSecurityRoleShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityRoleList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultSecurityRoleShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityRolesByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        securityRoleRepository.saveAndFlush(securityRole);
+
+        // Get all the securityRoleList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultSecurityRoleShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityRoleList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultSecurityRoleShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityRolesByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        securityRoleRepository.saveAndFlush(securityRole);
+
+        // Get all the securityRoleList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultSecurityRoleShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityRoleList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultSecurityRoleShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test

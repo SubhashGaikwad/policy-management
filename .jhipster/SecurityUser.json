@@ -1,5 +1,9 @@
 {
-  "name": "SecurityUser",
+  "applications": "*",
+  "changelogDate": "20211208145813",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "security_user",
   "fields": [
     {
       "fieldName": "firstName",
@@ -51,7 +55,7 @@
     },
     {
       "fieldName": "resetDate",
-      "fieldType": "Instant"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "mobileNo",
@@ -63,11 +67,11 @@
     },
     {
       "fieldName": "otpExpiryTime",
-      "fieldType": "Instant"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
     },
     {
@@ -76,32 +80,28 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "SecurityUser",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-many",
+      "otherEntityField": "name",
       "otherEntityName": "securityPermission",
       "otherEntityRelationshipName": "securityUser",
+      "ownerSide": true,
       "relationshipName": "securityPermission",
-      "otherEntityField": "name",
-      "ownerSide": true
+      "relationshipType": "many-to-many"
     },
     {
-      "relationshipType": "many-to-many",
+      "otherEntityField": "name",
       "otherEntityName": "securityRole",
       "otherEntityRelationshipName": "securityUser",
+      "ownerSide": true,
       "relationshipName": "securityRole",
-      "otherEntityField": "name",
-      "ownerSide": true
+      "relationshipType": "many-to-many"
     }
   ],
-  "entityTableName": "security_user",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145813"
+  "service": "serviceClass"
 }

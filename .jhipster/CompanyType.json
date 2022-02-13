@@ -1,5 +1,9 @@
 {
-  "name": "CompanyType",
+  "applications": "*",
+  "changelogDate": "20211208145809",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "company_type",
   "fields": [
     {
       "fieldName": "name",
@@ -7,7 +11,7 @@
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
     },
     {
@@ -16,23 +20,19 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "CompanyType",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "company",
       "otherEntityRelationshipName": "companyType",
+      "ownerSide": false,
       "relationshipName": "company",
-      "ownerSide": false
+      "relationshipType": "one-to-one"
     }
   ],
-  "entityTableName": "company_type",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145809"
+  "service": "serviceClass"
 }

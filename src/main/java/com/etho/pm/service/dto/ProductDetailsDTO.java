@@ -1,7 +1,7 @@
 package com.etho.pm.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -17,10 +17,10 @@ public class ProductDetailsDTO implements Serializable {
     private String featurs;
 
     @NotNull
-    private Instant activationDate;
+    private LocalDate activationDate;
 
     @NotNull
-    private Instant lastModified;
+    private LocalDate lastModified;
 
     @NotNull
     private String lastModifiedBy;
@@ -51,19 +51,19 @@ public class ProductDetailsDTO implements Serializable {
         this.featurs = featurs;
     }
 
-    public Instant getActivationDate() {
+    public LocalDate getActivationDate() {
         return activationDate;
     }
 
-    public void setActivationDate(Instant activationDate) {
+    public void setActivationDate(LocalDate activationDate) {
         this.activationDate = activationDate;
     }
 
-    public Instant getLastModified() {
+    public LocalDate getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(LocalDate lastModified) {
         this.lastModified = lastModified;
     }
 

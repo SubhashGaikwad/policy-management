@@ -1,5 +1,9 @@
 {
-  "name": "Product",
+  "applications": "*",
+  "changelogDate": "20211208145805",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "product",
   "fields": [
     {
       "fieldName": "name",
@@ -15,7 +19,7 @@
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
     },
     {
@@ -24,29 +28,32 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Product",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "productDetails",
       "otherEntityRelationshipName": "product",
+      "ownerSide": true,
       "relationshipName": "productDetails",
-      "ownerSide": true
+      "relationshipType": "one-to-one"
     },
     {
-      "relationshipType": "many-to-one",
+      "otherEntityName": "policy",
+      "otherEntityRelationshipName": "product",
+      "ownerSide": false,
+      "relationshipName": "policy",
+      "relationshipType": "one-to-one"
+    },
+    {
       "otherEntityName": "company",
       "otherEntityRelationshipName": "product",
-      "relationshipName": "company"
+      "relationshipName": "company",
+      "relationshipType": "many-to-one"
     }
   ],
-  "entityTableName": "product",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145805"
+  "service": "serviceClass"
 }

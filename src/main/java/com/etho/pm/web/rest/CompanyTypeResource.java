@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -156,7 +155,10 @@ public class CompanyTypeResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of companyTypes in body.
      */
     @GetMapping("/company-types")
-    public ResponseEntity<List<CompanyTypeDTO>> getAllCompanyTypes(CompanyTypeCriteria criteria, Pageable pageable) {
+    public ResponseEntity<List<CompanyTypeDTO>> getAllCompanyTypes(
+        CompanyTypeCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
         log.debug("REST request to get CompanyTypes by criteria: {}", criteria);
         Page<CompanyTypeDTO> page = companyTypeQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

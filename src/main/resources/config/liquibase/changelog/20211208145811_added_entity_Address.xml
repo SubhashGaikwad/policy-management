@@ -32,7 +32,7 @@
             <column name="pincode" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="last_modified" type="${datetimeType}">
+            <column name="last_modified" type="date">
                 <constraints nullable="false" />
             </column>
             <column name="last_modified_by" type="varchar(255)">
@@ -46,7 +46,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="address" columnName="last_modified" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

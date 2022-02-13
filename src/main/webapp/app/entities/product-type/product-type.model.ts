@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 import { IProductDetails } from 'app/entities/product-details/product-details.model';
 
 export interface IProductType {

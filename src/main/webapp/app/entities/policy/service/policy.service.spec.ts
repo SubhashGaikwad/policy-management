@@ -1,9 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
+import { PremiumMode } from 'app/entities/enumerations/premium-mode.model';
 import { PolicyStatus } from 'app/entities/enumerations/policy-status.model';
+import { Zone } from 'app/entities/enumerations/zone.model';
+import { PolicyType } from 'app/entities/enumerations/policy-type.model';
 import { IPolicy, Policy } from '../policy.model';
 
 import { PolicyService } from './policy.service';
@@ -27,13 +30,45 @@ describe('Policy Service', () => {
     elemDefault = {
       id: 0,
       policyAmount: 0,
-      instalmentAmount: 0,
+      policyNumber: 'AAAAAAA',
       term: 0,
-      instalmentPeriod: 0,
-      instalmentDate: 0,
+      ppt: 0,
+      commDate: currentDate,
+      proposerName: 'AAAAAAA',
+      sumAssuredAmount: 0,
+      premiumMode: PremiumMode.YEARLY,
+      basicPremium: 0,
+      extraPremium: 0,
+      gst: 'AAAAAAA',
       status: PolicyStatus.OPEN,
-      dateStart: currentDate,
-      dateEnd: currentDate,
+      totalPremiun: 'AAAAAAA',
+      gstFirstYear: 'AAAAAAA',
+      netPremium: 'AAAAAAA',
+      taxBeneficiary: 'AAAAAAA',
+      policyReceived: false,
+      previousPolicy: 0,
+      policyStartDate: currentDate,
+      policyEndDate: currentDate,
+      period: 'AAAAAAA',
+      claimDone: false,
+      freeHeathCheckup: false,
+      zone: Zone.A,
+      noOfYear: 0,
+      floaterSum: 'AAAAAAA',
+      tpa: 'AAAAAAA',
+      paymentDate: currentDate,
+      policyType: PolicyType.LIFE,
+      paToOwner: 'AAAAAAA',
+      paToOther: 'AAAAAAA',
+      loading: 0,
+      riskCoveredFrom: currentDate,
+      riskCoveredTo: currentDate,
+      notes: 'AAAAAAA',
+      freeField1: 'AAAAAAA',
+      freeField2: 'AAAAAAA',
+      freeField3: 'AAAAAAA',
+      freeField4: 'AAAAAAA',
+      freeField5: 'AAAAAAA',
       maturityDate: currentDate,
       uinNo: 'AAAAAAA',
       lastModified: currentDate,
@@ -45,10 +80,14 @@ describe('Policy Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          dateStart: currentDate.format(DATE_TIME_FORMAT),
-          dateEnd: currentDate.format(DATE_TIME_FORMAT),
-          maturityDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          commDate: currentDate.format(DATE_FORMAT),
+          policyStartDate: currentDate.format(DATE_FORMAT),
+          policyEndDate: currentDate.format(DATE_FORMAT),
+          paymentDate: currentDate.format(DATE_FORMAT),
+          riskCoveredFrom: currentDate.format(DATE_FORMAT),
+          riskCoveredTo: currentDate.format(DATE_FORMAT),
+          maturityDate: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -64,18 +103,26 @@ describe('Policy Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          dateStart: currentDate.format(DATE_TIME_FORMAT),
-          dateEnd: currentDate.format(DATE_TIME_FORMAT),
-          maturityDate: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          commDate: currentDate.format(DATE_FORMAT),
+          policyStartDate: currentDate.format(DATE_FORMAT),
+          policyEndDate: currentDate.format(DATE_FORMAT),
+          paymentDate: currentDate.format(DATE_FORMAT),
+          riskCoveredFrom: currentDate.format(DATE_FORMAT),
+          riskCoveredTo: currentDate.format(DATE_FORMAT),
+          maturityDate: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
 
       const expected = Object.assign(
         {
-          dateStart: currentDate,
-          dateEnd: currentDate,
+          commDate: currentDate,
+          policyStartDate: currentDate,
+          policyEndDate: currentDate,
+          paymentDate: currentDate,
+          riskCoveredFrom: currentDate,
+          riskCoveredTo: currentDate,
           maturityDate: currentDate,
           lastModified: currentDate,
         },
@@ -94,16 +141,48 @@ describe('Policy Service', () => {
         {
           id: 1,
           policyAmount: 1,
-          instalmentAmount: 1,
+          policyNumber: 'BBBBBB',
           term: 1,
-          instalmentPeriod: 1,
-          instalmentDate: 1,
+          ppt: 1,
+          commDate: currentDate.format(DATE_FORMAT),
+          proposerName: 'BBBBBB',
+          sumAssuredAmount: 1,
+          premiumMode: 'BBBBBB',
+          basicPremium: 1,
+          extraPremium: 1,
+          gst: 'BBBBBB',
           status: 'BBBBBB',
-          dateStart: currentDate.format(DATE_TIME_FORMAT),
-          dateEnd: currentDate.format(DATE_TIME_FORMAT),
-          maturityDate: currentDate.format(DATE_TIME_FORMAT),
+          totalPremiun: 'BBBBBB',
+          gstFirstYear: 'BBBBBB',
+          netPremium: 'BBBBBB',
+          taxBeneficiary: 'BBBBBB',
+          policyReceived: true,
+          previousPolicy: 1,
+          policyStartDate: currentDate.format(DATE_FORMAT),
+          policyEndDate: currentDate.format(DATE_FORMAT),
+          period: 'BBBBBB',
+          claimDone: true,
+          freeHeathCheckup: true,
+          zone: 'BBBBBB',
+          noOfYear: 1,
+          floaterSum: 'BBBBBB',
+          tpa: 'BBBBBB',
+          paymentDate: currentDate.format(DATE_FORMAT),
+          policyType: 'BBBBBB',
+          paToOwner: 'BBBBBB',
+          paToOther: 'BBBBBB',
+          loading: 1,
+          riskCoveredFrom: currentDate.format(DATE_FORMAT),
+          riskCoveredTo: currentDate.format(DATE_FORMAT),
+          notes: 'BBBBBB',
+          freeField1: 'BBBBBB',
+          freeField2: 'BBBBBB',
+          freeField3: 'BBBBBB',
+          freeField4: 'BBBBBB',
+          freeField5: 'BBBBBB',
+          maturityDate: currentDate.format(DATE_FORMAT),
           uinNo: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
@@ -111,8 +190,12 @@ describe('Policy Service', () => {
 
       const expected = Object.assign(
         {
-          dateStart: currentDate,
-          dateEnd: currentDate,
+          commDate: currentDate,
+          policyStartDate: currentDate,
+          policyEndDate: currentDate,
+          paymentDate: currentDate,
+          riskCoveredFrom: currentDate,
+          riskCoveredTo: currentDate,
           maturityDate: currentDate,
           lastModified: currentDate,
         },
@@ -130,11 +213,30 @@ describe('Policy Service', () => {
       const patchObject = Object.assign(
         {
           policyAmount: 1,
-          instalmentAmount: 1,
+          policyNumber: 'BBBBBB',
+          proposerName: 'BBBBBB',
+          sumAssuredAmount: 1,
+          extraPremium: 1,
           status: 'BBBBBB',
-          dateStart: currentDate.format(DATE_TIME_FORMAT),
+          gstFirstYear: 'BBBBBB',
+          taxBeneficiary: 'BBBBBB',
+          policyReceived: true,
+          policyStartDate: currentDate.format(DATE_FORMAT),
+          policyEndDate: currentDate.format(DATE_FORMAT),
+          claimDone: true,
+          freeHeathCheckup: true,
+          zone: 'BBBBBB',
+          noOfYear: 1,
+          floaterSum: 'BBBBBB',
+          paymentDate: currentDate.format(DATE_FORMAT),
+          paToOwner: 'BBBBBB',
+          riskCoveredFrom: currentDate.format(DATE_FORMAT),
+          notes: 'BBBBBB',
+          freeField1: 'BBBBBB',
+          freeField4: 'BBBBBB',
+          maturityDate: currentDate.format(DATE_FORMAT),
           uinNo: 'BBBBBB',
-          lastModifiedBy: 'BBBBBB',
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         new Policy()
       );
@@ -143,8 +245,12 @@ describe('Policy Service', () => {
 
       const expected = Object.assign(
         {
-          dateStart: currentDate,
-          dateEnd: currentDate,
+          commDate: currentDate,
+          policyStartDate: currentDate,
+          policyEndDate: currentDate,
+          paymentDate: currentDate,
+          riskCoveredFrom: currentDate,
+          riskCoveredTo: currentDate,
           maturityDate: currentDate,
           lastModified: currentDate,
         },
@@ -163,16 +269,48 @@ describe('Policy Service', () => {
         {
           id: 1,
           policyAmount: 1,
-          instalmentAmount: 1,
+          policyNumber: 'BBBBBB',
           term: 1,
-          instalmentPeriod: 1,
-          instalmentDate: 1,
+          ppt: 1,
+          commDate: currentDate.format(DATE_FORMAT),
+          proposerName: 'BBBBBB',
+          sumAssuredAmount: 1,
+          premiumMode: 'BBBBBB',
+          basicPremium: 1,
+          extraPremium: 1,
+          gst: 'BBBBBB',
           status: 'BBBBBB',
-          dateStart: currentDate.format(DATE_TIME_FORMAT),
-          dateEnd: currentDate.format(DATE_TIME_FORMAT),
-          maturityDate: currentDate.format(DATE_TIME_FORMAT),
+          totalPremiun: 'BBBBBB',
+          gstFirstYear: 'BBBBBB',
+          netPremium: 'BBBBBB',
+          taxBeneficiary: 'BBBBBB',
+          policyReceived: true,
+          previousPolicy: 1,
+          policyStartDate: currentDate.format(DATE_FORMAT),
+          policyEndDate: currentDate.format(DATE_FORMAT),
+          period: 'BBBBBB',
+          claimDone: true,
+          freeHeathCheckup: true,
+          zone: 'BBBBBB',
+          noOfYear: 1,
+          floaterSum: 'BBBBBB',
+          tpa: 'BBBBBB',
+          paymentDate: currentDate.format(DATE_FORMAT),
+          policyType: 'BBBBBB',
+          paToOwner: 'BBBBBB',
+          paToOther: 'BBBBBB',
+          loading: 1,
+          riskCoveredFrom: currentDate.format(DATE_FORMAT),
+          riskCoveredTo: currentDate.format(DATE_FORMAT),
+          notes: 'BBBBBB',
+          freeField1: 'BBBBBB',
+          freeField2: 'BBBBBB',
+          freeField3: 'BBBBBB',
+          freeField4: 'BBBBBB',
+          freeField5: 'BBBBBB',
+          maturityDate: currentDate.format(DATE_FORMAT),
           uinNo: 'BBBBBB',
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
@@ -180,8 +318,12 @@ describe('Policy Service', () => {
 
       const expected = Object.assign(
         {
-          dateStart: currentDate,
-          dateEnd: currentDate,
+          commDate: currentDate,
+          policyStartDate: currentDate,
+          policyEndDate: currentDate,
+          paymentDate: currentDate,
+          riskCoveredFrom: currentDate,
+          riskCoveredTo: currentDate,
           maturityDate: currentDate,
           lastModified: currentDate,
         },
@@ -233,7 +375,7 @@ describe('Policy Service', () => {
       });
 
       it('should add only unique Policy to an array', () => {
-        const policyArray: IPolicy[] = [{ id: 123 }, { id: 456 }, { id: 48137 }];
+        const policyArray: IPolicy[] = [{ id: 123 }, { id: 456 }, { id: 60363 }];
         const policyCollection: IPolicy[] = [{ id: 123 }];
         expectedResult = service.addPolicyToCollectionIfMissing(policyCollection, ...policyArray);
         expect(expectedResult).toHaveLength(3);

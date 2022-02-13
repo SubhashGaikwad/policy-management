@@ -47,20 +47,6 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="policyManagementApp.company.companyTypeId" for="field_companyTypeId"
-            >Company Type Id</label
-          >
-          <input
-            type="number"
-            class="form-control"
-            name="companyTypeId"
-            id="field_companyTypeId"
-            data-cy="companyTypeId"
-            formControlName="companyTypeId"
-          />
-        </div>
-
-        <div class="form-group">
           <label class="form-control-label" jhiTranslate="policyManagementApp.company.imageUrl" for="field_imageUrl">Image Url</label>
           <input type="text" class="form-control" name="imageUrl" id="field_imageUrl" data-cy="imageUrl" formControlName="imageUrl" />
         </div>
@@ -74,16 +60,22 @@
           <label class="form-control-label" jhiTranslate="policyManagementApp.company.lastModified" for="field_lastModified"
             >Last Modified</label
           >
-          <div class="d-flex">
+          <div class="input-group">
             <input
               id="field_lastModified"
               data-cy="lastModified"
-              type="datetime-local"
+              type="text"
               class="form-control"
               name="lastModified"
+              ngbDatepicker
+              #lastModifiedDp="ngbDatepicker"
               formControlName="lastModified"
-              placeholder="YYYY-MM-DD HH:mm"
             />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="lastModifiedDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
           </div>
           <div
             *ngIf="editForm.get('lastModified')!.invalid && (editForm.get('lastModified')!.dirty || editForm.get('lastModified')!.touched)"
@@ -94,13 +86,6 @@
               jhiTranslate="entity.validation.required"
             >
               This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('lastModified')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
-            >
-              This field should be a date and time.
             </small>
           </div>
         </div>

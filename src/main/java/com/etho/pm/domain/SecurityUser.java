@@ -2,7 +2,7 @@ package com.etho.pm.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -62,7 +62,7 @@ public class SecurityUser implements Serializable {
     private String resetKey;
 
     @Column(name = "reset_date")
-    private Instant resetDate;
+    private LocalDate resetDate;
 
     @Column(name = "mobile_no")
     private String mobileNo;
@@ -71,11 +71,11 @@ public class SecurityUser implements Serializable {
     private String oneTimePassword;
 
     @Column(name = "otp_expiry_time")
-    private Instant otpExpiryTime;
+    private LocalDate otpExpiryTime;
 
     @NotNull
     @Column(name = "last_modified", nullable = false)
-    private Instant lastModified;
+    private LocalDate lastModified;
 
     @NotNull
     @Column(name = "last_modified_by", nullable = false)
@@ -259,16 +259,16 @@ public class SecurityUser implements Serializable {
         this.resetKey = resetKey;
     }
 
-    public Instant getResetDate() {
+    public LocalDate getResetDate() {
         return this.resetDate;
     }
 
-    public SecurityUser resetDate(Instant resetDate) {
+    public SecurityUser resetDate(LocalDate resetDate) {
         this.setResetDate(resetDate);
         return this;
     }
 
-    public void setResetDate(Instant resetDate) {
+    public void setResetDate(LocalDate resetDate) {
         this.resetDate = resetDate;
     }
 
@@ -298,29 +298,29 @@ public class SecurityUser implements Serializable {
         this.oneTimePassword = oneTimePassword;
     }
 
-    public Instant getOtpExpiryTime() {
+    public LocalDate getOtpExpiryTime() {
         return this.otpExpiryTime;
     }
 
-    public SecurityUser otpExpiryTime(Instant otpExpiryTime) {
+    public SecurityUser otpExpiryTime(LocalDate otpExpiryTime) {
         this.setOtpExpiryTime(otpExpiryTime);
         return this;
     }
 
-    public void setOtpExpiryTime(Instant otpExpiryTime) {
+    public void setOtpExpiryTime(LocalDate otpExpiryTime) {
         this.otpExpiryTime = otpExpiryTime;
     }
 
-    public Instant getLastModified() {
+    public LocalDate getLastModified() {
         return this.lastModified;
     }
 
-    public SecurityUser lastModified(Instant lastModified) {
+    public SecurityUser lastModified(LocalDate lastModified) {
         this.setLastModified(lastModified);
         return this;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(LocalDate lastModified) {
         this.lastModified = lastModified;
     }
 

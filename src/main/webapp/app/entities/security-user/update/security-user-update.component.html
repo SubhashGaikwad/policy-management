@@ -133,16 +133,22 @@
           <label class="form-control-label" jhiTranslate="policyManagementApp.securityUser.resetDate" for="field_resetDate"
             >Reset Date</label
           >
-          <div class="d-flex">
+          <div class="input-group">
             <input
               id="field_resetDate"
               data-cy="resetDate"
-              type="datetime-local"
+              type="text"
               class="form-control"
               name="resetDate"
+              ngbDatepicker
+              #resetDateDp="ngbDatepicker"
               formControlName="resetDate"
-              placeholder="YYYY-MM-DD HH:mm"
             />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="resetDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
           </div>
         </div>
 
@@ -169,16 +175,22 @@
           <label class="form-control-label" jhiTranslate="policyManagementApp.securityUser.otpExpiryTime" for="field_otpExpiryTime"
             >Otp Expiry Time</label
           >
-          <div class="d-flex">
+          <div class="input-group">
             <input
               id="field_otpExpiryTime"
               data-cy="otpExpiryTime"
-              type="datetime-local"
+              type="text"
               class="form-control"
               name="otpExpiryTime"
+              ngbDatepicker
+              #otpExpiryTimeDp="ngbDatepicker"
               formControlName="otpExpiryTime"
-              placeholder="YYYY-MM-DD HH:mm"
             />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="otpExpiryTimeDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
           </div>
         </div>
 
@@ -186,16 +198,22 @@
           <label class="form-control-label" jhiTranslate="policyManagementApp.securityUser.lastModified" for="field_lastModified"
             >Last Modified</label
           >
-          <div class="d-flex">
+          <div class="input-group">
             <input
               id="field_lastModified"
               data-cy="lastModified"
-              type="datetime-local"
+              type="text"
               class="form-control"
               name="lastModified"
+              ngbDatepicker
+              #lastModifiedDp="ngbDatepicker"
               formControlName="lastModified"
-              placeholder="YYYY-MM-DD HH:mm"
             />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="lastModifiedDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
           </div>
           <div
             *ngIf="editForm.get('lastModified')!.invalid && (editForm.get('lastModified')!.dirty || editForm.get('lastModified')!.touched)"
@@ -206,13 +224,6 @@
               jhiTranslate="entity.validation.required"
             >
               This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('lastModified')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
-            >
-              This field should be a date and time.
             </small>
           </div>
         </div>

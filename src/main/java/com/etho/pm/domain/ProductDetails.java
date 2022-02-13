@@ -2,7 +2,7 @@ package com.etho.pm.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -31,11 +31,11 @@ public class ProductDetails implements Serializable {
 
     @NotNull
     @Column(name = "activation_date", nullable = false)
-    private Instant activationDate;
+    private LocalDate activationDate;
 
     @NotNull
     @Column(name = "last_modified", nullable = false)
-    private Instant lastModified;
+    private LocalDate lastModified;
 
     @NotNull
     @Column(name = "last_modified_by", nullable = false)
@@ -46,7 +46,7 @@ public class ProductDetails implements Serializable {
     @JoinColumn(unique = true)
     private ProductType productType;
 
-    @JsonIgnoreProperties(value = { "productDetails", "company" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "productDetails", "policy", "company" }, allowSetters = true)
     @OneToOne(mappedBy = "productDetails")
     private Product product;
 
@@ -91,29 +91,29 @@ public class ProductDetails implements Serializable {
         this.featurs = featurs;
     }
 
-    public Instant getActivationDate() {
+    public LocalDate getActivationDate() {
         return this.activationDate;
     }
 
-    public ProductDetails activationDate(Instant activationDate) {
+    public ProductDetails activationDate(LocalDate activationDate) {
         this.setActivationDate(activationDate);
         return this;
     }
 
-    public void setActivationDate(Instant activationDate) {
+    public void setActivationDate(LocalDate activationDate) {
         this.activationDate = activationDate;
     }
 
-    public Instant getLastModified() {
+    public LocalDate getLastModified() {
         return this.lastModified;
     }
 
-    public ProductDetails lastModified(Instant lastModified) {
+    public ProductDetails lastModified(LocalDate lastModified) {
         this.setLastModified(lastModified);
         return this;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(LocalDate lastModified) {
         this.lastModified = lastModified;
     }
 

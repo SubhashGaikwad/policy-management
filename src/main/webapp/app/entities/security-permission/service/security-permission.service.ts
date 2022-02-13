@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ISecurityPermission, getSecurityPermissionIdentifier } from '../security-permission.model';
@@ -84,7 +85,7 @@ export class SecurityPermissionService {
 
   protected convertDateFromClient(securityPermission: ISecurityPermission): ISecurityPermission {
     return Object.assign({}, securityPermission, {
-      lastModified: securityPermission.lastModified?.isValid() ? securityPermission.lastModified.toJSON() : undefined,
+      lastModified: securityPermission.lastModified?.isValid() ? securityPermission.lastModified.format(DATE_FORMAT) : undefined,
     });
   }
 

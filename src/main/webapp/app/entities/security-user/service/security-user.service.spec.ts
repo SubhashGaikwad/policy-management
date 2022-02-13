@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ISecurityUser, SecurityUser } from '../security-user.model';
 
 import { SecurityUserService } from './security-user.service';
@@ -49,9 +49,9 @@ describe('SecurityUser Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          resetDate: currentDate.format(DATE_TIME_FORMAT),
-          otpExpiryTime: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          resetDate: currentDate.format(DATE_FORMAT),
+          otpExpiryTime: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -67,9 +67,9 @@ describe('SecurityUser Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          resetDate: currentDate.format(DATE_TIME_FORMAT),
-          otpExpiryTime: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          resetDate: currentDate.format(DATE_FORMAT),
+          otpExpiryTime: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -105,11 +105,11 @@ describe('SecurityUser Service', () => {
           langKey: 'BBBBBB',
           activationKey: 'BBBBBB',
           resetKey: 'BBBBBB',
-          resetDate: currentDate.format(DATE_TIME_FORMAT),
+          resetDate: currentDate.format(DATE_FORMAT),
           mobileNo: 'BBBBBB',
           oneTimePassword: 'BBBBBB',
-          otpExpiryTime: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          otpExpiryTime: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
@@ -176,11 +176,11 @@ describe('SecurityUser Service', () => {
           langKey: 'BBBBBB',
           activationKey: 'BBBBBB',
           resetKey: 'BBBBBB',
-          resetDate: currentDate.format(DATE_TIME_FORMAT),
+          resetDate: currentDate.format(DATE_FORMAT),
           mobileNo: 'BBBBBB',
           oneTimePassword: 'BBBBBB',
-          otpExpiryTime: currentDate.format(DATE_TIME_FORMAT),
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          otpExpiryTime: currentDate.format(DATE_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault

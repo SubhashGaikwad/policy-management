@@ -13,8 +13,8 @@ import com.etho.pm.repository.ProductDetailsRepository;
 import com.etho.pm.service.criteria.ProductDetailsCriteria;
 import com.etho.pm.service.dto.ProductDetailsDTO;
 import com.etho.pm.service.mapper.ProductDetailsMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -42,11 +42,13 @@ class ProductDetailsResourceIT {
     private static final String DEFAULT_FEATURS = "AAAAAAAAAA";
     private static final String UPDATED_FEATURS = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_ACTIVATION_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_ACTIVATION_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_ACTIVATION_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_ACTIVATION_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_ACTIVATION_DATE = LocalDate.ofEpochDay(-1L);
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -478,6 +480,58 @@ class ProductDetailsResourceIT {
 
     @Test
     @Transactional
+    void getAllProductDetailsByActivationDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where activationDate is greater than or equal to DEFAULT_ACTIVATION_DATE
+        defaultProductDetailsShouldBeFound("activationDate.greaterThanOrEqual=" + DEFAULT_ACTIVATION_DATE);
+
+        // Get all the productDetailsList where activationDate is greater than or equal to UPDATED_ACTIVATION_DATE
+        defaultProductDetailsShouldNotBeFound("activationDate.greaterThanOrEqual=" + UPDATED_ACTIVATION_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByActivationDateIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where activationDate is less than or equal to DEFAULT_ACTIVATION_DATE
+        defaultProductDetailsShouldBeFound("activationDate.lessThanOrEqual=" + DEFAULT_ACTIVATION_DATE);
+
+        // Get all the productDetailsList where activationDate is less than or equal to SMALLER_ACTIVATION_DATE
+        defaultProductDetailsShouldNotBeFound("activationDate.lessThanOrEqual=" + SMALLER_ACTIVATION_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByActivationDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where activationDate is less than DEFAULT_ACTIVATION_DATE
+        defaultProductDetailsShouldNotBeFound("activationDate.lessThan=" + DEFAULT_ACTIVATION_DATE);
+
+        // Get all the productDetailsList where activationDate is less than UPDATED_ACTIVATION_DATE
+        defaultProductDetailsShouldBeFound("activationDate.lessThan=" + UPDATED_ACTIVATION_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByActivationDateIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where activationDate is greater than DEFAULT_ACTIVATION_DATE
+        defaultProductDetailsShouldNotBeFound("activationDate.greaterThan=" + DEFAULT_ACTIVATION_DATE);
+
+        // Get all the productDetailsList where activationDate is greater than SMALLER_ACTIVATION_DATE
+        defaultProductDetailsShouldBeFound("activationDate.greaterThan=" + SMALLER_ACTIVATION_DATE);
+    }
+
+    @Test
+    @Transactional
     void getAllProductDetailsByLastModifiedIsEqualToSomething() throws Exception {
         // Initialize the database
         productDetailsRepository.saveAndFlush(productDetails);
@@ -526,6 +580,58 @@ class ProductDetailsResourceIT {
 
         // Get all the productDetailsList where lastModified is null
         defaultProductDetailsShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultProductDetailsShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productDetailsList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultProductDetailsShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultProductDetailsShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productDetailsList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultProductDetailsShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultProductDetailsShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productDetailsList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultProductDetailsShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductDetailsByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        productDetailsRepository.saveAndFlush(productDetails);
+
+        // Get all the productDetailsList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultProductDetailsShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productDetailsList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultProductDetailsShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test

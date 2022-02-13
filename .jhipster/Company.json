@@ -1,5 +1,9 @@
 {
-  "name": "Company",
+  "applications": "*",
+  "changelogDate": "20211208145808",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "company",
   "fields": [
     {
       "fieldName": "name",
@@ -23,10 +27,6 @@
       "fieldValidateRules": ["unique"]
     },
     {
-      "fieldName": "companyTypeId",
-      "fieldType": "Long"
-    },
-    {
       "fieldName": "imageUrl",
       "fieldType": "String"
     },
@@ -36,7 +36,7 @@
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
     },
     {
@@ -45,35 +45,38 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Company",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "companyType",
       "otherEntityRelationshipName": "company",
+      "ownerSide": true,
       "relationshipName": "companyType",
-      "ownerSide": true
+      "relationshipType": "one-to-one"
     },
     {
-      "relationshipType": "one-to-many",
       "otherEntityName": "product",
       "otherEntityRelationshipName": "company",
-      "relationshipName": "product"
+      "relationshipName": "product",
+      "relationshipType": "one-to-many"
     },
     {
-      "relationshipType": "one-to-many",
       "otherEntityName": "address",
       "otherEntityRelationshipName": "company",
-      "relationshipName": "address"
+      "relationshipName": "address",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "policy",
+      "otherEntityRelationshipName": "company",
+      "ownerSide": false,
+      "relationshipName": "policy",
+      "relationshipType": "one-to-one"
     }
   ],
-  "entityTableName": "company",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145808"
+  "service": "serviceClass"
 }

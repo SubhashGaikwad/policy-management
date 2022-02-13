@@ -7,14 +7,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.etho.pm.IntegrationTest;
 import com.etho.pm.domain.Company;
+import com.etho.pm.domain.Policy;
 import com.etho.pm.domain.Product;
 import com.etho.pm.domain.ProductDetails;
 import com.etho.pm.repository.ProductRepository;
 import com.etho.pm.service.criteria.ProductCriteria;
 import com.etho.pm.service.dto.ProductDTO;
 import com.etho.pm.service.mapper.ProductMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -46,8 +47,9 @@ class ProductResourceIT {
     private static final String DEFAULT_UIN_NO = "AAAAAAAAAA";
     private static final String UPDATED_UIN_NO = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -555,6 +557,58 @@ class ProductResourceIT {
 
     @Test
     @Transactional
+    void getAllProductsByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultProductShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultProductShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductsByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultProductShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultProductShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductsByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultProductShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultProductShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductsByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultProductShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultProductShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
     void getAllProductsByLastModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         productRepository.saveAndFlush(product);
@@ -655,6 +709,33 @@ class ProductResourceIT {
 
         // Get all the productList where productDetails equals to (productDetailsId + 1)
         defaultProductShouldNotBeFound("productDetailsId.equals=" + (productDetailsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllProductsByPolicyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+        Policy policy;
+        if (TestUtil.findAll(em, Policy.class).isEmpty()) {
+            policy = PolicyResourceIT.createEntity(em);
+            em.persist(policy);
+            em.flush();
+        } else {
+            policy = TestUtil.findAll(em, Policy.class).get(0);
+        }
+        em.persist(policy);
+        em.flush();
+        product.setPolicy(policy);
+        policy.setProduct(product);
+        productRepository.saveAndFlush(product);
+        Long policyId = policy.getId();
+
+        // Get all the productList where policy equals to policyId
+        defaultProductShouldBeFound("policyId.equals=" + policyId);
+
+        // Get all the productList where policy equals to (policyId + 1)
+        defaultProductShouldNotBeFound("policyId.equals=" + (policyId + 1));
     }
 
     @Test

@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs/esm';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IAddress, Address } from '../address.model';
 
 import { AddressService } from './address.service';
@@ -40,7 +40,7 @@ describe('Address Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -56,7 +56,7 @@ describe('Address Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
         },
         elemDefault
       );
@@ -85,7 +85,7 @@ describe('Address Service', () => {
           district: 'BBBBBB',
           state: 'BBBBBB',
           pincode: 1,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
@@ -109,7 +109,7 @@ describe('Address Service', () => {
       const patchObject = Object.assign(
         {
           pincode: 1,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         new Address()
@@ -141,7 +141,7 @@ describe('Address Service', () => {
           district: 'BBBBBB',
           state: 'BBBBBB',
           pincode: 1,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: currentDate.format(DATE_FORMAT),
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault

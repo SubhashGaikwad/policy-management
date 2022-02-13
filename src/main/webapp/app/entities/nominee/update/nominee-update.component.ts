@@ -5,9 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { INominee, Nominee } from '../nominee.model';
 import { NomineeService } from '../service/nominee.service';
 import { IPolicy } from 'app/entities/policy/policy.model';
@@ -42,11 +39,6 @@ export class NomineeUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ nominee }) => {
-      if (nominee.id === undefined) {
-        const today = dayjs().startOf('day');
-        nominee.lastModified = today;
-      }
-
       this.updateForm(nominee);
 
       this.loadRelationshipsOptions();
@@ -72,10 +64,10 @@ export class NomineeUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<INominee>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
   }
 
   protected onSaveSuccess(): void {
@@ -97,7 +89,7 @@ export class NomineeUpdateComponent implements OnInit {
       relation: nominee.relation,
       nomineePercentage: nominee.nomineePercentage,
       contactNo: nominee.contactNo,
-      lastModified: nominee.lastModified ? nominee.lastModified.format(DATE_TIME_FORMAT) : null,
+      lastModified: nominee.lastModified,
       lastModifiedBy: nominee.lastModifiedBy,
       policy: nominee.policy,
     });
@@ -121,9 +113,7 @@ export class NomineeUpdateComponent implements OnInit {
       relation: this.editForm.get(['relation'])!.value,
       nomineePercentage: this.editForm.get(['nomineePercentage'])!.value,
       contactNo: this.editForm.get(['contactNo'])!.value,
-      lastModified: this.editForm.get(['lastModified'])!.value
-        ? dayjs(this.editForm.get(['lastModified'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      lastModified: this.editForm.get(['lastModified'])!.value,
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
       policy: this.editForm.get(['policy'])!.value,
     };

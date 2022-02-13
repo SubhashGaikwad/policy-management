@@ -15,8 +15,8 @@ import com.etho.pm.service.SecurityUserService;
 import com.etho.pm.service.criteria.SecurityUserCriteria;
 import com.etho.pm.service.dto.SecurityUserDTO;
 import com.etho.pm.service.mapper.SecurityUserMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -78,8 +78,9 @@ class SecurityUserResourceIT {
     private static final String DEFAULT_RESET_KEY = "AAAAAAAAAA";
     private static final String UPDATED_RESET_KEY = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_RESET_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_RESET_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_RESET_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_RESET_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_RESET_DATE = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_MOBILE_NO = "AAAAAAAAAA";
     private static final String UPDATED_MOBILE_NO = "BBBBBBBBBB";
@@ -87,11 +88,13 @@ class SecurityUserResourceIT {
     private static final String DEFAULT_ONE_TIME_PASSWORD = "AAAAAAAAAA";
     private static final String UPDATED_ONE_TIME_PASSWORD = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_OTP_EXPIRY_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_OTP_EXPIRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_OTP_EXPIRY_TIME = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_OTP_EXPIRY_TIME = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_OTP_EXPIRY_TIME = LocalDate.ofEpochDay(-1L);
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -1323,6 +1326,58 @@ class SecurityUserResourceIT {
 
     @Test
     @Transactional
+    void getAllSecurityUsersByResetDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where resetDate is greater than or equal to DEFAULT_RESET_DATE
+        defaultSecurityUserShouldBeFound("resetDate.greaterThanOrEqual=" + DEFAULT_RESET_DATE);
+
+        // Get all the securityUserList where resetDate is greater than or equal to UPDATED_RESET_DATE
+        defaultSecurityUserShouldNotBeFound("resetDate.greaterThanOrEqual=" + UPDATED_RESET_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByResetDateIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where resetDate is less than or equal to DEFAULT_RESET_DATE
+        defaultSecurityUserShouldBeFound("resetDate.lessThanOrEqual=" + DEFAULT_RESET_DATE);
+
+        // Get all the securityUserList where resetDate is less than or equal to SMALLER_RESET_DATE
+        defaultSecurityUserShouldNotBeFound("resetDate.lessThanOrEqual=" + SMALLER_RESET_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByResetDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where resetDate is less than DEFAULT_RESET_DATE
+        defaultSecurityUserShouldNotBeFound("resetDate.lessThan=" + DEFAULT_RESET_DATE);
+
+        // Get all the securityUserList where resetDate is less than UPDATED_RESET_DATE
+        defaultSecurityUserShouldBeFound("resetDate.lessThan=" + UPDATED_RESET_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByResetDateIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where resetDate is greater than DEFAULT_RESET_DATE
+        defaultSecurityUserShouldNotBeFound("resetDate.greaterThan=" + DEFAULT_RESET_DATE);
+
+        // Get all the securityUserList where resetDate is greater than SMALLER_RESET_DATE
+        defaultSecurityUserShouldBeFound("resetDate.greaterThan=" + SMALLER_RESET_DATE);
+    }
+
+    @Test
+    @Transactional
     void getAllSecurityUsersByMobileNoIsEqualToSomething() throws Exception {
         // Initialize the database
         securityUserRepository.saveAndFlush(securityUser);
@@ -1531,6 +1586,58 @@ class SecurityUserResourceIT {
 
     @Test
     @Transactional
+    void getAllSecurityUsersByOtpExpiryTimeIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where otpExpiryTime is greater than or equal to DEFAULT_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldBeFound("otpExpiryTime.greaterThanOrEqual=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the securityUserList where otpExpiryTime is greater than or equal to UPDATED_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldNotBeFound("otpExpiryTime.greaterThanOrEqual=" + UPDATED_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByOtpExpiryTimeIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where otpExpiryTime is less than or equal to DEFAULT_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldBeFound("otpExpiryTime.lessThanOrEqual=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the securityUserList where otpExpiryTime is less than or equal to SMALLER_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldNotBeFound("otpExpiryTime.lessThanOrEqual=" + SMALLER_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByOtpExpiryTimeIsLessThanSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where otpExpiryTime is less than DEFAULT_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldNotBeFound("otpExpiryTime.lessThan=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the securityUserList where otpExpiryTime is less than UPDATED_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldBeFound("otpExpiryTime.lessThan=" + UPDATED_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByOtpExpiryTimeIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where otpExpiryTime is greater than DEFAULT_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldNotBeFound("otpExpiryTime.greaterThan=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the securityUserList where otpExpiryTime is greater than SMALLER_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldBeFound("otpExpiryTime.greaterThan=" + SMALLER_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
     void getAllSecurityUsersByLastModifiedIsEqualToSomething() throws Exception {
         // Initialize the database
         securityUserRepository.saveAndFlush(securityUser);
@@ -1579,6 +1686,58 @@ class SecurityUserResourceIT {
 
         // Get all the securityUserList where lastModified is null
         defaultSecurityUserShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultSecurityUserShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityUserList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultSecurityUserShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultSecurityUserShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityUserList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultSecurityUserShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultSecurityUserShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityUserList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultSecurityUserShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultSecurityUserShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityUserList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultSecurityUserShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test

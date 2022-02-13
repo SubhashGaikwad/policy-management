@@ -5,9 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { IUserAccess, UserAccess } from '../user-access.model';
 import { UserAccessService } from '../service/user-access.service';
 import { ISecurityUser } from 'app/entities/security-user/security-user.model';
@@ -42,11 +39,6 @@ export class UserAccessUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ userAccess }) => {
-      if (userAccess.id === undefined) {
-        const today = dayjs().startOf('day');
-        userAccess.lastModified = today;
-      }
-
       this.updateForm(userAccess);
 
       this.loadRelationshipsOptions();
@@ -72,10 +64,10 @@ export class UserAccessUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IUserAccess>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
   }
 
   protected onSaveSuccess(): void {
@@ -95,7 +87,7 @@ export class UserAccessUpdateComponent implements OnInit {
       id: userAccess.id,
       level: userAccess.level,
       accessId: userAccess.accessId,
-      lastModified: userAccess.lastModified ? userAccess.lastModified.format(DATE_TIME_FORMAT) : null,
+      lastModified: userAccess.lastModified,
       lastModifiedBy: userAccess.lastModifiedBy,
       securityUser: userAccess.securityUser,
     });
@@ -124,9 +116,7 @@ export class UserAccessUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       level: this.editForm.get(['level'])!.value,
       accessId: this.editForm.get(['accessId'])!.value,
-      lastModified: this.editForm.get(['lastModified'])!.value
-        ? dayjs(this.editForm.get(['lastModified'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      lastModified: this.editForm.get(['lastModified'])!.value,
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
       securityUser: this.editForm.get(['securityUser'])!.value,
     };

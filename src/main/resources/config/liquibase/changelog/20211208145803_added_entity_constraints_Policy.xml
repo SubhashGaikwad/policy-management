@@ -8,6 +8,42 @@
     -->
     <changeSet id="20211208145803-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="agency_id"
+                                 baseTableName="policy"
+                                 constraintName="fk_policy__agency_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="agency"/>
+
+        <addForeignKeyConstraint baseColumnNames="company_id"
+                                 baseTableName="policy"
+                                 constraintName="fk_policy__company_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="company"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="policy"
+                                 constraintName="fk_policy__product_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+
+        <addForeignKeyConstraint baseColumnNames="premiun_details_id"
+                                 baseTableName="policy"
+                                 constraintName="fk_policy__premiun_details_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="premiun_details"/>
+
+        <addForeignKeyConstraint baseColumnNames="vehicle_class_id"
+                                 baseTableName="policy"
+                                 constraintName="fk_policy__vehicle_class_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="vehicle_class"/>
+
+        <addForeignKeyConstraint baseColumnNames="bank_details_id"
+                                 baseTableName="policy"
+                                 constraintName="fk_policy__bank_details_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bank_details"/>
+
         <addForeignKeyConstraint baseColumnNames="users_id"
                                  baseTableName="policy"
                                  constraintName="fk_policy__users_id"

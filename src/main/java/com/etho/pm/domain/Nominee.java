@@ -2,7 +2,7 @@ package com.etho.pm.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -37,14 +37,17 @@ public class Nominee implements Serializable {
 
     @NotNull
     @Column(name = "last_modified", nullable = false)
-    private Instant lastModified;
+    private LocalDate lastModified;
 
     @NotNull
     @Column(name = "last_modified_by", nullable = false)
     private String lastModifiedBy;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "nominees", "users" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = { "agency", "company", "product", "premiunDetails", "vehicleClass", "bankDetails", "nominees", "members", "users" },
+        allowSetters = true
+    )
     private Policy policy;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -114,16 +117,16 @@ public class Nominee implements Serializable {
         this.contactNo = contactNo;
     }
 
-    public Instant getLastModified() {
+    public LocalDate getLastModified() {
         return this.lastModified;
     }
 
-    public Nominee lastModified(Instant lastModified) {
+    public Nominee lastModified(LocalDate lastModified) {
         this.setLastModified(lastModified);
         return this;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(LocalDate lastModified) {
         this.lastModified = lastModified;
     }
 

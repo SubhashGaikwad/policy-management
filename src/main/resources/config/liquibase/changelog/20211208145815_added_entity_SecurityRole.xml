@@ -20,7 +20,7 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="last_modified" type="${datetimeType}">
+            <column name="last_modified" type="date">
                 <constraints nullable="false" />
             </column>
             <column name="last_modified_by" type="varchar(255)">
@@ -28,7 +28,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="security_role" columnName="last_modified" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <changeSet id="20211208145815-1-relations" author="jhipster">

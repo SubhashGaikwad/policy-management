@@ -12,8 +12,8 @@ import com.etho.pm.repository.ProductTypeRepository;
 import com.etho.pm.service.criteria.ProductTypeCriteria;
 import com.etho.pm.service.dto.ProductTypeDTO;
 import com.etho.pm.service.mapper.ProductTypeMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,8 +38,9 @@ class ProductTypeResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_LAST_MODIFIED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_MODIFIED = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LAST_MODIFIED = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -359,6 +360,58 @@ class ProductTypeResourceIT {
 
         // Get all the productTypeList where lastModified is null
         defaultProductTypeShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllProductTypesByLastModifiedIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        productTypeRepository.saveAndFlush(productType);
+
+        // Get all the productTypeList where lastModified is greater than or equal to DEFAULT_LAST_MODIFIED
+        defaultProductTypeShouldBeFound("lastModified.greaterThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productTypeList where lastModified is greater than or equal to UPDATED_LAST_MODIFIED
+        defaultProductTypeShouldNotBeFound("lastModified.greaterThanOrEqual=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductTypesByLastModifiedIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        productTypeRepository.saveAndFlush(productType);
+
+        // Get all the productTypeList where lastModified is less than or equal to DEFAULT_LAST_MODIFIED
+        defaultProductTypeShouldBeFound("lastModified.lessThanOrEqual=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productTypeList where lastModified is less than or equal to SMALLER_LAST_MODIFIED
+        defaultProductTypeShouldNotBeFound("lastModified.lessThanOrEqual=" + SMALLER_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductTypesByLastModifiedIsLessThanSomething() throws Exception {
+        // Initialize the database
+        productTypeRepository.saveAndFlush(productType);
+
+        // Get all the productTypeList where lastModified is less than DEFAULT_LAST_MODIFIED
+        defaultProductTypeShouldNotBeFound("lastModified.lessThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productTypeList where lastModified is less than UPDATED_LAST_MODIFIED
+        defaultProductTypeShouldBeFound("lastModified.lessThan=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductTypesByLastModifiedIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        productTypeRepository.saveAndFlush(productType);
+
+        // Get all the productTypeList where lastModified is greater than DEFAULT_LAST_MODIFIED
+        defaultProductTypeShouldNotBeFound("lastModified.greaterThan=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productTypeList where lastModified is greater than SMALLER_LAST_MODIFIED
+        defaultProductTypeShouldBeFound("lastModified.greaterThan=" + SMALLER_LAST_MODIFIED);
     }
 
     @Test
