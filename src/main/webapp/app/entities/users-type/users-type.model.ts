@@ -1,10 +1,9 @@
-import * as dayjs from 'dayjs';
 import { IUsers } from 'app/entities/users/users.model';
 
 export interface IUsersType {
   id?: number;
   name?: string | null;
-  lastModified?: dayjs.Dayjs;
+  lastModified?: string;
   lastModifiedBy?: string;
   users?: IUsers | null;
 }
@@ -13,7 +12,7 @@ export class UsersType implements IUsersType {
   constructor(
     public id?: number,
     public name?: string | null,
-    public lastModified?: dayjs.Dayjs,
+    public lastModified?: string,
     public lastModifiedBy?: string,
     public users?: IUsers | null
   ) {}

@@ -1,4 +1,3 @@
-import * as dayjs from 'dayjs';
 import { ISecurityPermission } from 'app/entities/security-permission/security-permission.model';
 import { ISecurityUser } from 'app/entities/security-user/security-user.model';
 
@@ -6,7 +5,7 @@ export interface ISecurityRole {
   id?: number;
   name?: string;
   description?: string | null;
-  lastModified?: dayjs.Dayjs;
+  lastModified?: string;
   lastModifiedBy?: string;
   securityPermissions?: ISecurityPermission[] | null;
   securityUsers?: ISecurityUser[] | null;
@@ -17,7 +16,7 @@ export class SecurityRole implements ISecurityRole {
     public id?: number,
     public name?: string,
     public description?: string | null,
-    public lastModified?: dayjs.Dayjs,
+    public lastModified?: string,
     public lastModifiedBy?: string,
     public securityPermissions?: ISecurityPermission[] | null,
     public securityUsers?: ISecurityUser[] | null

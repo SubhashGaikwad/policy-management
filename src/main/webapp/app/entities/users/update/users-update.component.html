@@ -14,6 +14,25 @@
         </div>
 
         <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.users.groupCode" for="field_groupCode">Group Code</label>
+          <input type="text" class="form-control" name="groupCode" id="field_groupCode" data-cy="groupCode" formControlName="groupCode" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.users.groupHeadName" for="field_groupHeadName"
+            >Group Head Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="groupHeadName"
+            id="field_groupHeadName"
+            data-cy="groupHeadName"
+            formControlName="groupHeadName"
+          />
+        </div>
+
+        <div class="form-group">
           <label class="form-control-label" jhiTranslate="policyManagementApp.users.firstName" for="field_firstName">First Name</label>
           <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
         </div>
@@ -25,17 +44,7 @@
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="policyManagementApp.users.birthDate" for="field_birthDate">Birth Date</label>
-          <div class="d-flex">
-            <input
-              id="field_birthDate"
-              data-cy="birthDate"
-              type="datetime-local"
-              class="form-control"
-              name="birthDate"
-              formControlName="birthDate"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
+          <input type="text" class="form-control" name="birthDate" id="field_birthDate" data-cy="birthDate" formControlName="birthDate" />
           <div *ngIf="editForm.get('birthDate')!.invalid && (editForm.get('birthDate')!.dirty || editForm.get('birthDate')!.touched)">
             <small
               class="form-text text-danger"
@@ -44,12 +53,30 @@
             >
               This field is required.
             </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.users.marriageDate" for="field_marriageDate"
+            >Marriage Date</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="marriageDate"
+            id="field_marriageDate"
+            data-cy="marriageDate"
+            formControlName="marriageDate"
+          />
+          <div
+            *ngIf="editForm.get('marriageDate')!.invalid && (editForm.get('marriageDate')!.dirty || editForm.get('marriageDate')!.touched)"
+          >
             <small
               class="form-text text-danger"
-              [hidden]="!editForm.get('birthDate')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
+              *ngIf="editForm.get('marriageDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
             >
-              This field should be a date and time.
+              This field is required.
             </small>
           </div>
         </div>
@@ -130,8 +157,50 @@
         </div>
 
         <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.users.licenceExpiryDate" for="field_licenceExpiryDate"
+            >Licence Expiry Date</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="licenceExpiryDate"
+            id="field_licenceExpiryDate"
+            data-cy="licenceExpiryDate"
+            formControlName="licenceExpiryDate"
+          />
+        </div>
+
+        <div class="form-group">
           <label class="form-control-label" jhiTranslate="policyManagementApp.users.mobileNo" for="field_mobileNo">Mobile No</label>
           <input type="text" class="form-control" name="mobileNo" id="field_mobileNo" data-cy="mobileNo" formControlName="mobileNo" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.users.aadharCardNuber" for="field_aadharCardNuber"
+            >Aadhar Card Nuber</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="aadharCardNuber"
+            id="field_aadharCardNuber"
+            data-cy="aadharCardNuber"
+            formControlName="aadharCardNuber"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="policyManagementApp.users.pancardNumber" for="field_pancardNumber"
+            >Pancard Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="pancardNumber"
+            id="field_pancardNumber"
+            data-cy="pancardNumber"
+            formControlName="pancardNumber"
+          />
         </div>
 
         <div class="form-group">
@@ -152,34 +221,28 @@
           <label class="form-control-label" jhiTranslate="policyManagementApp.users.otpExpiryTime" for="field_otpExpiryTime"
             >Otp Expiry Time</label
           >
-          <div class="d-flex">
-            <input
-              id="field_otpExpiryTime"
-              data-cy="otpExpiryTime"
-              type="datetime-local"
-              class="form-control"
-              name="otpExpiryTime"
-              formControlName="otpExpiryTime"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="otpExpiryTime"
+            id="field_otpExpiryTime"
+            data-cy="otpExpiryTime"
+            formControlName="otpExpiryTime"
+          />
         </div>
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="policyManagementApp.users.lastModified" for="field_lastModified"
             >Last Modified</label
           >
-          <div class="d-flex">
-            <input
-              id="field_lastModified"
-              data-cy="lastModified"
-              type="datetime-local"
-              class="form-control"
-              name="lastModified"
-              formControlName="lastModified"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="lastModified"
+            id="field_lastModified"
+            data-cy="lastModified"
+            formControlName="lastModified"
+          />
           <div
             *ngIf="editForm.get('lastModified')!.invalid && (editForm.get('lastModified')!.dirty || editForm.get('lastModified')!.touched)"
           >
@@ -189,13 +252,6 @@
               jhiTranslate="entity.validation.required"
             >
               This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('lastModified')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
-            >
-              This field should be a date and time.
             </small>
           </div>
         </div>

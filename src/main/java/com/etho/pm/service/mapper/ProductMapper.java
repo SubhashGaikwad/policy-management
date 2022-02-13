@@ -12,4 +12,9 @@ public interface ProductMapper extends EntityMapper<ProductDTO, Product> {
     @Mapping(target = "productDetails", source = "productDetails", qualifiedByName = "id")
     @Mapping(target = "company", source = "company", qualifiedByName = "id")
     ProductDTO toDto(Product s);
+
+    @Named("id")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    ProductDTO toDtoId(Product product);
 }

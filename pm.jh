@@ -1,33 +1,169 @@
 entity Policy {
     policyAmount Long
-    instalmentAmount Long
+    policyNumber String
     term Long
-    instalmentPeriod Long
-    instalmentDate Long
+    ppt Long
+    commDate String required
+    proposerName String
+    sumAssuredAmount Long
+    premiumMode PremiumMode
+    basicPremium Long
+    extraPremium Long
+    gst String
     status PolicyStatus
-    dateStart Instant required
-    dateEnd Instant required
-    maturityDate Instant required
+    totalPremiun String
+    gstFirstYear String
+    netPremium String
+    taxBeneficiary String
+    policyReceived Boolean
+    previousPolicy Long
+    policyStartDate String
+    policyEndDate String
+    period String
+    claimDone Boolean
+    freeHeathCheckup Boolean
+    zone Zone
+    noOfYear Long
+    floaterSum String
+    tpa String
+    paymentDate String
+    policyType PolicyType
+    paToOwner String
+    paToOther String
+    loading Long
+    riskCoveredFrom String
+    riskCoveredTo String
+    notes String
+    freeField1 String
+    freeField2 String 
+    freeField3 String
+    freeField4 String
+    freeField5 String
+    maturityDate String required
     uinNo String
-	lastModified Instant required
+	lastModified String required
 	lastModifiedBy String required
 }
+
+entity PremiunDetails {
+    premium Long
+    otherLoading Long
+    otherDiscount Long
+    addOnPremium Long
+    liabilityPremium Long
+    odPremium Long
+    personalAccidentDiscount Boolean
+    personalAccident Long
+    grossPremium Long
+    gst Long
+    netPremium Long
+	lastModified String required
+	lastModifiedBy String required
+}
+
+entity Member {
+    name Long
+    age Long
+    relation String
+    contactNo Long
+	lastModified String required
+	lastModifiedBy String required
+}
+
+entity VehicleClass {
+    name Long
+	lastModified String required
+	lastModifiedBy String required
+}
+
+entity VehicleDetails {
+    name Long
+    invoiceValue String
+    idv String
+    enginNumber String
+    chassisNumber String
+    registrationNumber String
+    seatingCapacity Long
+    zone Zone
+    yearOfManufacturing String
+    registrationDate String
+	lastModified String required
+	lastModifiedBy String required
+}
+
+entity ParameterLookup {
+    name Long
+    type ParameterType
+	lastModified String required
+	lastModifiedBy String required
+}
+
+enum ParameterType {
+    MAKE(Make),
+    MODEL(Model),
+    VARIENT(Varient),
+    CC(CubicCapacity),
+    VEHICAL(VehicalType),
+    HEATH(HeathInsurance),
+    MOTAR(MotarInsurance)
+    
+}
+
+
 
 entity Nominee {
     name Long
     relation String
     nomineePercentage Long
     contactNo Long
-	lastModified Instant required
+	lastModified String required
 	lastModifiedBy String required
+}
+
+entity BankDetails {
+    name String
+    branch String
+    branchCode String
+    city Long
+    contactNo Long
+    ifcCode String
+    account String
+    accountType String
+	lastModified String required
+	lastModifiedBy String required
+}
+
+enum Zone {
+    A("A"),
+    B("B"),
+    C("C")
+    
+}
+
+enum PolicyType {
+    LIFE(Life),
+    HEATH(Health),
+    MOTAR(Motar),
+    OTHER(Other)
+   
+}
+
+
+enum PremiumMode {
+    YEARLY(Yearly),
+    HLY(Halfyear),
+    QLY(Qly),
+    MONTHLY(Monthly),
+    SSS(sss),
+    SINGLE(Single)
 }
 
 enum PolicyStatus {
     OPEN(Open),
     INFORCE(inforce),
     CANCELLED(Cancelled),
-    CLOSED(Closed)
-    MATURED(Matured)
+    CLOSED(Closed),
+    MATURED(Matured),
     SUSPENDED(Suspended)
 }
 
@@ -35,21 +171,21 @@ entity Product {
     name String
     planNo Long
     uinNo String
-	lastModified Instant required
+	lastModified String required
 	lastModifiedBy String required
 }
 
 entity ProductDetails {
     details String
     featurs String
-    activationDate Instant required
-	lastModified Instant required
+    activationDate String required
+	lastModified String required
 	lastModifiedBy String required
 }
 
 entity ProductType {
     name String
-    lastModified Instant required
+    lastModified String required
 	lastModifiedBy String required
 }
 
@@ -59,23 +195,50 @@ entity Company {
     branch String
     brnachCode String
     email String unique
+    imageUrl String
+   	contactNo String
+	lastModified String required
+	lastModifiedBy String required
+}
+
+
+
+entity CompanyType {
+    name String//Insurance ,
+    lastModified String required
+	lastModifiedBy String required
+}
+
+entity Agency {
+    name String
+    address String
+    branch String
+    brnachCode String
+    email String unique
     companyTypeId Long
     imageUrl String
    	contactNo String
-	lastModified Instant required
+	lastModified String required
 	lastModifiedBy String required
 }
 
-entity CompanyType {
+entity Rider {
     name String
-    lastModified Instant required
+    commDate String
+    sum String
+    term String
+    ppt String unique
+    premium Long
+	lastModified String required
 	lastModifiedBy String required
 }
-
 entity Users {
+    groupCode String
+    groupHeadName String
     firstName String
     lastName String
-    birthDate Instant required
+    birthDate String required
+    marriageDate String required
     userTypeId Long
     username String required unique
     password String required
@@ -83,10 +246,13 @@ entity Users {
     imageUrl String
     status StatusInd
     activated Boolean required
+    licenceExpiryDate String
    	mobileNo String
+    aadharCardNuber String
+    pancardNumber String
 	oneTimePassword String
-	otpExpiryTime Instant
-    lastModified Instant required
+	otpExpiryTime String
+    lastModified String required
 	lastModifiedBy String required
 }
 
@@ -97,13 +263,13 @@ entity Address {
     district String
     state String
     pincode Long
-    lastModified Instant required
+    lastModified String required
 	lastModifiedBy String required
 }
 
 entity UsersType {
     name String
-    lastModified Instant required
+    lastModified String required
 	lastModifiedBy String required
 }
 
@@ -119,24 +285,24 @@ entity SecurityUser {
     langKey String
     activationKey String
     resetKey String
-    resetDate Instant
+    resetDate String
 	mobileNo String
 	oneTimePassword String
-	otpExpiryTime Instant
-    lastModified Instant required
+	otpExpiryTime String
+    lastModified String required
 	lastModifiedBy String required
 }
 
 entity UserAccess {
     level AccessLevel
     accessId Long
-    lastModified Instant required
+    lastModified String required
 	lastModifiedBy String required
 }
 
 enum AccessLevel {
-    ADMIN(Admin)
-	AGENT (Agent)
+    ADMIN(Admin),
+	AGENT (Agent),
     CUSTOMER(Customer) 
 }
 
@@ -148,14 +314,14 @@ enum StatusInd {
 entity SecurityRole {
 	name String required unique
 	description String
-    lastModified Instant required
+    lastModified String required
 	lastModifiedBy String required
 }
 
 entity SecurityPermission {
 	name String required unique
 	description String
-    lastModified Instant required
+    lastModified String required
 	lastModifiedBy String required
 }
 
@@ -164,6 +330,8 @@ relationship ManyToOne {
 }
 relationship OneToMany {
 	Policy to Nominee
+    VehicleDetails to ParameterLookup
+    Policy to Member
     Company to Product
     Users to Policy
     Users to Address
@@ -179,8 +347,14 @@ relationship ManyToMany {
 
 relationship OneToOne {
     Product to ProductDetails
+    Policy to Agency
+    Policy to Company
+    Policy to Product
+    Policy to PremiunDetails
+    Policy to VehicleClass
     Users to UsersType
     Company to CompanyType
+    Policy to BankDetails
     ProductDetails to ProductType
 }
 
@@ -196,4 +370,4 @@ service * with serviceClass
 
 filter *
 // Set an angular suffix
-// angularSuffix * with pm
+// angularSuffix * with tvg

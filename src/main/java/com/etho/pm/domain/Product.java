@@ -2,7 +2,6 @@ package com.etho.pm.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -34,7 +33,7 @@ public class Product implements Serializable {
 
     @NotNull
     @Column(name = "last_modified", nullable = false)
-    private Instant lastModified;
+    private String lastModified;
 
     @NotNull
     @Column(name = "last_modified_by", nullable = false)
@@ -45,8 +44,15 @@ public class Product implements Serializable {
     @JoinColumn(unique = true)
     private ProductDetails productDetails;
 
+    @JsonIgnoreProperties(
+        value = { "agency", "company", "product", "premiunDetails", "vehicleClass", "bankDetails", "nominees", "members", "users" },
+        allowSetters = true
+    )
+    @OneToOne(mappedBy = "product")
+    private Policy policy;
+
     @ManyToOne
-    @JsonIgnoreProperties(value = { "companyType", "products", "addresses" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "companyType", "products", "addresses", "policy" }, allowSetters = true)
     private Company company;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -103,16 +109,16 @@ public class Product implements Serializable {
         this.uinNo = uinNo;
     }
 
-    public Instant getLastModified() {
+    public String getLastModified() {
         return this.lastModified;
     }
 
-    public Product lastModified(Instant lastModified) {
+    public Product lastModified(String lastModified) {
         this.setLastModified(lastModified);
         return this;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
     }
 
@@ -139,6 +145,25 @@ public class Product implements Serializable {
 
     public Product productDetails(ProductDetails productDetails) {
         this.setProductDetails(productDetails);
+        return this;
+    }
+
+    public Policy getPolicy() {
+        return this.policy;
+    }
+
+    public void setPolicy(Policy policy) {
+        if (this.policy != null) {
+            this.policy.setProduct(null);
+        }
+        if (policy != null) {
+            policy.setProduct(this);
+        }
+        this.policy = policy;
+    }
+
+    public Product policy(Policy policy) {
+        this.setPolicy(policy);
         return this;
     }
 

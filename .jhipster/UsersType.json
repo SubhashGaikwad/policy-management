@@ -1,5 +1,9 @@
 {
-  "name": "UsersType",
+  "applications": "*",
+  "changelogDate": "20211208145812",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "users_type",
   "fields": [
     {
       "fieldName": "name",
@@ -7,7 +11,7 @@
     },
     {
       "fieldName": "lastModified",
-      "fieldType": "Instant",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
@@ -16,23 +20,19 @@
       "fieldValidateRules": ["required"]
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "UsersType",
+  "pagination": "pagination",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "users",
       "otherEntityRelationshipName": "usersType",
+      "ownerSide": false,
       "relationshipName": "users",
-      "ownerSide": false
+      "relationshipType": "one-to-one"
     }
   ],
-  "entityTableName": "users_type",
-  "dto": "mapstruct",
-  "pagination": "pagination",
-  "service": "serviceClass",
-  "jpaMetamodelFiltering": true,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": "*",
-  "changelogDate": "20211208145812"
+  "service": "serviceClass"
 }

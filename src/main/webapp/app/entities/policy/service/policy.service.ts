@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -19,37 +17,24 @@ export class PolicyService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(policy: IPolicy): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(policy);
-    return this.http
-      .post<IPolicy>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.post<IPolicy>(this.resourceUrl, policy, { observe: 'response' });
   }
 
   update(policy: IPolicy): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(policy);
-    return this.http
-      .put<IPolicy>(`${this.resourceUrl}/${getPolicyIdentifier(policy) as number}`, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.put<IPolicy>(`${this.resourceUrl}/${getPolicyIdentifier(policy) as number}`, policy, { observe: 'response' });
   }
 
   partialUpdate(policy: IPolicy): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(policy);
-    return this.http
-      .patch<IPolicy>(`${this.resourceUrl}/${getPolicyIdentifier(policy) as number}`, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.patch<IPolicy>(`${this.resourceUrl}/${getPolicyIdentifier(policy) as number}`, policy, { observe: 'response' });
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http
-      .get<IPolicy>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.get<IPolicy>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http
-      .get<IPolicy[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    return this.http.get<IPolicy[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -71,36 +56,5 @@ export class PolicyService {
       return [...policiesToAdd, ...policyCollection];
     }
     return policyCollection;
-  }
-
-  protected convertDateFromClient(policy: IPolicy): IPolicy {
-    return Object.assign({}, policy, {
-      dateStart: policy.dateStart?.isValid() ? policy.dateStart.toJSON() : undefined,
-      dateEnd: policy.dateEnd?.isValid() ? policy.dateEnd.toJSON() : undefined,
-      maturityDate: policy.maturityDate?.isValid() ? policy.maturityDate.toJSON() : undefined,
-      lastModified: policy.lastModified?.isValid() ? policy.lastModified.toJSON() : undefined,
-    });
-  }
-
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
-    if (res.body) {
-      res.body.dateStart = res.body.dateStart ? dayjs(res.body.dateStart) : undefined;
-      res.body.dateEnd = res.body.dateEnd ? dayjs(res.body.dateEnd) : undefined;
-      res.body.maturityDate = res.body.maturityDate ? dayjs(res.body.maturityDate) : undefined;
-      res.body.lastModified = res.body.lastModified ? dayjs(res.body.lastModified) : undefined;
-    }
-    return res;
-  }
-
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-    if (res.body) {
-      res.body.forEach((policy: IPolicy) => {
-        policy.dateStart = policy.dateStart ? dayjs(policy.dateStart) : undefined;
-        policy.dateEnd = policy.dateEnd ? dayjs(policy.dateEnd) : undefined;
-        policy.maturityDate = policy.maturityDate ? dayjs(policy.maturityDate) : undefined;
-        policy.lastModified = policy.lastModified ? dayjs(policy.lastModified) : undefined;
-      });
-    }
-    return res;
   }
 }

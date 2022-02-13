@@ -13,8 +13,6 @@ import com.etho.pm.repository.UserAccessRepository;
 import com.etho.pm.service.criteria.UserAccessCriteria;
 import com.etho.pm.service.dto.UserAccessDTO;
 import com.etho.pm.service.mapper.UserAccessMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -43,8 +41,8 @@ class UserAccessResourceIT {
     private static final Long UPDATED_ACCESS_ID = 2L;
     private static final Long SMALLER_ACCESS_ID = 1L - 1L;
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_LAST_MODIFIED = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED = "BBBBBBBBBB";
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -193,7 +191,7 @@ class UserAccessResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(userAccess.getId().intValue())))
             .andExpect(jsonPath("$.[*].level").value(hasItem(DEFAULT_LEVEL.toString())))
             .andExpect(jsonPath("$.[*].accessId").value(hasItem(DEFAULT_ACCESS_ID.intValue())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
 
@@ -211,7 +209,7 @@ class UserAccessResourceIT {
             .andExpect(jsonPath("$.id").value(userAccess.getId().intValue()))
             .andExpect(jsonPath("$.level").value(DEFAULT_LEVEL.toString()))
             .andExpect(jsonPath("$.accessId").value(DEFAULT_ACCESS_ID.intValue()))
-            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
 
@@ -443,6 +441,32 @@ class UserAccessResourceIT {
 
     @Test
     @Transactional
+    void getAllUserAccessesByLastModifiedContainsSomething() throws Exception {
+        // Initialize the database
+        userAccessRepository.saveAndFlush(userAccess);
+
+        // Get all the userAccessList where lastModified contains DEFAULT_LAST_MODIFIED
+        defaultUserAccessShouldBeFound("lastModified.contains=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the userAccessList where lastModified contains UPDATED_LAST_MODIFIED
+        defaultUserAccessShouldNotBeFound("lastModified.contains=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllUserAccessesByLastModifiedNotContainsSomething() throws Exception {
+        // Initialize the database
+        userAccessRepository.saveAndFlush(userAccess);
+
+        // Get all the userAccessList where lastModified does not contain DEFAULT_LAST_MODIFIED
+        defaultUserAccessShouldNotBeFound("lastModified.doesNotContain=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the userAccessList where lastModified does not contain UPDATED_LAST_MODIFIED
+        defaultUserAccessShouldBeFound("lastModified.doesNotContain=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
     void getAllUserAccessesByLastModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         userAccessRepository.saveAndFlush(userAccess);
@@ -556,7 +580,7 @@ class UserAccessResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(userAccess.getId().intValue())))
             .andExpect(jsonPath("$.[*].level").value(hasItem(DEFAULT_LEVEL.toString())))
             .andExpect(jsonPath("$.[*].accessId").value(hasItem(DEFAULT_ACCESS_ID.intValue())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
 
         // Check, that the count call also returns 1

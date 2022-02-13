@@ -14,13 +14,22 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="group_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="group_head_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="first_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="last_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="birth_date" type="${datetimeType}">
+            <column name="birth_date" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="marriage_date" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="user_type_id" type="bigint">
@@ -44,16 +53,25 @@
             <column name="activated" type="boolean">
                 <constraints nullable="false" />
             </column>
+            <column name="licence_expiry_date" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="mobile_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="aadhar_card_nuber" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pancard_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="one_time_password" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="otp_expiry_time" type="${datetimeType}">
+            <column name="otp_expiry_time" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="last_modified" type="${datetimeType}">
+            <column name="last_modified" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="last_modified_by" type="varchar(255)">
@@ -64,9 +82,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="users" columnName="birth_date" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="users" columnName="otp_expiry_time" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="users" columnName="last_modified" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -86,9 +101,12 @@
                   tableName="users"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
+            <column name="group_code" type="string"/>
+            <column name="group_head_name" type="string"/>
             <column name="first_name" type="string"/>
             <column name="last_name" type="string"/>
-            <column name="birth_date" type="date"/>
+            <column name="birth_date" type="string"/>
+            <column name="marriage_date" type="string"/>
             <column name="user_type_id" type="numeric"/>
             <column name="username" type="string"/>
             <column name="password" type="string"/>
@@ -96,10 +114,13 @@
             <column name="image_url" type="string"/>
             <column name="status" type="string"/>
             <column name="activated" type="boolean"/>
+            <column name="licence_expiry_date" type="string"/>
             <column name="mobile_no" type="string"/>
+            <column name="aadhar_card_nuber" type="string"/>
+            <column name="pancard_number" type="string"/>
             <column name="one_time_password" type="string"/>
-            <column name="otp_expiry_time" type="date"/>
-            <column name="last_modified" type="date"/>
+            <column name="otp_expiry_time" type="string"/>
+            <column name="last_modified" type="string"/>
             <column name="last_modified_by" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

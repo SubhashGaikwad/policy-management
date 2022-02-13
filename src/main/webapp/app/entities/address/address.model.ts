@@ -1,4 +1,3 @@
-import * as dayjs from 'dayjs';
 import { IUsers } from 'app/entities/users/users.model';
 import { ICompany } from 'app/entities/company/company.model';
 
@@ -10,7 +9,7 @@ export interface IAddress {
   district?: string | null;
   state?: string | null;
   pincode?: number | null;
-  lastModified?: dayjs.Dayjs;
+  lastModified?: string;
   lastModifiedBy?: string;
   users?: IUsers | null;
   company?: ICompany | null;
@@ -25,7 +24,7 @@ export class Address implements IAddress {
     public district?: string | null,
     public state?: string | null,
     public pincode?: number | null,
-    public lastModified?: dayjs.Dayjs,
+    public lastModified?: string,
     public lastModifiedBy?: string,
     public users?: IUsers | null,
     public company?: ICompany | null

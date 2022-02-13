@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -19,37 +17,28 @@ export class SecurityRoleService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(securityRole: ISecurityRole): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(securityRole);
-    return this.http
-      .post<ISecurityRole>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.post<ISecurityRole>(this.resourceUrl, securityRole, { observe: 'response' });
   }
 
   update(securityRole: ISecurityRole): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(securityRole);
-    return this.http
-      .put<ISecurityRole>(`${this.resourceUrl}/${getSecurityRoleIdentifier(securityRole) as number}`, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.put<ISecurityRole>(`${this.resourceUrl}/${getSecurityRoleIdentifier(securityRole) as number}`, securityRole, {
+      observe: 'response',
+    });
   }
 
   partialUpdate(securityRole: ISecurityRole): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(securityRole);
-    return this.http
-      .patch<ISecurityRole>(`${this.resourceUrl}/${getSecurityRoleIdentifier(securityRole) as number}`, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.patch<ISecurityRole>(`${this.resourceUrl}/${getSecurityRoleIdentifier(securityRole) as number}`, securityRole, {
+      observe: 'response',
+    });
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http
-      .get<ISecurityRole>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.get<ISecurityRole>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http
-      .get<ISecurityRole[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    return this.http.get<ISecurityRole[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -76,27 +65,5 @@ export class SecurityRoleService {
       return [...securityRolesToAdd, ...securityRoleCollection];
     }
     return securityRoleCollection;
-  }
-
-  protected convertDateFromClient(securityRole: ISecurityRole): ISecurityRole {
-    return Object.assign({}, securityRole, {
-      lastModified: securityRole.lastModified?.isValid() ? securityRole.lastModified.toJSON() : undefined,
-    });
-  }
-
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
-    if (res.body) {
-      res.body.lastModified = res.body.lastModified ? dayjs(res.body.lastModified) : undefined;
-    }
-    return res;
-  }
-
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-    if (res.body) {
-      res.body.forEach((securityRole: ISecurityRole) => {
-        securityRole.lastModified = securityRole.lastModified ? dayjs(securityRole.lastModified) : undefined;
-      });
-    }
-    return res;
   }
 }

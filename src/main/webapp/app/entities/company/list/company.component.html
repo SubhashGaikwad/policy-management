@@ -48,9 +48,6 @@
           <th scope="col" jhiSortBy="email">
             <span jhiTranslate="policyManagementApp.company.email">Email</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="companyTypeId">
-            <span jhiTranslate="policyManagementApp.company.companyTypeId">Company Type Id</span> <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col" jhiSortBy="imageUrl">
             <span jhiTranslate="policyManagementApp.company.imageUrl">Image Url</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -79,10 +76,9 @@
           <td>{{ company.branch }}</td>
           <td>{{ company.brnachCode }}</td>
           <td>{{ company.email }}</td>
-          <td>{{ company.companyTypeId }}</td>
           <td>{{ company.imageUrl }}</td>
           <td>{{ company.contactNo }}</td>
-          <td>{{ company.lastModified | formatMediumDatetime }}</td>
+          <td>{{ company.lastModified }}</td>
           <td>{{ company.lastModifiedBy }}</td>
           <td>
             <div *ngIf="company.companyType">

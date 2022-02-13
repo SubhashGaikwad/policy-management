@@ -7,14 +7,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.etho.pm.IntegrationTest;
 import com.etho.pm.domain.Company;
+import com.etho.pm.domain.Policy;
 import com.etho.pm.domain.Product;
 import com.etho.pm.domain.ProductDetails;
 import com.etho.pm.repository.ProductRepository;
 import com.etho.pm.service.criteria.ProductCriteria;
 import com.etho.pm.service.dto.ProductDTO;
 import com.etho.pm.service.mapper.ProductMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -46,8 +45,8 @@ class ProductResourceIT {
     private static final String DEFAULT_UIN_NO = "AAAAAAAAAA";
     private static final String UPDATED_UIN_NO = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_LAST_MODIFIED = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED = "BBBBBBBBBB";
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -200,7 +199,7 @@ class ProductResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].planNo").value(hasItem(DEFAULT_PLAN_NO.intValue())))
             .andExpect(jsonPath("$.[*].uinNo").value(hasItem(DEFAULT_UIN_NO)))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
 
@@ -219,7 +218,7 @@ class ProductResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.planNo").value(DEFAULT_PLAN_NO.intValue()))
             .andExpect(jsonPath("$.uinNo").value(DEFAULT_UIN_NO))
-            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
 
@@ -555,6 +554,32 @@ class ProductResourceIT {
 
     @Test
     @Transactional
+    void getAllProductsByLastModifiedContainsSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where lastModified contains DEFAULT_LAST_MODIFIED
+        defaultProductShouldBeFound("lastModified.contains=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productList where lastModified contains UPDATED_LAST_MODIFIED
+        defaultProductShouldNotBeFound("lastModified.contains=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllProductsByLastModifiedNotContainsSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+
+        // Get all the productList where lastModified does not contain DEFAULT_LAST_MODIFIED
+        defaultProductShouldNotBeFound("lastModified.doesNotContain=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the productList where lastModified does not contain UPDATED_LAST_MODIFIED
+        defaultProductShouldBeFound("lastModified.doesNotContain=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
     void getAllProductsByLastModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         productRepository.saveAndFlush(product);
@@ -659,6 +684,33 @@ class ProductResourceIT {
 
     @Test
     @Transactional
+    void getAllProductsByPolicyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        productRepository.saveAndFlush(product);
+        Policy policy;
+        if (TestUtil.findAll(em, Policy.class).isEmpty()) {
+            policy = PolicyResourceIT.createEntity(em);
+            em.persist(policy);
+            em.flush();
+        } else {
+            policy = TestUtil.findAll(em, Policy.class).get(0);
+        }
+        em.persist(policy);
+        em.flush();
+        product.setPolicy(policy);
+        policy.setProduct(product);
+        productRepository.saveAndFlush(product);
+        Long policyId = policy.getId();
+
+        // Get all the productList where policy equals to policyId
+        defaultProductShouldBeFound("policyId.equals=" + policyId);
+
+        // Get all the productList where policy equals to (policyId + 1)
+        defaultProductShouldNotBeFound("policyId.equals=" + (policyId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllProductsByCompanyIsEqualToSomething() throws Exception {
         // Initialize the database
         productRepository.saveAndFlush(product);
@@ -695,7 +747,7 @@ class ProductResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].planNo").value(hasItem(DEFAULT_PLAN_NO.intValue())))
             .andExpect(jsonPath("$.[*].uinNo").value(hasItem(DEFAULT_UIN_NO)))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
 
         // Check, that the count call also returns 1

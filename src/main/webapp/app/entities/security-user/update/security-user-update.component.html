@@ -133,17 +133,7 @@
           <label class="form-control-label" jhiTranslate="policyManagementApp.securityUser.resetDate" for="field_resetDate"
             >Reset Date</label
           >
-          <div class="d-flex">
-            <input
-              id="field_resetDate"
-              data-cy="resetDate"
-              type="datetime-local"
-              class="form-control"
-              name="resetDate"
-              formControlName="resetDate"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
+          <input type="text" class="form-control" name="resetDate" id="field_resetDate" data-cy="resetDate" formControlName="resetDate" />
         </div>
 
         <div class="form-group">
@@ -169,34 +159,28 @@
           <label class="form-control-label" jhiTranslate="policyManagementApp.securityUser.otpExpiryTime" for="field_otpExpiryTime"
             >Otp Expiry Time</label
           >
-          <div class="d-flex">
-            <input
-              id="field_otpExpiryTime"
-              data-cy="otpExpiryTime"
-              type="datetime-local"
-              class="form-control"
-              name="otpExpiryTime"
-              formControlName="otpExpiryTime"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="otpExpiryTime"
+            id="field_otpExpiryTime"
+            data-cy="otpExpiryTime"
+            formControlName="otpExpiryTime"
+          />
         </div>
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="policyManagementApp.securityUser.lastModified" for="field_lastModified"
             >Last Modified</label
           >
-          <div class="d-flex">
-            <input
-              id="field_lastModified"
-              data-cy="lastModified"
-              type="datetime-local"
-              class="form-control"
-              name="lastModified"
-              formControlName="lastModified"
-              placeholder="YYYY-MM-DD HH:mm"
-            />
-          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="lastModified"
+            id="field_lastModified"
+            data-cy="lastModified"
+            formControlName="lastModified"
+          />
           <div
             *ngIf="editForm.get('lastModified')!.invalid && (editForm.get('lastModified')!.dirty || editForm.get('lastModified')!.touched)"
           >
@@ -206,13 +190,6 @@
               jhiTranslate="entity.validation.required"
             >
               This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('lastModified')?.errors?.ZonedDateTimelocal"
-              jhiTranslate="entity.validation.ZonedDateTimelocal"
-            >
-              This field should be a date and time.
             </small>
           </div>
         </div>

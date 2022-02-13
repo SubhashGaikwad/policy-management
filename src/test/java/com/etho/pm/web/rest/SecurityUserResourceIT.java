@@ -15,8 +15,6 @@ import com.etho.pm.service.SecurityUserService;
 import com.etho.pm.service.criteria.SecurityUserCriteria;
 import com.etho.pm.service.dto.SecurityUserDTO;
 import com.etho.pm.service.mapper.SecurityUserMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -78,8 +76,8 @@ class SecurityUserResourceIT {
     private static final String DEFAULT_RESET_KEY = "AAAAAAAAAA";
     private static final String UPDATED_RESET_KEY = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_RESET_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_RESET_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_RESET_DATE = "AAAAAAAAAA";
+    private static final String UPDATED_RESET_DATE = "BBBBBBBBBB";
 
     private static final String DEFAULT_MOBILE_NO = "AAAAAAAAAA";
     private static final String UPDATED_MOBILE_NO = "BBBBBBBBBB";
@@ -87,11 +85,11 @@ class SecurityUserResourceIT {
     private static final String DEFAULT_ONE_TIME_PASSWORD = "AAAAAAAAAA";
     private static final String UPDATED_ONE_TIME_PASSWORD = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_OTP_EXPIRY_TIME = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_OTP_EXPIRY_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_OTP_EXPIRY_TIME = "AAAAAAAAAA";
+    private static final String UPDATED_OTP_EXPIRY_TIME = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_LAST_MODIFIED = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED = "BBBBBBBBBB";
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -362,11 +360,11 @@ class SecurityUserResourceIT {
             .andExpect(jsonPath("$.[*].langKey").value(hasItem(DEFAULT_LANG_KEY)))
             .andExpect(jsonPath("$.[*].activationKey").value(hasItem(DEFAULT_ACTIVATION_KEY)))
             .andExpect(jsonPath("$.[*].resetKey").value(hasItem(DEFAULT_RESET_KEY)))
-            .andExpect(jsonPath("$.[*].resetDate").value(hasItem(DEFAULT_RESET_DATE.toString())))
+            .andExpect(jsonPath("$.[*].resetDate").value(hasItem(DEFAULT_RESET_DATE)))
             .andExpect(jsonPath("$.[*].mobileNo").value(hasItem(DEFAULT_MOBILE_NO)))
             .andExpect(jsonPath("$.[*].oneTimePassword").value(hasItem(DEFAULT_ONE_TIME_PASSWORD)))
-            .andExpect(jsonPath("$.[*].otpExpiryTime").value(hasItem(DEFAULT_OTP_EXPIRY_TIME.toString())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].otpExpiryTime").value(hasItem(DEFAULT_OTP_EXPIRY_TIME)))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
 
@@ -411,11 +409,11 @@ class SecurityUserResourceIT {
             .andExpect(jsonPath("$.langKey").value(DEFAULT_LANG_KEY))
             .andExpect(jsonPath("$.activationKey").value(DEFAULT_ACTIVATION_KEY))
             .andExpect(jsonPath("$.resetKey").value(DEFAULT_RESET_KEY))
-            .andExpect(jsonPath("$.resetDate").value(DEFAULT_RESET_DATE.toString()))
+            .andExpect(jsonPath("$.resetDate").value(DEFAULT_RESET_DATE))
             .andExpect(jsonPath("$.mobileNo").value(DEFAULT_MOBILE_NO))
             .andExpect(jsonPath("$.oneTimePassword").value(DEFAULT_ONE_TIME_PASSWORD))
-            .andExpect(jsonPath("$.otpExpiryTime").value(DEFAULT_OTP_EXPIRY_TIME.toString()))
-            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.otpExpiryTime").value(DEFAULT_OTP_EXPIRY_TIME))
+            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
 
@@ -1323,6 +1321,32 @@ class SecurityUserResourceIT {
 
     @Test
     @Transactional
+    void getAllSecurityUsersByResetDateContainsSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where resetDate contains DEFAULT_RESET_DATE
+        defaultSecurityUserShouldBeFound("resetDate.contains=" + DEFAULT_RESET_DATE);
+
+        // Get all the securityUserList where resetDate contains UPDATED_RESET_DATE
+        defaultSecurityUserShouldNotBeFound("resetDate.contains=" + UPDATED_RESET_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByResetDateNotContainsSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where resetDate does not contain DEFAULT_RESET_DATE
+        defaultSecurityUserShouldNotBeFound("resetDate.doesNotContain=" + DEFAULT_RESET_DATE);
+
+        // Get all the securityUserList where resetDate does not contain UPDATED_RESET_DATE
+        defaultSecurityUserShouldBeFound("resetDate.doesNotContain=" + UPDATED_RESET_DATE);
+    }
+
+    @Test
+    @Transactional
     void getAllSecurityUsersByMobileNoIsEqualToSomething() throws Exception {
         // Initialize the database
         securityUserRepository.saveAndFlush(securityUser);
@@ -1531,6 +1555,32 @@ class SecurityUserResourceIT {
 
     @Test
     @Transactional
+    void getAllSecurityUsersByOtpExpiryTimeContainsSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where otpExpiryTime contains DEFAULT_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldBeFound("otpExpiryTime.contains=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the securityUserList where otpExpiryTime contains UPDATED_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldNotBeFound("otpExpiryTime.contains=" + UPDATED_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByOtpExpiryTimeNotContainsSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where otpExpiryTime does not contain DEFAULT_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldNotBeFound("otpExpiryTime.doesNotContain=" + DEFAULT_OTP_EXPIRY_TIME);
+
+        // Get all the securityUserList where otpExpiryTime does not contain UPDATED_OTP_EXPIRY_TIME
+        defaultSecurityUserShouldBeFound("otpExpiryTime.doesNotContain=" + UPDATED_OTP_EXPIRY_TIME);
+    }
+
+    @Test
+    @Transactional
     void getAllSecurityUsersByLastModifiedIsEqualToSomething() throws Exception {
         // Initialize the database
         securityUserRepository.saveAndFlush(securityUser);
@@ -1579,6 +1629,32 @@ class SecurityUserResourceIT {
 
         // Get all the securityUserList where lastModified is null
         defaultSecurityUserShouldNotBeFound("lastModified.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByLastModifiedContainsSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where lastModified contains DEFAULT_LAST_MODIFIED
+        defaultSecurityUserShouldBeFound("lastModified.contains=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityUserList where lastModified contains UPDATED_LAST_MODIFIED
+        defaultSecurityUserShouldNotBeFound("lastModified.contains=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllSecurityUsersByLastModifiedNotContainsSomething() throws Exception {
+        // Initialize the database
+        securityUserRepository.saveAndFlush(securityUser);
+
+        // Get all the securityUserList where lastModified does not contain DEFAULT_LAST_MODIFIED
+        defaultSecurityUserShouldNotBeFound("lastModified.doesNotContain=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the securityUserList where lastModified does not contain UPDATED_LAST_MODIFIED
+        defaultSecurityUserShouldBeFound("lastModified.doesNotContain=" + UPDATED_LAST_MODIFIED);
     }
 
     @Test
@@ -1731,11 +1807,11 @@ class SecurityUserResourceIT {
             .andExpect(jsonPath("$.[*].langKey").value(hasItem(DEFAULT_LANG_KEY)))
             .andExpect(jsonPath("$.[*].activationKey").value(hasItem(DEFAULT_ACTIVATION_KEY)))
             .andExpect(jsonPath("$.[*].resetKey").value(hasItem(DEFAULT_RESET_KEY)))
-            .andExpect(jsonPath("$.[*].resetDate").value(hasItem(DEFAULT_RESET_DATE.toString())))
+            .andExpect(jsonPath("$.[*].resetDate").value(hasItem(DEFAULT_RESET_DATE)))
             .andExpect(jsonPath("$.[*].mobileNo").value(hasItem(DEFAULT_MOBILE_NO)))
             .andExpect(jsonPath("$.[*].oneTimePassword").value(hasItem(DEFAULT_ONE_TIME_PASSWORD)))
-            .andExpect(jsonPath("$.[*].otpExpiryTime").value(hasItem(DEFAULT_OTP_EXPIRY_TIME.toString())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].otpExpiryTime").value(hasItem(DEFAULT_OTP_EXPIRY_TIME)))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
 
         // Check, that the count call also returns 1

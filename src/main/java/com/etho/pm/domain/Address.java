@@ -2,7 +2,6 @@ package com.etho.pm.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -43,7 +42,7 @@ public class Address implements Serializable {
 
     @NotNull
     @Column(name = "last_modified", nullable = false)
-    private Instant lastModified;
+    private String lastModified;
 
     @NotNull
     @Column(name = "last_modified_by", nullable = false)
@@ -54,7 +53,7 @@ public class Address implements Serializable {
     private Users users;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "companyType", "products", "addresses" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "companyType", "products", "addresses", "policy" }, allowSetters = true)
     private Company company;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -150,16 +149,16 @@ public class Address implements Serializable {
         this.pincode = pincode;
     }
 
-    public Instant getLastModified() {
+    public String getLastModified() {
         return this.lastModified;
     }
 
-    public Address lastModified(Instant lastModified) {
+    public Address lastModified(String lastModified) {
         this.setLastModified(lastModified);
         return this;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
     }
 

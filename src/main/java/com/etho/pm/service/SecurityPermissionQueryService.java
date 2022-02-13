@@ -100,7 +100,7 @@ public class SecurityPermissionQueryService extends QueryService<SecurityPermiss
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), SecurityPermission_.description));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), SecurityPermission_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), SecurityPermission_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification =

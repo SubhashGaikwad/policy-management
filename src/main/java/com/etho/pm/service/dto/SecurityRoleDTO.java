@@ -1,7 +1,6 @@
 package com.etho.pm.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -20,7 +19,7 @@ public class SecurityRoleDTO implements Serializable {
     private String description;
 
     @NotNull
-    private Instant lastModified;
+    private String lastModified;
 
     @NotNull
     private String lastModifiedBy;
@@ -51,11 +50,11 @@ public class SecurityRoleDTO implements Serializable {
         this.description = description;
     }
 
-    public Instant getLastModified() {
+    public String getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Instant lastModified) {
+    public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
     }
 

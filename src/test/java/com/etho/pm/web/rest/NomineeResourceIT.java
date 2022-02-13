@@ -12,8 +12,6 @@ import com.etho.pm.repository.NomineeRepository;
 import com.etho.pm.service.criteria.NomineeCriteria;
 import com.etho.pm.service.dto.NomineeDTO;
 import com.etho.pm.service.mapper.NomineeMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -50,8 +48,8 @@ class NomineeResourceIT {
     private static final Long UPDATED_CONTACT_NO = 2L;
     private static final Long SMALLER_CONTACT_NO = 1L - 1L;
 
-    private static final Instant DEFAULT_LAST_MODIFIED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_LAST_MODIFIED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_LAST_MODIFIED = "AAAAAAAAAA";
+    private static final String UPDATED_LAST_MODIFIED = "BBBBBBBBBB";
 
     private static final String DEFAULT_LAST_MODIFIED_BY = "AAAAAAAAAA";
     private static final String UPDATED_LAST_MODIFIED_BY = "BBBBBBBBBB";
@@ -208,7 +206,7 @@ class NomineeResourceIT {
             .andExpect(jsonPath("$.[*].relation").value(hasItem(DEFAULT_RELATION)))
             .andExpect(jsonPath("$.[*].nomineePercentage").value(hasItem(DEFAULT_NOMINEE_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].contactNo").value(hasItem(DEFAULT_CONTACT_NO.intValue())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
     }
 
@@ -228,7 +226,7 @@ class NomineeResourceIT {
             .andExpect(jsonPath("$.relation").value(DEFAULT_RELATION))
             .andExpect(jsonPath("$.nomineePercentage").value(DEFAULT_NOMINEE_PERCENTAGE.intValue()))
             .andExpect(jsonPath("$.contactNo").value(DEFAULT_CONTACT_NO.intValue()))
-            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED.toString()))
+            .andExpect(jsonPath("$.lastModified").value(DEFAULT_LAST_MODIFIED))
             .andExpect(jsonPath("$.lastModifiedBy").value(DEFAULT_LAST_MODIFIED_BY));
     }
 
@@ -694,6 +692,32 @@ class NomineeResourceIT {
 
     @Test
     @Transactional
+    void getAllNomineesByLastModifiedContainsSomething() throws Exception {
+        // Initialize the database
+        nomineeRepository.saveAndFlush(nominee);
+
+        // Get all the nomineeList where lastModified contains DEFAULT_LAST_MODIFIED
+        defaultNomineeShouldBeFound("lastModified.contains=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the nomineeList where lastModified contains UPDATED_LAST_MODIFIED
+        defaultNomineeShouldNotBeFound("lastModified.contains=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
+    void getAllNomineesByLastModifiedNotContainsSomething() throws Exception {
+        // Initialize the database
+        nomineeRepository.saveAndFlush(nominee);
+
+        // Get all the nomineeList where lastModified does not contain DEFAULT_LAST_MODIFIED
+        defaultNomineeShouldNotBeFound("lastModified.doesNotContain=" + DEFAULT_LAST_MODIFIED);
+
+        // Get all the nomineeList where lastModified does not contain UPDATED_LAST_MODIFIED
+        defaultNomineeShouldBeFound("lastModified.doesNotContain=" + UPDATED_LAST_MODIFIED);
+    }
+
+    @Test
+    @Transactional
     void getAllNomineesByLastModifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         nomineeRepository.saveAndFlush(nominee);
@@ -809,7 +833,7 @@ class NomineeResourceIT {
             .andExpect(jsonPath("$.[*].relation").value(hasItem(DEFAULT_RELATION)))
             .andExpect(jsonPath("$.[*].nomineePercentage").value(hasItem(DEFAULT_NOMINEE_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].contactNo").value(hasItem(DEFAULT_CONTACT_NO.intValue())))
-            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED.toString())))
+            .andExpect(jsonPath("$.[*].lastModified").value(hasItem(DEFAULT_LAST_MODIFIED)))
             .andExpect(jsonPath("$.[*].lastModifiedBy").value(hasItem(DEFAULT_LAST_MODIFIED_BY)));
 
         // Check, that the count call also returns 1

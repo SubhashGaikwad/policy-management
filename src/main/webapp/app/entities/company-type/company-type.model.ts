@@ -1,10 +1,9 @@
-import * as dayjs from 'dayjs';
 import { ICompany } from 'app/entities/company/company.model';
 
 export interface ICompanyType {
   id?: number;
   name?: string | null;
-  lastModified?: dayjs.Dayjs;
+  lastModified?: string;
   lastModifiedBy?: string;
   company?: ICompany | null;
 }
@@ -13,7 +12,7 @@ export class CompanyType implements ICompanyType {
   constructor(
     public id?: number,
     public name?: string | null,
-    public lastModified?: dayjs.Dayjs,
+    public lastModified?: string,
     public lastModifiedBy?: string,
     public company?: ICompany | null
   ) {}

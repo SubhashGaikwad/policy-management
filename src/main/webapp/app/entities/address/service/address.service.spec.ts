@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IAddress, Address } from '../address.model';
 
 import { AddressService } from './address.service';
@@ -12,7 +10,6 @@ describe('Address Service', () => {
   let httpMock: HttpTestingController;
   let elemDefault: IAddress;
   let expectedResult: IAddress | IAddress[] | boolean | null;
-  let currentDate: dayjs.Dayjs;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,7 +18,6 @@ describe('Address Service', () => {
     expectedResult = null;
     service = TestBed.inject(AddressService);
     httpMock = TestBed.inject(HttpTestingController);
-    currentDate = dayjs();
 
     elemDefault = {
       id: 0,
@@ -31,19 +27,14 @@ describe('Address Service', () => {
       district: 'AAAAAAA',
       state: 'AAAAAAA',
       pincode: 0,
-      lastModified: currentDate,
+      lastModified: 'AAAAAAA',
       lastModifiedBy: 'AAAAAAA',
     };
   });
 
   describe('Service methods', () => {
     it('should find an element', () => {
-      const returnedFromService = Object.assign(
-        {
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
-        },
-        elemDefault
-      );
+      const returnedFromService = Object.assign({}, elemDefault);
 
       service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -56,17 +47,11 @@ describe('Address Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.create(new Address()).subscribe(resp => (expectedResult = resp.body));
 
@@ -85,18 +70,13 @@ describe('Address Service', () => {
           district: 'BBBBBB',
           state: 'BBBBBB',
           pincode: 1,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -109,7 +89,7 @@ describe('Address Service', () => {
       const patchObject = Object.assign(
         {
           pincode: 1,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         new Address()
@@ -117,12 +97,7 @@ describe('Address Service', () => {
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
-      const expected = Object.assign(
-        {
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -141,18 +116,13 @@ describe('Address Service', () => {
           district: 'BBBBBB',
           state: 'BBBBBB',
           pincode: 1,
-          lastModified: currentDate.format(DATE_TIME_FORMAT),
+          lastModified: 'BBBBBB',
           lastModifiedBy: 'BBBBBB',
         },
         elemDefault
       );
 
-      const expected = Object.assign(
-        {
-          lastModified: currentDate,
-        },
-        returnedFromService
-      );
+      const expected = Object.assign({}, returnedFromService);
 
       service.query().subscribe(resp => (expectedResult = resp.body));
 

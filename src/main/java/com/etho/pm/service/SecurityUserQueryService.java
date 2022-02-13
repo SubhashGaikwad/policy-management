@@ -124,7 +124,7 @@ public class SecurityUserQueryService extends QueryService<SecurityUser> {
                 specification = specification.and(buildStringSpecification(criteria.getResetKey(), SecurityUser_.resetKey));
             }
             if (criteria.getResetDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getResetDate(), SecurityUser_.resetDate));
+                specification = specification.and(buildStringSpecification(criteria.getResetDate(), SecurityUser_.resetDate));
             }
             if (criteria.getMobileNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getMobileNo(), SecurityUser_.mobileNo));
@@ -133,10 +133,10 @@ public class SecurityUserQueryService extends QueryService<SecurityUser> {
                 specification = specification.and(buildStringSpecification(criteria.getOneTimePassword(), SecurityUser_.oneTimePassword));
             }
             if (criteria.getOtpExpiryTime() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getOtpExpiryTime(), SecurityUser_.otpExpiryTime));
+                specification = specification.and(buildStringSpecification(criteria.getOtpExpiryTime(), SecurityUser_.otpExpiryTime));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), SecurityUser_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), SecurityUser_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), SecurityUser_.lastModifiedBy));

@@ -5,9 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { IUsers, Users } from '../users.model';
 import { UsersService } from '../service/users.service';
 import { IUsersType } from 'app/entities/users-type/users-type.model';
@@ -26,9 +23,12 @@ export class UsersUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    groupCode: [],
+    groupHeadName: [],
     firstName: [],
     lastName: [],
     birthDate: [null, [Validators.required]],
+    marriageDate: [null, [Validators.required]],
     userTypeId: [],
     username: [null, [Validators.required]],
     password: [null, [Validators.required]],
@@ -36,7 +36,10 @@ export class UsersUpdateComponent implements OnInit {
     imageUrl: [],
     status: [],
     activated: [null, [Validators.required]],
+    licenceExpiryDate: [],
     mobileNo: [],
+    aadharCardNuber: [],
+    pancardNumber: [],
     oneTimePassword: [],
     otpExpiryTime: [],
     lastModified: [null, [Validators.required]],
@@ -53,13 +56,6 @@ export class UsersUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ users }) => {
-      if (users.id === undefined) {
-        const today = dayjs().startOf('day');
-        users.birthDate = today;
-        users.otpExpiryTime = today;
-        users.lastModified = today;
-      }
-
       this.updateForm(users);
 
       this.loadRelationshipsOptions();
@@ -85,10 +81,10 @@ export class UsersUpdateComponent implements OnInit {
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IUsers>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
   }
 
   protected onSaveSuccess(): void {
@@ -106,9 +102,12 @@ export class UsersUpdateComponent implements OnInit {
   protected updateForm(users: IUsers): void {
     this.editForm.patchValue({
       id: users.id,
+      groupCode: users.groupCode,
+      groupHeadName: users.groupHeadName,
       firstName: users.firstName,
       lastName: users.lastName,
-      birthDate: users.birthDate ? users.birthDate.format(DATE_TIME_FORMAT) : null,
+      birthDate: users.birthDate,
+      marriageDate: users.marriageDate,
       userTypeId: users.userTypeId,
       username: users.username,
       password: users.password,
@@ -116,10 +115,13 @@ export class UsersUpdateComponent implements OnInit {
       imageUrl: users.imageUrl,
       status: users.status,
       activated: users.activated,
+      licenceExpiryDate: users.licenceExpiryDate,
       mobileNo: users.mobileNo,
+      aadharCardNuber: users.aadharCardNuber,
+      pancardNumber: users.pancardNumber,
       oneTimePassword: users.oneTimePassword,
-      otpExpiryTime: users.otpExpiryTime ? users.otpExpiryTime.format(DATE_TIME_FORMAT) : null,
-      lastModified: users.lastModified ? users.lastModified.format(DATE_TIME_FORMAT) : null,
+      otpExpiryTime: users.otpExpiryTime,
+      lastModified: users.lastModified,
       lastModifiedBy: users.lastModifiedBy,
       usersType: users.usersType,
     });
@@ -143,9 +145,12 @@ export class UsersUpdateComponent implements OnInit {
     return {
       ...new Users(),
       id: this.editForm.get(['id'])!.value,
+      groupCode: this.editForm.get(['groupCode'])!.value,
+      groupHeadName: this.editForm.get(['groupHeadName'])!.value,
       firstName: this.editForm.get(['firstName'])!.value,
       lastName: this.editForm.get(['lastName'])!.value,
-      birthDate: this.editForm.get(['birthDate'])!.value ? dayjs(this.editForm.get(['birthDate'])!.value, DATE_TIME_FORMAT) : undefined,
+      birthDate: this.editForm.get(['birthDate'])!.value,
+      marriageDate: this.editForm.get(['marriageDate'])!.value,
       userTypeId: this.editForm.get(['userTypeId'])!.value,
       username: this.editForm.get(['username'])!.value,
       password: this.editForm.get(['password'])!.value,
@@ -153,14 +158,13 @@ export class UsersUpdateComponent implements OnInit {
       imageUrl: this.editForm.get(['imageUrl'])!.value,
       status: this.editForm.get(['status'])!.value,
       activated: this.editForm.get(['activated'])!.value,
+      licenceExpiryDate: this.editForm.get(['licenceExpiryDate'])!.value,
       mobileNo: this.editForm.get(['mobileNo'])!.value,
+      aadharCardNuber: this.editForm.get(['aadharCardNuber'])!.value,
+      pancardNumber: this.editForm.get(['pancardNumber'])!.value,
       oneTimePassword: this.editForm.get(['oneTimePassword'])!.value,
-      otpExpiryTime: this.editForm.get(['otpExpiryTime'])!.value
-        ? dayjs(this.editForm.get(['otpExpiryTime'])!.value, DATE_TIME_FORMAT)
-        : undefined,
-      lastModified: this.editForm.get(['lastModified'])!.value
-        ? dayjs(this.editForm.get(['lastModified'])!.value, DATE_TIME_FORMAT)
-        : undefined,
+      otpExpiryTime: this.editForm.get(['otpExpiryTime'])!.value,
+      lastModified: this.editForm.get(['lastModified'])!.value,
       lastModifiedBy: this.editForm.get(['lastModifiedBy'])!.value,
       usersType: this.editForm.get(['usersType'])!.value,
     };

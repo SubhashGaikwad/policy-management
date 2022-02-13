@@ -97,7 +97,7 @@ public class UserAccessQueryService extends QueryService<UserAccess> {
                 specification = specification.and(buildRangeSpecification(criteria.getAccessId(), UserAccess_.accessId));
             }
             if (criteria.getLastModified() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLastModified(), UserAccess_.lastModified));
+                specification = specification.and(buildStringSpecification(criteria.getLastModified(), UserAccess_.lastModified));
             }
             if (criteria.getLastModifiedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLastModifiedBy(), UserAccess_.lastModifiedBy));
